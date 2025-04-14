@@ -6,7 +6,6 @@
 *.suo
 *.json
 *.opendb
-*.txt
 *.exe.recipe
 *vc143.pdb
 *.log
@@ -19,6 +18,8 @@
 *.ipch
 *.pdb
 *.bin
+
+fileAbsolution.txt
 
 # Compiled Object files
 *.slo
@@ -43,3 +44,7 @@
 *.la
 *.a
 *.lib
+
+#linux builds
+build/
+BulletHellGame
