@@ -22,8 +22,9 @@ Window* Window::Instance()
 	if (windowInstance == nullptr)
 	{
 		windowInstance = new Window();
-		return windowInstance;
 	}
+
+	return windowInstance;
 }
 
 void Window::InitializeWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share)

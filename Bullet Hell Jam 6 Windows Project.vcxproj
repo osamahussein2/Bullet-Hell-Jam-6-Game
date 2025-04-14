@@ -24,7 +24,7 @@
     <ProjectGuid>{e4f3c629-3384-467c-8618-90194122e4a6}</ProjectGuid>
     <RootNamespace>BulletHellpractice</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Bullet Hell Jam 6 Windows Project</ProjectName>
+    <ProjectName>Bullet Hell Jam 6 Project</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -72,12 +72,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\GameDev\irrKlang\include;C:\GameDev\Freetype\include;C:\GameDev\glm;C:\GameDev\GLAD OpenGL 4.6\include;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\irrKlang\include;C:\GameDev\Freetype\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\irrKlang\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)builds\Windows 64 bit\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\GameDev\irrKlang\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;C:\GameDev\GLAD OpenGL 4.6\include;C:\GameDev\Freetype\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\irrKlang\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;C:\GameDev\Freetype\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;C:\GameDev\irrKlang\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)builds\Windows 64 bit\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -138,29 +140,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\GameDev\GLAD OpenGL 4.6\src\glad.c" />
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="SpriteRenderer.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="external\glad\src\glad.c" />
+    <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="SpriteRenderer.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="src\Engine.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\ResourceManager.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\SpriteRenderer.h" />
+    <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SpriteRendererFS.glsl" />
-    <None Include="SpriteRendererVS.glsl" />
+    <None Include="src\SpriteRendererFS.glsl" />
+    <None Include="src\SpriteRendererVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
