@@ -14,5 +14,7 @@ uniform vec3 spriteColor;
 void main()
 {
 	// Set the color of the sprite by multiplying sprite color with the texture
-	fragColor = vec4(spriteColor, 1.0) * texture(spriteImage, fs_variables.texCoords);
+	//fs_variables.texCoords = vec2(1.0-fs_variables.texCoords.x, fs_variables.texCoords.y);
+	vec2 uv = vec2(1.0-fs_variables.texCoords.x, fs_variables.texCoords.y);
+	fragColor = vec4(spriteColor, 1.0) * texture(spriteImage, uv);
 }
