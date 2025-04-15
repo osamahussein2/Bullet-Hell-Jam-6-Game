@@ -58,25 +58,26 @@ void Game::UpdateGame(float deltaTime_)
 
 void Game::HandleInput(float deltaTime_)
 {
+	vec2 direction = vec2(0.0f);
 	// Move the player around the game
 	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_PRESS)
 	{
-		player->velocity.y = 1.0f;
+		direction.y = 1.0f;
 	}
 
 	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_DOWN) == GLFW_PRESS)
 	{
-		player->velocity.y = -1.0f;
+		direction.y = -1.0f;
 	}
 
 	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
-		player->velocity.x = -1.0f;
+		direction.x = -1.0f;
 	}
 
 	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
-		player->velocity.x = 1.0f;
+		direction.x = 1.0f;
 	}
 
 	// Don't move the player around once the player releases the WASD or arrow keys
@@ -85,8 +86,12 @@ void Game::HandleInput(float deltaTime_)
 		glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_RELEASE && glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_DOWN) == GLFW_RELEASE &&
 		glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT) == GLFW_RELEASE && glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_D) == GLFW_RELEASE)
 	{
-		player->velocity = vec2(0.0f);
+		direction = vec2(0.0f);
 	}
+
+	if (direction != vec2(0.f)) direction = normalize(direction);
+	float speed = 450.f;
+	player->velocity = direction * speed;
 }
 
 void Game::RenderGame(float deltaTime_)
