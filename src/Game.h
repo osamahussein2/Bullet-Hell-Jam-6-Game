@@ -11,7 +11,7 @@ public:
 
 	void InitializeGame();
 	void UpdateGame(float deltaTime_);
-	void HandleInput();
+	void HandleInput(float deltaTime_);
 	void RenderGame(float deltaTime_);
 
 private:
@@ -19,7 +19,7 @@ private:
 
 	static Game* gameInstance;
 
-	SpriteRenderer* spriteRenderer;
+	SpriteRenderer* playerSpriteRenderer;
 	GameObject* player;
 
 	enum ShaderMapNumbers
@@ -31,5 +31,7 @@ private:
 	{
 		playerTexture = 0
 	};
+
+	float gameWidth, gameHeight;
 };
 

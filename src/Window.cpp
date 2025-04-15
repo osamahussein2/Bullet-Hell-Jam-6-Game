@@ -3,9 +3,8 @@
 #include "ResourceManager.h"
 
 Window* Window::windowInstance = nullptr;
-GLFWwindow* Window::openGLwindow = NULL;
 
-Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f)
+Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL)
 {
 }
 
@@ -72,7 +71,7 @@ void Window::UpdateWindow()
 	glfwPollEvents(); // Waits for any input by the user and processes it in real-time
 
 	Game::Instance()->UpdateGame(deltaTime);
-	Game::Instance()->HandleInput();
+	Game::Instance()->HandleInput(deltaTime);
 	Game::Instance()->RenderGame(deltaTime);
 
 	glfwSwapBuffers(openGLwindow); // Removing this will throw an exception error or nothing will pop up

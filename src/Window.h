@@ -18,8 +18,6 @@ public:
 
 	void UpdateWindow();
 
-	static GLFWwindow* openGLwindow;
-
 private:
 	// Initialize the window's variables to be NULL first before we do anything with it
 	Window();
@@ -38,6 +36,8 @@ private:
 	float lastPositionX, lastPositionY;
 
 	static Window* windowInstance;
+	
+	GLFWwindow* openGLwindow;
 };
 
 typedef Window WindowInfo;

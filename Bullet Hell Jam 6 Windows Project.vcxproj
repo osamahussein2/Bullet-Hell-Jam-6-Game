@@ -72,13 +72,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\irrKlang\include;C:\GameDev\Freetype\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\irrKlang\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\Freetype\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)builds\Windows 64 bit\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\irrKlang\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;C:\GameDev\Freetype\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;C:\GameDev\irrKlang\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;C:\GameDev\Freetype\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)builds\Windows 64 bit\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -119,7 +119,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,7 +136,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -161,8 +161,8 @@
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\SpriteRendererFS.glsl" />
-    <None Include="src\SpriteRendererVS.glsl" />
+    <None Include="SpriteRendererFS.glsl" />
+    <None Include="SpriteRendererVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

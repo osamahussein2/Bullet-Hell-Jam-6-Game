@@ -29,7 +29,7 @@ void Engine::UpdateEngine()
 	/* While we don't want to close the GLFW window, process the input of our window, add our own background color
 	for the window, clear the color buffer bit to render our color to the window, swap the window's buffers,
 	process any events waiting for us to do something to it */
-	while (!glfwWindowShouldClose(WindowInfo::openGLwindow))
+	while (!glfwWindowShouldClose(glfwGetCurrentContext()))
 	{
 		WindowInfo::Instance()->UpdateWindow();
 	}
