@@ -3,4 +3,3 @@ cmake ..
 make
 cp -r BulletHellGame ..
 cd ..
-./BulletHellGame
