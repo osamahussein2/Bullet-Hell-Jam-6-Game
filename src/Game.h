@@ -1,6 +1,9 @@
 #include "ResourceManager.h"
 #include "SpriteRenderer.h"
 #include "GameObject.h"
+#include "UserInterface.h"
+
+#include <vector>
 
 class Game
 {
@@ -20,7 +23,13 @@ private:
 	static Game* gameInstance;
 
 	SpriteRenderer* playerSpriteRenderer;
+	vector<SpriteRenderer*> healthSpriteRenderers;
+
 	GameObject* player;
+
+	vector<UserInterface*> healthBars;
+
+	int playerHealth;
 
 	enum ShaderMapNumbers
 	{
@@ -29,7 +38,9 @@ private:
 
 	enum TextureMapNumbers
 	{
-		playerTexture = 0
+		playerTexture = 0,
+		healthBarTexture = 1,
+		currentHealthTexture = 2
 	};
 
 	float gameWidth, gameHeight;
