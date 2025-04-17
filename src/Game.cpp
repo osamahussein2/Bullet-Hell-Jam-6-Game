@@ -1,5 +1,7 @@
 #include "Game.h"
 #include "Window.h"
+#include "Audio.h"
+#include "Input.h"
 
 Game* Game::gameInstance = nullptr;
 
@@ -27,6 +29,8 @@ Game* Game::Instance()
 
 void Game::InitializeGame()
 {
+	Input::Initialize();
+	
 	// Load shaders
 	ResourceManager::LoadShader("SpriteRendererVS.glsl", "SpriteRendererFS.glsl", spriteShader);
 
@@ -101,35 +105,27 @@ void Game::UpdateGame(float deltaTime_)
 
 void Game::HandleInput(float deltaTime_)
 {
+	if (Input::IsKeyPressed(GLFW_KEY_SPACE)){
+		Audio::Instance()->PlaySound("Sounds/sound.wav");
+	}
+
 	vec2 direction = vec2(0.0f);
 	// Move the player around the game
-	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_PRESS)
-	{
+
+	if (Input::IsKeyDown(GLFW_KEY_W) || Input::IsKeyDown(GLFW_KEY_UP)) {
 		direction.y = 1.0f;
 	}
 
-	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_DOWN) == GLFW_PRESS)
-	{
+	if (Input::IsKeyDown(GLFW_KEY_S) || Input::IsKeyDown(GLFW_KEY_DOWN)) {
 		direction.y = -1.0f;
 	}
 
-	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT) == GLFW_PRESS)
-	{
+	if (Input::IsKeyDown(GLFW_KEY_A) || Input::IsKeyDown(GLFW_KEY_LEFT)) {
 		direction.x = -1.0f;
 	}
 
-	if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_RIGHT) == GLFW_PRESS)
-	{
+	if (Input::IsKeyDown(GLFW_KEY_D) || Input::IsKeyDown(GLFW_KEY_RIGHT)) {
 		direction.x = 1.0f;
-	}
-
-	// Don't move the player around once the player releases the WASD or arrow keys
-	else if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_W) == GLFW_RELEASE && glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_S) == GLFW_RELEASE &&
-		glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_A) == GLFW_RELEASE && glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_D) == GLFW_RELEASE &&
-		glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_UP) == GLFW_RELEASE && glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_DOWN) == GLFW_RELEASE &&
-		glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT) == GLFW_RELEASE && glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_D) == GLFW_RELEASE)
-	{
-		direction = vec2(0.0f);
 	}
 
 	if (direction != vec2(0.f)) direction = normalize(direction);

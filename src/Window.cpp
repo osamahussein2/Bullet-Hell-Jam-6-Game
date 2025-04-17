@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "Game.h"
 #include "ResourceManager.h"
+#include "Input.h"
 
 Window* Window::windowInstance = nullptr;
 float lastFrame = 0.f;
@@ -68,6 +69,7 @@ void Window::UpdateWindow()
   lastFrame = currentFrame; // Get the time of the last frame
 
   glfwPollEvents(); // Waits for any input by the user and processes it in real-time
+  Input::Update();
 
   Game::Instance()->UpdateGame(deltaTime);
   Game::Instance()->HandleInput(deltaTime);

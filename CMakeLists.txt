@@ -9,6 +9,7 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/src/"
     "${CMAKE_SOURCE_DIR}/external/"
     "${CMAKE_SOURCE_DIR}/external/glm/"
+    "${CMAKE_SOURCE_DIR}/external/miniaudio/"
 )
 
 add_library(glad "${CMAKE_SOURCE_DIR}/external/glad/include/glad/glad.h" "${CMAKE_SOURCE_DIR}/external/glad/src/glad.c")
