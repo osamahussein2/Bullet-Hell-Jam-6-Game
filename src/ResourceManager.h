@@ -11,6 +11,7 @@
 #include <glad/glad.h>
 
 #include "Shader.h"
+#include "Audio.h"
 
 class ResourceManager
 {
@@ -19,6 +20,7 @@ public:
     // resource storage
     static map<int, Shader> shaders;
     static map<int, unsigned int> textures;
+    static map<int, ma_sound> music;
 
     // Loads (and generates) a shader program from file loading vertex, fragment (and geometry) shader's source code.
     // If gShaderFile is not nullptr, it also loads a geometry shader
@@ -32,6 +34,9 @@ public:
 
     // Retrieves a stored texture
     static unsigned int GetTexture(int enum_);
+
+    static ma_sound* LoadMusic(const char* file, int enum_);
+    static ma_sound* GetMusic(int enum_);
 
     // Properly de-allocates all loaded resources
     static void Clear();

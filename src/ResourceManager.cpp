@@ -7,6 +7,7 @@
 // Instantiate static variables
 map<int, Shader> ResourceManager::shaders;
 map<int, unsigned int> ResourceManager::textures;
+map<int, ma_sound> ResourceManager::music;
 
 GLenum ResourceManager::format = 0;
 
@@ -112,6 +113,34 @@ unsigned int ResourceManager::LoadTexture(const char* file, int enum_)
     return textures[enum_];
 }
 
+ma_sound* ResourceManager::LoadMusic(const char* file, int enum_)
+{
+    ma_result result = ma_sound_init_from_file(
+        Audio::Instance()->GetAudioEngine(),
+        file,
+        MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_LOOPING,
+        NULL,
+        NULL,
+        &music[enum_]
+    );
+
+    if (result != MA_SUCCESS) {
+        std::cerr << "Failed to load music file: " << file << endl;
+    }
+
+    return &music[enum_];
+}
+
+ma_sound* ResourceManager::GetMusic(int enum_)
+{
+    if (music.find(enum_) == music.end())
+    {
+        cout << "This mapped music enum is not found: " << enum_ << endl;
+    }
+
+    return &music[enum_];
+}
+
 void ResourceManager::Clear()
 {
     // Delete all shaders properly	
@@ -124,5 +153,11 @@ void ResourceManager::Clear()
     for (pair<int, unsigned int> iter : textures)
     {
         glDeleteTextures(1, &iter.second);
+    }
+
+    // Delete all music properly
+    for (pair<int, ma_sound> iter : music)
+    {
+        ma_sound_uninit(&(iter.second));
     }
 }

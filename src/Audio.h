@@ -13,6 +13,12 @@ public:
 
     void PlaySound(const char* soundPath);
 
+    void PlayMusic(ma_sound* music);
+
+    ma_engine* GetAudioEngine() { return &engine; }
+
+    void Clear();
+    
 private:
     Audio();
 

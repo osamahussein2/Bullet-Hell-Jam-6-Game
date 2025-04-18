@@ -18,6 +18,7 @@ int main()
 	}
 
 	Engine::Instance()->UpdateEngine();
+	Audio::Instance()->Clear();
 
 	return 0;
 }
@@ -36,8 +37,8 @@ int WinMain()
 		return 1;
 	}
 	
-
 	Engine::Instance()->UpdateEngine();
+	Audio::Instance()->Clear();
 
 	return 0;
 }

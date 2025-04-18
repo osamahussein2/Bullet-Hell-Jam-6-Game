@@ -43,6 +43,11 @@ private:
 		currentHealthTexture = 2
 	};
 
+	enum MusicMapNumbers
+	{
+		anxietyMusic = 0,
+	};
+
 	float gameWidth, gameHeight;
 };
 

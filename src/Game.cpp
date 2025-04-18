@@ -39,6 +39,11 @@ void Game::InitializeGame()
 	ResourceManager::LoadTexture("Textures/Health bar.png", healthBarTexture);
 	ResourceManager::LoadTexture("Textures/Current health.png", currentHealthTexture);
 
+	// Load music
+	ma_sound* default_music = ResourceManager::LoadMusic("Music/Anxiety.wav", anxietyMusic);
+	Audio::Instance()->PlayMusic(default_music);
+	ma_sound_set_volume(default_music, 0.15f);
+
 	// Set render-specific controls
 	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(spriteShader));
 
