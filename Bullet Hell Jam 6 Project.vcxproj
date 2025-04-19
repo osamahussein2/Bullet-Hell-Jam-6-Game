@@ -72,12 +72,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\husseios\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\Freetype\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\miniaudio;C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\Freetype\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)builds\Windows 64 bit\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\husseios\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;C:\GameDev\Freetype\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\miniaudio;C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;C:\GameDev\Freetype\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)builds\Windows 64 bit\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -132,7 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>NotSet</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -141,9 +141,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c" />
+    <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -152,9 +154,11 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Audio.h" />
     <ClInclude Include="src\Engine.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
