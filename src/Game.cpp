@@ -5,7 +5,7 @@
 
 Game* Game::gameInstance = nullptr;
 
-Game::Game() : gameWidth(1200.0f), gameHeight(900.0f), playerHealth(200.0f)
+Game::Game() : gameWidth(1200.0f), gameHeight(900.0f), playerHealth(200.0f), timer(0.0f)
 {
 }
 
@@ -14,6 +14,7 @@ Game::~Game()
 	delete gameInstance, playerSpriteRenderer, player;
 
 	healthSpriteRenderers.clear();
+	healthBars.clear();
 }
 
 Game* Game::Instance()
@@ -36,6 +37,7 @@ void Game::InitializeGame()
 
 	// Load textures
 	ResourceManager::LoadTexture("Textures/player.png", playerTexture);
+	ResourceManager::LoadTexture("Textures/image.png", playerTexture2);
 	ResourceManager::LoadTexture("Textures/Health bar.png", healthBarTexture);
 	ResourceManager::LoadTexture("Textures/Current health.png", currentHealthTexture);
 
@@ -140,13 +142,19 @@ void Game::HandleInput(float deltaTime_)
 
 void Game::RenderGame(float deltaTime_)
 {
-	playerSpriteRenderer->DrawSprite(ResourceManager::GetTexture(playerTexture), player->position, player->size, player->rotation, player->color);
+	timer += deltaTime_; // Increment timer by delta time
 
-	healthSpriteRenderers[0]->DrawSprite(ResourceManager::GetTexture(healthBarTexture), healthBars[0]->position, healthBars[0]->size, 0.0f, healthBars[0]->color);
+	//cout << timer << endl;
 
-	healthSpriteRenderers[1]->DrawSprite(ResourceManager::GetTexture(currentHealthTexture), healthBars[1]->position, healthBars[1]->size, 0.0f, healthBars[1]->color);
+	AnimateSprite();
 
-	player->DrawSprite(*playerSpriteRenderer);
+	healthSpriteRenderers[0]->DrawSprite(ResourceManager::GetTexture(healthBarTexture), healthBars[0]->position, 
+		healthBars[0]->size, 0.0f, healthBars[0]->color);
+
+	healthSpriteRenderers[1]->DrawSprite(ResourceManager::GetTexture(currentHealthTexture), healthBars[1]->position, 
+		healthBars[1]->size, 0.0f, healthBars[1]->color);
+
+	//player->DrawSprite(*playerSpriteRenderer);
 
 	for (unsigned int i = 0; i < healthBars.size(); i++)
 	{
@@ -154,5 +162,28 @@ void Game::RenderGame(float deltaTime_)
 		{
 			healthBars[i]->DrawSprite(*healthSpriteRenderers[j]);
 		}
+	}
+}
+
+void Game::AnimateSprite()
+{
+	// Initialize player sprite
+	if (timer <= 1)
+	{
+		playerSpriteRenderer->DrawSprite(ResourceManager::GetTexture(playerTexture), player->position, player->size,
+			player->rotation, player->color);
+	}
+
+	// Change player sprite after exceeding some time
+	else if (timer > 1 && timer <= 2)
+	{
+		playerSpriteRenderer->DrawSprite(ResourceManager::GetTexture(playerTexture2), player->position, player->size,
+			player->rotation, player->color);
+	}
+
+	// Reset time to reanimate the player sprite again
+	else if (timer > 2)
+	{
+		timer = 0.0f;
 	}
 }

@@ -20,6 +20,8 @@ public:
 private:
 	Game();
 
+	void AnimateSprite();
+
 	static Game* gameInstance;
 
 	SpriteRenderer* playerSpriteRenderer;
@@ -40,7 +42,8 @@ private:
 	{
 		playerTexture = 0,
 		healthBarTexture = 1,
-		currentHealthTexture = 2
+		currentHealthTexture = 2,
+		playerTexture2 = 3
 	};
 
 	enum MusicMapNumbers
@@ -49,5 +52,7 @@ private:
 	};
 
 	float gameWidth, gameHeight;
+
+	float timer;
 };
 

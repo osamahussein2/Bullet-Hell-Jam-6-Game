@@ -1,7 +1,5 @@
 #include "Engine.h"
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <Windows.h>
 
 Engine* Engine::engineInstance = nullptr;
@@ -28,7 +26,7 @@ Engine* Engine::Instance()
 
 void Engine::UpdateEngine()
 {
-	FreeConsole(); // Don't make the console pop up before the glfw window pops up
+	//FreeConsole(); // Don't make the console pop up before the glfw window pops up
 
 	WindowInfo::Instance()->InitializeWindow(1200, 900, "Bullet Hell Application", NULL, NULL);
 
