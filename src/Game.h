@@ -20,8 +20,6 @@ public:
 private:
 	Game();
 
-	void AnimateSprite();
-
 	static Game* gameInstance;
 
 	SpriteRenderer* playerSpriteRenderer;

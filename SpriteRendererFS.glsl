@@ -11,10 +11,22 @@ in SHADER_VARIABLES
 uniform sampler2D spriteImage;
 uniform vec3 spriteColor;
 
+uniform int columns;
+uniform int rows;
+uniform int frame;
+
 void main()
 {
+	vec2 frame_size = 1.0/vec2(columns, rows); // size of one tile
+
+	vec2 frame_tex = fs_variables.texCoords*frame_size+vec2(0.0, -rows+1)*frame_size;
+	vec2 uv = vec2(1.0 - frame_tex.x, frame_tex.y);
+
+	int col = frame % columns;
+	int row = frame / columns;
+
+	uv += vec2(col, row) * frame_size;
+
 	// Set the color of the sprite by multiplying sprite color with the texture
-	//fs_variables.texCoords = vec2(1.0-fs_variables.texCoords.x, fs_variables.texCoords.y);
-	vec2 uv = vec2(1.0-fs_variables.texCoords.x, fs_variables.texCoords.y);
 	fragColor = vec4(spriteColor, 1.0) * texture(spriteImage, uv);
 }

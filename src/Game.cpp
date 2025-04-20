@@ -36,7 +36,7 @@ void Game::InitializeGame()
 	ResourceManager::LoadShader("SpriteRendererVS.glsl", "SpriteRendererFS.glsl", spriteShader);
 
 	// Load textures
-	ResourceManager::LoadTexture("Textures/player.png", playerTexture);
+	ResourceManager::LoadTexture("Textures/example_spritesheet.png", playerTexture);
 	ResourceManager::LoadTexture("Textures/image.png", playerTexture2);
 	ResourceManager::LoadTexture("Textures/Health bar.png", healthBarTexture);
 	ResourceManager::LoadTexture("Textures/Current health.png", currentHealthTexture);
@@ -47,7 +47,34 @@ void Game::InitializeGame()
 	ma_sound_set_volume(default_music, 0.15f);
 
 	// Set render-specific controls
-	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(spriteShader));
+	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(spriteShader), true);
+	
+	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
+		8, // columns
+		15, // rows
+		1, // y_pos
+		6, // frames
+		12.f // fps
+		}
+	);
+
+	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
+		8, // columns
+		15, // rows
+		2, // y_pos
+		6, // frames
+		12.f // fps
+		}
+	);
+
+	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
+		8, // columns
+		15, // rows
+		0, // y_pos
+		8, // frames
+		12.f // fps
+		}
+	);	
 
 	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader)));
 	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader)));
@@ -78,6 +105,13 @@ void Game::UpdateGame(float deltaTime_)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	player->position += player->velocity * deltaTime_;
+	
+	// player animation
+	playerSpriteRenderer->UpdateAnimation(deltaTime_);
+	Animation* player_anim = playerSpriteRenderer->GetAnimationHandler();
+	if (Input::IsKeyPressed(GLFW_KEY_SPACE)){ // just to switch animations
+		player_anim->SetCurrentAnim( (player_anim->GetCurrentAnim()+1) % player_anim->GetNumberOfAnims());
+	}
 
 	healthBars[1]->size.x = playerHealth;
 
@@ -142,11 +176,10 @@ void Game::HandleInput(float deltaTime_)
 
 void Game::RenderGame(float deltaTime_)
 {
-	timer += deltaTime_; // Increment timer by delta time
+	timer += deltaTime_;
 
-	//cout << timer << endl;
-
-	AnimateSprite();
+	playerSpriteRenderer->DrawSprite(ResourceManager::GetTexture(playerTexture), player->position, player->size,
+		player->rotation, player->color);
 
 	healthSpriteRenderers[0]->DrawSprite(ResourceManager::GetTexture(healthBarTexture), healthBars[0]->position, 
 		healthBars[0]->size, 0.0f, healthBars[0]->color);
@@ -162,28 +195,5 @@ void Game::RenderGame(float deltaTime_)
 		{
 			healthBars[i]->DrawSprite(*healthSpriteRenderers[j]);
 		}
-	}
-}
-
-void Game::AnimateSprite()
-{
-	// Initialize player sprite
-	if (timer <= 1)
-	{
-		playerSpriteRenderer->DrawSprite(ResourceManager::GetTexture(playerTexture), player->position, player->size,
-			player->rotation, player->color);
-	}
-
-	// Change player sprite after exceeding some time
-	else if (timer > 1 && timer <= 2)
-	{
-		playerSpriteRenderer->DrawSprite(ResourceManager::GetTexture(playerTexture2), player->position, player->size,
-			player->rotation, player->color);
-	}
-
-	// Reset time to reanimate the player sprite again
-	else if (timer > 2)
-	{
-		timer = 0.0f;
 	}
 }

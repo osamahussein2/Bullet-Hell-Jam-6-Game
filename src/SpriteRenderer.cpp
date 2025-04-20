@@ -1,6 +1,6 @@
 #include "SpriteRenderer.h"
 
-SpriteRenderer::SpriteRenderer(Shader shader_)
+SpriteRenderer::SpriteRenderer(Shader shader_, bool animated_) : animated(animated_), animation()
 {
 	spriteShader = shader_;
 
@@ -60,6 +60,20 @@ void SpriteRenderer::DrawSprite(unsigned int texture_, vec2 position_, vec2 size
 
 	glUniform3f(glGetUniformLocation(spriteShader.shaderProgram, "spriteColor"), color_.x, color_.y, color_.z);
 
+	// animation stuff
+	if (animated){
+		FrameData f = animation.GetCurrentFrame();
+		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "columns"), f.columns);
+		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "rows"), f.rows);
+		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "frame"), f.frame);	
+	}
+	else {
+		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "columns"), 1);
+		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "rows"), 1);
+		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "frame"), 0);	
+	}
+	
+	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture_);
 
