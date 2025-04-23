@@ -11,7 +11,7 @@
 class SpriteRenderer
 {
 public:
-	SpriteRenderer(Shader shader_, bool animated_ = false);
+	SpriteRenderer(Shader shader_, bool spriteFlip_, bool animated_ = false);
 	~SpriteRenderer();
 
 	void DrawSprite(unsigned int texture_, vec2 position_, vec2 size_, float rotate_, vec3 color_);

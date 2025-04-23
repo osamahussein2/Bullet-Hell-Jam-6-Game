@@ -1,20 +1,38 @@
 #include "SpriteRenderer.h"
 
-SpriteRenderer::SpriteRenderer(Shader shader_, bool animated_) : animated(animated_), animation()
+SpriteRenderer::SpriteRenderer(Shader shader_, bool spriteFlip_, bool animated_) : animated(animated_), animation()
 {
 	spriteShader = shader_;
 
-	vertices =
+	if (spriteFlip_ == false)
 	{
-		// position // texture coordinates
-		0.0f, 1.0f, 0.0f, -1.0f,
-		1.0f, 0.0f, -1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 0.0f,
+		vertices =
+		{
+			// position // texture coordinates
+			0.0f, 1.0f, 0.0f, -1.0f,
+			1.0f, 0.0f, -1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f,
 
-		0.0f, 1.0f, 0.0f, -1.0f,
-		1.0f, 1.0f, -1.0f, -1.0f,
-		1.0f, 0.0f, -1.0f, 0.0f
-	};
+			0.0f, 1.0f, 0.0f, -1.0f,
+			1.0f, 1.0f, -1.0f, -1.0f,
+			1.0f, 0.0f, -1.0f, 0.0f
+		};
+	}
+
+	else if (spriteFlip_ == true)
+	{
+		vertices =
+		{
+			// position // texture coordinates
+			0.0f, 1.0f, 0.0f, 1.0f,
+			1.0f, 0.0f, -1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f,
+
+			0.0f, 1.0f, 0.0f, 1.0f,
+			1.0f, 1.0f, -1.0f, 1.0f,
+			1.0f, 0.0f, -1.0f, 0.0f
+		};
+	}
 
 	// Send the vertices to the GPU and configure the vertex attributes
 	glGenVertexArrays(1, &spriteVAO);

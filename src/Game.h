@@ -29,6 +29,8 @@ private:
 
 	vector<UserInterface*> healthBars;
 
+	mat4& projection;
+
 	int playerHealth;
 
 	enum ShaderMapNumbers

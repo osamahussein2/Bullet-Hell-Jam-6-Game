@@ -21,6 +21,9 @@ public:
 	float GetMousePositionX();
 	float GetMousePositionY();
 
+	int GetWindowWidth();
+	int GetWindowHeight();
+
 	bool inMainMenu, inGame, inPauseMenu;
 
 private:
@@ -38,6 +41,8 @@ private:
 	// Get the mouse position
 	static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mode);
 
+	static void WindowSizeCallback(GLFWwindow* window, int width, int height);
+
 	float lastPositionX, lastPositionY;
 
 	static Window* windowInstance;
@@ -45,6 +50,7 @@ private:
 	GLFWwindow* openGLwindow;
 
 	static double mousePosX, mousePosY;
+	static int windowWidth, windowHeight;
 };
 
 typedef Window WindowInfo;

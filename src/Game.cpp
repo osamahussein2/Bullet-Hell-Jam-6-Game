@@ -5,7 +5,9 @@
 
 Game* Game::gameInstance = nullptr;
 
-Game::Game() : gameWidth(1200.0f), gameHeight(900.0f), playerHealth(200.0f), timer(0.0f)
+mat4 nothing = mat4(0.0f);
+
+Game::Game() : gameWidth(1200.0f), gameHeight(900.0f), playerHealth(200.0f), timer(0.0f), projection(nothing)
 {
 }
 
@@ -47,7 +49,7 @@ void Game::InitializeGame()
 	ma_sound_set_volume(default_music, 0.15f);
 
 	// Set render-specific controls
-	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(spriteShader), true);
+	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(spriteShader), false, true);
 	
 	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
 		8, // columns
@@ -76,11 +78,12 @@ void Game::InitializeGame()
 		}
 	);	
 
-	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader)));
-	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader)));
+	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), false));
+	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), false));
 
 	// Configure shaders
-	mat4 projection = ortho(0.0f, gameWidth, 0.0f, gameHeight, -1.0f, 1.0f);
+	projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(), 0.0f, 
+		(float)Window::Instance()->GetWindowHeight(), -1.0f, 1.0f);
 
 	glUseProgram(ResourceManager::GetShader(spriteShader).shaderProgram);
 
@@ -103,6 +106,19 @@ void Game::UpdateGame(float deltaTime_)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(), 0.0f,
+		(float)Window::Instance()->GetWindowHeight(), -1.0f, 1.0f);
+
+	glUseProgram(ResourceManager::GetShader(spriteShader).shaderProgram);
+
+	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "spriteImage"), 0);
+
+	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "projectionMatrix"),
+		1, GL_FALSE, value_ptr(projection));
+
+	healthBars[0]->position = vec2(10.0f, Window::Instance()->GetWindowHeight() - 50.0f);
+	healthBars[1]->position = vec2(10.0f, Window::Instance()->GetWindowHeight() - 50.0f);
 
 	player->position += player->velocity * deltaTime_;
 	

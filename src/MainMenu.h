@@ -25,6 +25,8 @@ private:
 	vector<UserInterface*> buttons;
 	vector<SpriteRenderer*> buttonSpriteRenderers;
 
+	mat4& projection;
+
 	enum ShaderMapNumbers
 	{
 		spriteShader = 0
@@ -36,5 +38,5 @@ private:
 		quitButton = 1
 	};
 
-	float gameWidth, gameHeight;
+	bool shaderIsCurrentlyUsed;
 };

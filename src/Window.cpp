@@ -10,6 +10,9 @@ float lastFrame = 0.f;
 double Window::mousePosX = 0;
 double Window::mousePosY = 0;
 
+int Window::windowWidth = 1200;
+int Window::windowHeight = 900;
+
 Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL), inMainMenu(true), inGame(false)
 {
 }
@@ -57,6 +60,7 @@ void Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
     cout << "GLAD cannot be initialized!" << endl;
   }
 
+  glfwSetWindowSizeCallback(openGLwindow, WindowSizeCallback);
   glfwSetKeyCallback(openGLwindow, KeyCallback);
   glfwSetFramebufferSizeCallback(openGLwindow, FrameBufferSizeCallback);
   glfwSetMouseButtonCallback(openGLwindow, MouseButtonCallback);
@@ -123,6 +127,11 @@ void Window::MouseButtonCallback(GLFWwindow* window, int button, int action, int
     }
 }
 
+void Window::WindowSizeCallback(GLFWwindow* window, int width, int height)
+{
+    glfwGetWindowSize(window, &windowWidth, &windowHeight);
+}
+
 float Window::GetMousePositionX()
 {
     return mousePosX;
@@ -131,4 +140,14 @@ float Window::GetMousePositionX()
 float Window::GetMousePositionY()
 {
     return mousePosY;
+}
+
+int Window::GetWindowWidth()
+{
+    return windowWidth;
+}
+
+int Window::GetWindowHeight()
+{
+    return windowHeight;
 }
