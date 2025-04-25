@@ -74,17 +74,17 @@ void QuitConfirmationMenu::InitializeMenu()
 
 	// Yes Button
 	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 3, 
-		Window::Instance()->GetWindowHeight() / 2), vec2(initialButtonSize),
+		Window::Instance()->GetWindowHeight() / 2), initialButtonSize*Window::Instance()->GetWindowSize(),
 		ResourceManager::GetTexture(yesButton), vec3(1.0f)));
 
 	// No Button
 	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 1.5, 
-		Window::Instance()->GetWindowHeight() / 2), vec2(initialButtonSize),
+		Window::Instance()->GetWindowHeight() / 2), initialButtonSize*Window::Instance()->GetWindowSize(),
 		ResourceManager::GetTexture(noButton), vec3(1.0f)));
 
 	// Quit Confirmation Text
 	texts.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 3,
-		Window::Instance()->GetWindowHeight() / 3), vec2(initialQuitConfirmationTextSize),
+		Window::Instance()->GetWindowHeight() / 3), initialQuitConfirmationTextSize*Window::Instance()->GetWindowSize(),
 		ResourceManager::GetTexture(quitConfirmationText), vec3(1.0f)));
 }
 
@@ -118,21 +118,15 @@ void QuitConfirmationMenu::UpdateMenu()
 	texts[0]->position = vec2(Window::Instance()->GetWindowWidth() / 3, Window::Instance()->GetWindowHeight() / 4);
 
 	// Update the texts sizes based on the window resolution
-	texts[0]->size = vec2(initialQuitConfirmationTextSize.x * (Window::Instance()->GetWindowWidth() / 1200.0f),
-		initialQuitConfirmationTextSize.y * (Window::Instance()->GetWindowHeight() / 900.0f));
+	texts[0]->size = initialQuitConfirmationTextSize * Window::Instance()->GetWindowSize();
 
 	// Update the buttons positions based on the window resolution
 	buttons[0]->position = vec2(Window::Instance()->GetWindowWidth() / 3, Window::Instance()->GetWindowHeight() / 2);
 	buttons[1]->position = vec2(Window::Instance()->GetWindowWidth() / 1.5, Window::Instance()->GetWindowHeight() / 2);
 
 	// Update the buttons sizes based on the window resolution
-	buttons[0]->size = vec2(
-		initialButtonSize.x * (Window::Instance()->GetWindowWidth() / Window::Instance()->GetInitialWindowWidth()),
-		initialButtonSize.y * (Window::Instance()->GetWindowHeight() / Window::Instance()->GetInitialWindowHeight()));
-
-	buttons[1]->size = vec2(
-		initialButtonSize.x * (Window::Instance()->GetWindowWidth() / Window::Instance()->GetInitialWindowWidth()),
-		initialButtonSize.y * (Window::Instance()->GetWindowHeight() / Window::Instance()->GetInitialWindowHeight()));
+	buttons[0]->size = initialButtonSize * Window::Instance()->GetWindowSize();
+	buttons[1]->size = initialButtonSize * Window::Instance()->GetWindowSize();
 
 	// Press the yes button with the left mouse button
 	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS &&
@@ -184,15 +178,15 @@ void QuitConfirmationMenu::UpdateMenu()
 void QuitConfirmationMenu::RenderMenu()
 {
 	// Render the quit confirmation text
-	textSpriteRenderers[0]->DrawSprite(ResourceManager::GetTexture(quitConfirmationText), texts[0]->position,
+	textSpriteRenderers[0]->DrawSprite(texts[0]->sprite, texts[0]->position,
 		texts[0]->size, 0.0f, texts[0]->color);
 
 	// Render the yes button
-	buttonSpriteRenderers[0]->DrawSprite(ResourceManager::GetTexture(yesButton), buttons[0]->position,
+	buttonSpriteRenderers[0]->DrawSprite(buttons[0]->sprite, buttons[0]->position,
 		buttons[0]->size, 0.0f, buttons[0]->color);
 
 	// Render the no button
-	buttonSpriteRenderers[1]->DrawSprite(ResourceManager::GetTexture(noButton), buttons[1]->position,
+	buttonSpriteRenderers[1]->DrawSprite(buttons[1]->sprite, buttons[1]->position,
 		buttons[1]->size, 0.0f, buttons[1]->color);
 }
 

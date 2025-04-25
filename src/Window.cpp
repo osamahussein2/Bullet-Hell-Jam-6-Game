@@ -72,9 +72,9 @@ void Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   glfwSetMouseButtonCallback(openGLwindow, MouseButtonCallback);
 
   // Initialize game here
-  MainMenu::Instance()->InitializeMenu();
   QuitConfirmationMenu::Instance()->InitializeMenu();
   Game::Instance()->InitializeGame();
+  MainMenu::Instance()->InitializeMenu();
 }
 
 void Window::UpdateWindow()

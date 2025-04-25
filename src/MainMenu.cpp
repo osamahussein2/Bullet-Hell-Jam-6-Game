@@ -57,11 +57,11 @@ void MainMenu::InitializeMenu()
 	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), true));
 
 	// Play Button
-	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 300.0f), vec2(initialButtonSize),
+	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 300.0f), initialButtonSize*Window::Instance()->GetWindowSize(),
 		ResourceManager::GetTexture(playButton), vec3(1.0f)));
 
 	// Quit Button
-	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 600.0f), vec2(initialButtonSize),
+	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 600.0f), initialButtonSize*Window::Instance()->GetWindowSize(),
 		ResourceManager::GetTexture(quitButton), vec3(1.0f)));
 }
 
@@ -96,13 +96,9 @@ void MainMenu::UpdateMenu()
 	buttons[1]->position = vec2(Window::Instance()->GetWindowWidth() / 2, Window::Instance()->GetWindowHeight() / 1.5);
 
 	// Update the buttons sizes based on the window resolution
-	buttons[0]->size = vec2(
-		initialButtonSize.x * (Window::Instance()->GetWindowWidth() / Window::Instance()->GetInitialWindowWidth()),
-		initialButtonSize.y * (Window::Instance()->GetWindowHeight() / Window::Instance()->GetInitialWindowHeight()));
-
-	buttons[1]->size = vec2(
-		initialButtonSize.x * (Window::Instance()->GetWindowWidth() / Window::Instance()->GetInitialWindowWidth()),
-		initialButtonSize.y * (Window::Instance()->GetWindowHeight() / Window::Instance()->GetInitialWindowHeight()));
+	
+	buttons[0]->size = initialButtonSize*Window::Instance()->GetWindowSize();
+	buttons[1]->size = initialButtonSize*Window::Instance()->GetWindowSize();
 
 	// Press the play button with the left mouse button
 	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && 
@@ -154,11 +150,11 @@ void MainMenu::UpdateMenu()
 void MainMenu::RenderMenu()
 {
 	// Render the play button
-	buttonSpriteRenderers[0]->DrawSprite(ResourceManager::GetTexture(playButton), buttons[0]->position,
+	buttonSpriteRenderers[0]->DrawSprite(buttons[0]->sprite, buttons[0]->position,
 		buttons[0]->size, 0.0f, buttons[0]->color);
 
 	// Render the quit button
-	buttonSpriteRenderers[1]->DrawSprite(ResourceManager::GetTexture(quitButton), buttons[1]->position,
+	buttonSpriteRenderers[1]->DrawSprite(buttons[1]->sprite, buttons[1]->position,
 		buttons[1]->size, 0.0f, buttons[1]->color);
 }
 

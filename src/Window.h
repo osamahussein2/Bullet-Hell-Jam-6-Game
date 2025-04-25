@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include <glad/glad.h>
+#include <glm.hpp>
 #include <GLFW/glfw3.h>
 
 #include <iostream>
@@ -33,6 +34,8 @@ public:
 
 	float GetInitialWindowWidth();
 	float GetInitialWindowHeight();
+
+	glm::vec2 GetWindowSize() { return glm::vec2(GetWindowWidth(), GetWindowHeight()); }
 
 	AppState state = MAIN_MENU;
 

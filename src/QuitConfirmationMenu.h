@@ -45,6 +45,6 @@ private:
 
 	bool shaderIsCurrentlyUsed;
 
-	const vec2& initialQuitConfirmationTextSize = vec2(500.0f, 50.0f);
-	const vec2& initialButtonSize = vec2(100.0f, 50.0f);
+	const vec2 initialQuitConfirmationTextSize = vec2(0.5f, 0.2f);
+	const vec2 initialButtonSize = vec2(0.2, 0.2f); // relative to window size
 };
