@@ -17,6 +17,8 @@ public:
 	virtual void UpdateMenu();
 	virtual void RenderMenu();
 
+	void DeleteQuitConfirmationMenuInstance();
+
 private:
 	QuitConfirmationMenu();
 

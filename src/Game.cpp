@@ -17,11 +17,17 @@ Game::~Game()
 
 	delete playerSpriteRenderer, player;
 
-	healthSpriteRenderers.clear();
-	healthSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+	if (!healthSpriteRenderers.empty())
+	{
+		healthSpriteRenderers.clear();
+		healthSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+	}
 
-	healthBars.clear();
-	healthBars = vector<UserInterface*>(); // Deallocate the memory of this vector
+	if (!healthBars.empty())
+	{
+		healthBars.clear();
+		healthBars = vector<UserInterface*>(); // Deallocate the memory of this vector
+	}
 }
 
 Game* Game::Instance()
@@ -217,4 +223,9 @@ void Game::RenderGame(float deltaTime_)
 			healthBars[i]->DrawSprite(*healthSpriteRenderers[j]);
 		}
 	}
+}
+
+void Game::DeleteGameInstance()
+{
+	delete gameInstance;
 }

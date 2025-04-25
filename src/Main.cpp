@@ -13,6 +13,7 @@ int main()
 	}
 
 	Engine::Instance()->UpdateEngine();
+	Engine::Instance()->~Engine();
 	Audio::Instance()->Clear();
 
 	return 0;

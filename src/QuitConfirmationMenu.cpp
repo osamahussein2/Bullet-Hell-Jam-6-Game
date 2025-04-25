@@ -16,17 +16,29 @@ QuitConfirmationMenu::~QuitConfirmationMenu()
 {
 	quitConfirmationMenuInstance = nullptr;
 
-	buttonSpriteRenderers.clear();
-	buttonSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+	if (!buttonSpriteRenderers.empty())
+	{
+		buttonSpriteRenderers.clear();
+		buttonSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+	}
 
-	buttons.clear();
-	buttons = vector<UserInterface*>();
+	if (!buttons.empty())
+	{
+		buttons.clear();
+		buttons = vector<UserInterface*>();
+	}
 
-	textSpriteRenderers.clear();
-	textSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+	if (!textSpriteRenderers.empty())
+	{
+		textSpriteRenderers.clear();
+		textSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+	}
 
-	texts.clear();
-	texts = vector<UserInterface*>(); // Deallocate the memory of this vector
+	if (!texts.empty())
+	{
+		texts.clear();
+		texts = vector<UserInterface*>(); // Deallocate the memory of this vector
+	}
 
 }
 
@@ -152,7 +164,7 @@ void QuitConfirmationMenu::UpdateMenu()
 		Window::Instance()->inQuitPromptMenu = false;
 		Window::Instance()->inMainMenu = true;
 
-		MainMenu::Instance()->InitializeMenu();
+		Window::Instance()->isMemoryDeallocated = false;
 	}
 
 	// Or press no with the right mouse button
@@ -165,7 +177,7 @@ void QuitConfirmationMenu::UpdateMenu()
 		Window::Instance()->inQuitPromptMenu = false;
 		Window::Instance()->inMainMenu = true;
 
-		MainMenu::Instance()->InitializeMenu();
+		Window::Instance()->isMemoryDeallocated = false;
 	}
 
 	// Pressing the ESCAPE key will also quit the game
@@ -188,4 +200,9 @@ void QuitConfirmationMenu::RenderMenu()
 	// Render the no button
 	buttonSpriteRenderers[1]->DrawSprite(ResourceManager::GetTexture(noButton), buttons[1]->position,
 		buttons[1]->size, 0.0f, buttons[1]->color);
+}
+
+void QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance()
+{
+	delete quitConfirmationMenuInstance;
 }

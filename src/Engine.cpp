@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "ResourceManager.h"
 
 //#include <Windows.h>
 
@@ -10,7 +11,10 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+	ResourceManager::Clear();
+	Window::Instance()->DeleteWindowInstance();
 
+	free(engineInstance);
 }
 
 Engine* Engine::Instance()

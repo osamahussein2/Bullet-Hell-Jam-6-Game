@@ -17,6 +17,8 @@ public:
 	void HandleInput(float deltaTime_);
 	void RenderGame(float deltaTime_);
 
+	void DeleteGameInstance();
+
 private:
 	Game();
 

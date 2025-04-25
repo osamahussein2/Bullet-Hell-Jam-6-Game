@@ -16,11 +16,17 @@ MainMenu::~MainMenu()
 {
 	mainMenuInstance = nullptr;
 
-	buttonSpriteRenderers.clear();
-	buttonSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+	if (!buttonSpriteRenderers.empty())
+	{
+		buttonSpriteRenderers.clear();
+		buttonSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+	}
 
-	buttons.clear();
-	buttons = vector<UserInterface*>(); // Deallocate the memory of this vector
+	if (!buttons.empty())
+	{
+		buttons.clear();
+		buttons = vector<UserInterface*>(); // Deallocate the memory of this vector
+	}
 }
 
 MainMenu* MainMenu::Instance()
@@ -107,8 +113,7 @@ void MainMenu::UpdateMenu()
 	{
 		Window::Instance()->inMainMenu = false;
 		Window::Instance()->inGame = true;
-
-		Game::Instance()->InitializeGame();
+		Window::Instance()->isMemoryDeallocated = false;
 	}
 
 	// Or press play with the right mouse button
@@ -120,8 +125,7 @@ void MainMenu::UpdateMenu()
 	{
 		Window::Instance()->inMainMenu = false;
 		Window::Instance()->inGame = true;
-
-		Game::Instance()->InitializeGame();
+		Window::Instance()->isMemoryDeallocated = false;
 	}
 
 	// Press the quit button with the left mouse button
@@ -133,8 +137,7 @@ void MainMenu::UpdateMenu()
 	{
 		Window::Instance()->inMainMenu = false;
 		Window::Instance()->inQuitPromptMenu = true;
-
-		QuitConfirmationMenu::Instance()->InitializeMenu();
+		Window::Instance()->isMemoryDeallocated = false;
 	}
 
 	// Or press quit with the right mouse button
@@ -146,8 +149,7 @@ void MainMenu::UpdateMenu()
 	{
 		Window::Instance()->inMainMenu = false;
 		Window::Instance()->inQuitPromptMenu = true;
-
-		QuitConfirmationMenu::Instance()->InitializeMenu();
+		Window::Instance()->isMemoryDeallocated = false;
 	}
 
 	// Releasing the ESCAPE key will also take the player to the quit confirmation screen
@@ -155,8 +157,7 @@ void MainMenu::UpdateMenu()
 	{
 		Window::Instance()->inMainMenu = false;
 		Window::Instance()->inQuitPromptMenu = true;
-
-		QuitConfirmationMenu::Instance()->InitializeMenu();
+		Window::Instance()->isMemoryDeallocated = false;
 	}
 }
 
@@ -169,4 +170,9 @@ void MainMenu::RenderMenu()
 	// Render the quit button
 	buttonSpriteRenderers[1]->DrawSprite(ResourceManager::GetTexture(quitButton), buttons[1]->position,
 		buttons[1]->size, 0.0f, buttons[1]->color);
+}
+
+void MainMenu::DeleteMainMenuInstance()
+{
+	delete mainMenuInstance;
 }
