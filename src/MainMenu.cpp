@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "QuitConfirmationMenu.h"
 #include "Window.h"
 #include "Game.h"
 
@@ -16,7 +17,10 @@ MainMenu::~MainMenu()
 	mainMenuInstance = nullptr;
 
 	buttonSpriteRenderers.clear();
+	buttonSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+
 	buttons.clear();
+	buttons = vector<UserInterface*>(); // Deallocate the memory of this vector
 }
 
 MainMenu* MainMenu::Instance()
@@ -47,11 +51,11 @@ void MainMenu::InitializeMenu()
 	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), true));
 
 	// Play Button
-	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 300.0f), vec2(100.0f, 50.0f),
+	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 300.0f), vec2(initialButtonSize),
 		ResourceManager::GetTexture(playButton), vec3(1.0f)));
 
 	// Quit Button
-	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 600.0f), vec2(100.0f, 50.0f),
+	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 600.0f), vec2(initialButtonSize),
 		ResourceManager::GetTexture(quitButton), vec3(1.0f)));
 }
 
@@ -84,6 +88,15 @@ void MainMenu::UpdateMenu()
 	// Update the buttons positions based on the window resolution
 	buttons[0]->position = vec2(Window::Instance()->GetWindowWidth() / 2, Window::Instance()->GetWindowHeight() / 3);
 	buttons[1]->position = vec2(Window::Instance()->GetWindowWidth() / 2, Window::Instance()->GetWindowHeight() / 1.5);
+
+	// Update the buttons sizes based on the window resolution
+	buttons[0]->size = vec2(
+		initialButtonSize.x * (Window::Instance()->GetWindowWidth() / Window::Instance()->GetInitialWindowWidth()),
+		initialButtonSize.y * (Window::Instance()->GetWindowHeight() / Window::Instance()->GetInitialWindowHeight()));
+
+	buttons[1]->size = vec2(
+		initialButtonSize.x * (Window::Instance()->GetWindowWidth() / Window::Instance()->GetInitialWindowWidth()),
+		initialButtonSize.y * (Window::Instance()->GetWindowHeight() / Window::Instance()->GetInitialWindowHeight()));
 
 	// Press the play button with the left mouse button
 	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && 
@@ -118,7 +131,10 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
 		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
 	{
-		glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
+		Window::Instance()->inMainMenu = false;
+		Window::Instance()->inQuitPromptMenu = true;
+
+		QuitConfirmationMenu::Instance()->InitializeMenu();
 	}
 
 	// Or press quit with the right mouse button
@@ -128,13 +144,19 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
 		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
 	{
-		glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
+		Window::Instance()->inMainMenu = false;
+		Window::Instance()->inQuitPromptMenu = true;
+
+		QuitConfirmationMenu::Instance()->InitializeMenu();
 	}
 
-	// Pressing the ESCAPE key will also quit the game
-	if (Input::IsKeyDown(GLFW_KEY_ESCAPE))
+	// Releasing the ESCAPE key will also take the player to the quit confirmation screen
+	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE))
 	{
-		glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
+		Window::Instance()->inMainMenu = false;
+		Window::Instance()->inQuitPromptMenu = true;
+
+		QuitConfirmationMenu::Instance()->InitializeMenu();
 	}
 }
 

@@ -51,8 +51,6 @@ private:
 		anxietyMusic = 0,
 	};
 
-	float gameWidth, gameHeight;
-
 	float timer;
 };
 

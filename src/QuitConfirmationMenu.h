@@ -6,24 +6,27 @@
 
 #include <vector>
 
-class MainMenu : public Menu
+class QuitConfirmationMenu : public Menu
 {
 public:
-	virtual ~MainMenu();
+	virtual ~QuitConfirmationMenu();
 
-	static MainMenu* Instance();
+	static QuitConfirmationMenu* Instance();
 
 	virtual void InitializeMenu();
 	virtual void UpdateMenu();
 	virtual void RenderMenu();
 
 private:
-	MainMenu();
+	QuitConfirmationMenu();
 
-	static MainMenu* mainMenuInstance;
+	static QuitConfirmationMenu* quitConfirmationMenuInstance;
 
 	vector<UserInterface*> buttons;
 	vector<SpriteRenderer*> buttonSpriteRenderers;
+
+	vector<UserInterface*> texts;
+	vector<SpriteRenderer*> textSpriteRenderers;
 
 	mat4& projection;
 
@@ -34,11 +37,13 @@ private:
 
 	enum TextureMapNumbers
 	{
-		playButton = 0,
-		quitButton = 1
+		yesButton = 0,
+		noButton = 1,
+		quitConfirmationText = 2
 	};
 
 	bool shaderIsCurrentlyUsed;
 
+	const vec2& initialQuitConfirmationTextSize = vec2(500.0f, 50.0f);
 	const vec2& initialButtonSize = vec2(100.0f, 50.0f);
 };

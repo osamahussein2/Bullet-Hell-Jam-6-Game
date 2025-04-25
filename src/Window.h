@@ -21,10 +21,13 @@ public:
 	float GetMousePositionX();
 	float GetMousePositionY();
 
-	int GetWindowWidth();
-	int GetWindowHeight();
+	float GetWindowWidth();
+	float GetWindowHeight();
 
-	bool inMainMenu, inGame, inPauseMenu;
+	float GetInitialWindowWidth();
+	float GetInitialWindowHeight();
+
+	bool& inMainMenu, inGame, inQuitPromptMenu;
 
 private:
 	// Initialize the window's variables to be NULL first before we do anything with it
@@ -51,6 +54,9 @@ private:
 
 	static double mousePosX, mousePosY;
 	static int windowWidth, windowHeight;
+
+	const float& initialWindowWidth = 1200.0f;
+	const float& initialWindowHeight = 900.0f;
 };
 
 typedef Window WindowInfo;

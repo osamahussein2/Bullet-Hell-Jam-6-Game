@@ -149,6 +149,7 @@
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
+    <ClCompile Include="src\QuitConfirmationMenu.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Menu.h" />
+    <ClInclude Include="src\QuitConfirmationMenu.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\SpriteRenderer.h" />

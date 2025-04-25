@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "Game.h"
 #include "MainMenu.h"
+#include "QuitConfirmationMenu.h"
 #include "ResourceManager.h"
 #include "Input.h"
 
@@ -13,7 +14,12 @@ double Window::mousePosY = 0;
 int Window::windowWidth = 1200;
 int Window::windowHeight = 900;
 
-Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL), inMainMenu(true), inGame(false)
+// Initialize 2 booleans for initializing the reference booleans with the game states
+bool falseBool = false;
+bool trueBool = true;
+
+Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL), inMainMenu(trueBool), inGame(falseBool),
+inQuitPromptMenu(falseBool)
 {
 }
 
@@ -81,14 +87,26 @@ void Window::UpdateWindow()
   Input::Update();
 
   // Make sure the player is inside the main menu and not the game itself
-  if (inMainMenu && !inGame)
+  if (inMainMenu && !inGame && !inQuitPromptMenu)
   {
+      Game::Instance()->~Game();
+      QuitConfirmationMenu::Instance()->~QuitConfirmationMenu();
+
       MainMenu::Instance()->UpdateMenu();
       MainMenu::Instance()->RenderMenu();
   }
 
+  // Make sure the player is inside the quit confirmation screen and not the main menu
+  else if (inQuitPromptMenu && !inMainMenu && !inGame)
+  {
+      MainMenu::Instance()->~MainMenu();
+
+      QuitConfirmationMenu::Instance()->UpdateMenu();
+      QuitConfirmationMenu::Instance()->RenderMenu();
+  }
+
   // Make sure the player is inside the game and not the main menu
-  else if (!inMainMenu && inGame)
+  else if (inGame && !inQuitPromptMenu && !inMainMenu)
   {
       MainMenu::Instance()->~MainMenu();
 
@@ -142,12 +160,22 @@ float Window::GetMousePositionY()
     return mousePosY;
 }
 
-int Window::GetWindowWidth()
+float Window::GetWindowWidth()
 {
-    return windowWidth;
+    return static_cast<float>(windowWidth);
 }
 
-int Window::GetWindowHeight()
+float Window::GetWindowHeight()
 {
-    return windowHeight;
+    return static_cast<float>(windowHeight);
+}
+
+float Window::GetInitialWindowWidth()
+{
+    return initialWindowWidth;
+}
+
+float Window::GetInitialWindowHeight()
+{
+    return initialWindowHeight;
 }

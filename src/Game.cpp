@@ -7,16 +7,21 @@ Game* Game::gameInstance = nullptr;
 
 mat4 nothing = mat4(0.0f);
 
-Game::Game() : gameWidth(1200.0f), gameHeight(900.0f), playerHealth(200.0f), timer(0.0f), projection(nothing)
+Game::Game() : playerHealth(200.0f), timer(0.0f), projection(nothing)
 {
 }
 
 Game::~Game()
 {
-	delete gameInstance, playerSpriteRenderer, player;
+	gameInstance = nullptr;
+
+	delete playerSpriteRenderer, player;
 
 	healthSpriteRenderers.clear();
+	healthSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
+
 	healthBars.clear();
+	healthBars = vector<UserInterface*>(); // Deallocate the memory of this vector
 }
 
 Game* Game::Instance()
@@ -92,7 +97,7 @@ void Game::InitializeGame()
 	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "projectionMatrix"), 
 		1, GL_FALSE, value_ptr(projection));
 
-	player = new GameObject(vec2(gameWidth / 2, 100.0f), vec2(100.0f, 100.0f), ResourceManager::GetTexture(playerTexture), vec3(1.0f),
+	player = new GameObject(vec2(600.0f, 100.0f), vec2(100.0f, 100.0f), ResourceManager::GetTexture(playerTexture), vec3(1.0f),
 		vec2(0.0f, 0.0f));
 
 	// Health bar UI
