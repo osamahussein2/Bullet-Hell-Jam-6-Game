@@ -17,16 +17,15 @@ int Window::windowHeight = 900;
 bool falseBool = false;
 bool trueBool = true;
 
-Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL), inMainMenu(trueBool), inGame(falseBool),
-inQuitPromptMenu(falseBool), isMemoryDeallocated(true)
+Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL)
 {
 }
 
 Window::~Window()
 {
-  MainMenu::Instance()->DeleteMainMenuInstance();
-  QuitConfirmationMenu::Instance()->DeleteQuitConfirmationMenuInstance();
-  Game::Instance()->DeleteGameInstance();
+  MainMenu::DeleteMainMenuInstance();
+  QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance();
+  Game::DeleteGameInstance();
 
   // Close all GLFW-related stuff and perhaps terminate the whole program, maybe?
   glfwTerminate();
@@ -74,6 +73,8 @@ void Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
 
   // Initialize game here
   MainMenu::Instance()->InitializeMenu();
+  QuitConfirmationMenu::Instance()->InitializeMenu();
+  Game::Instance()->InitializeGame();
 }
 
 void Window::UpdateWindow()
@@ -87,64 +88,29 @@ void Window::UpdateWindow()
   glfwPollEvents(); // Waits for any input by the user and processes it in real-time
   Input::Update();
 
-  // Make sure the player is inside the main menu and not the game itself
-  if (inMainMenu && !inGame && !inQuitPromptMenu)
-  {
-      /* If memory isn't deallocated yet, make sure the other states free up memory and call the quit confirmation
-      initialization */
-      if (isMemoryDeallocated == false)
-      {
-          Game::Instance()->~Game();
-          QuitConfirmationMenu::Instance()->~QuitConfirmationMenu();
-
-          MainMenu::Instance()->InitializeMenu();
-
-          isMemoryDeallocated = true;
-      }
-
-      // If memory is deallocated, make sure to update and render the main menu
-      else if (isMemoryDeallocated == true)
-      {
+  switch (state){
+    case MAIN_MENU:
+        {
+          std::cout<<"MAIN_MENU\n";
           MainMenu::Instance()->UpdateMenu();
           MainMenu::Instance()->RenderMenu();
-      }
-  }
-
-  // Make sure the player is inside the quit confirmation screen and not the main menu
-  else if (inQuitPromptMenu && !inMainMenu && !inGame)
-  {
-      if (!isMemoryDeallocated)
-      {
-          MainMenu::Instance()->~MainMenu();
-          QuitConfirmationMenu::Instance()->InitializeMenu();
-
-          isMemoryDeallocated = true;
-      }
-
-      else
-      {
+        }
+        break;
+    case QUIT_CONF:
+        {
+          std::cout<<"QUIT_CONF\n";
           QuitConfirmationMenu::Instance()->UpdateMenu();
           QuitConfirmationMenu::Instance()->RenderMenu();
-      }
-  }
-
-  // Make sure the player is inside the game and not the main menu
-  else if (inGame && !inQuitPromptMenu && !inMainMenu)
-  {
-      if (!isMemoryDeallocated)
-      {
-          MainMenu::Instance()->~MainMenu();
-          Game::Instance()->InitializeGame();
-
-          isMemoryDeallocated = true;
-      }
-
-      else
-      {
+        }
+        break;
+    case GAME:
+        {
+          std::cout<<"GAME\n";
           Game::Instance()->UpdateGame(deltaTime);
           Game::Instance()->HandleInput(deltaTime);
           Game::Instance()->RenderGame(deltaTime);
-      }
+        }
+        break;
   }
 
   glfwSwapBuffers(openGLwindow); // Removing this will throw an exception error or nothing will pop up
@@ -214,5 +180,11 @@ float Window::GetInitialWindowHeight()
 
 void Window::DeleteWindowInstance()
 {
-    delete windowInstance;
+    if (windowInstance){
+        delete windowInstance;
+        windowInstance = nullptr;
+    }
+    else {
+        std::cerr<<"windowInstance is not valid to delete\n";
+    }
 }

@@ -6,12 +6,19 @@
 
 #include <iostream>
 
+enum AppState {
+	MAIN_MENU,
+	QUIT_CONF,
+	GAME
+};
+
 class Window
 {
 public:
 	~Window();
 
 	static Window* Instance();
+	static void DeleteWindowInstance();
 
 	// Initialize OpenGL window here
 	void InitializeWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share);
@@ -27,11 +34,7 @@ public:
 	float GetInitialWindowWidth();
 	float GetInitialWindowHeight();
 
-	void DeleteWindowInstance();
-
-	bool& inMainMenu, inGame, inQuitPromptMenu;
-
-	bool isMemoryDeallocated;
+	AppState state = MAIN_MENU;
 
 private:
 	// Initialize the window's variables to be NULL first before we do anything with it

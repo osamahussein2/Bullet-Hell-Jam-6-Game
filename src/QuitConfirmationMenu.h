@@ -12,12 +12,11 @@ public:
 	virtual ~QuitConfirmationMenu();
 
 	static QuitConfirmationMenu* Instance();
+	static void DeleteQuitConfirmationMenuInstance();
 
 	virtual void InitializeMenu();
 	virtual void UpdateMenu();
 	virtual void RenderMenu();
-
-	void DeleteQuitConfirmationMenuInstance();
 
 private:
 	QuitConfirmationMenu();

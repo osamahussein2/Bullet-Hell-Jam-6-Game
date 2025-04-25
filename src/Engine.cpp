@@ -12,9 +12,7 @@ Engine::Engine()
 Engine::~Engine()
 {
 	ResourceManager::Clear();
-	Window::Instance()->DeleteWindowInstance();
-
-	free(engineInstance);
+	Window::DeleteWindowInstance();
 }
 
 Engine* Engine::Instance()
@@ -26,6 +24,17 @@ Engine* Engine::Instance()
 	}
 
 	return engineInstance;
+}
+
+void Engine::DeleteEngineInstance()
+{
+	if (engineInstance){
+		delete engineInstance;
+		engineInstance = nullptr;
+	}
+	else {
+		std::cerr<<"engineInstance is not valid to delete\n";
+	}
 }
 
 void Engine::UpdateEngine()
@@ -42,6 +51,5 @@ void Engine::UpdateEngine()
 		WindowInfo::Instance()->UpdateWindow();
 	}
 
-	// Clean the engine after we're done
-	WindowInfo::Instance()->~Window();
+	// The engine is cleaned in it's destructor, which is called by "delete instance" in DeleteEngineInstance() 
 }

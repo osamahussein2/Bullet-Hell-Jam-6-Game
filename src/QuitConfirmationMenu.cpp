@@ -161,10 +161,7 @@ void QuitConfirmationMenu::UpdateMenu()
 		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
 		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
 	{
-		Window::Instance()->inQuitPromptMenu = false;
-		Window::Instance()->inMainMenu = true;
-
-		Window::Instance()->isMemoryDeallocated = false;
+		Window::Instance()->state = MAIN_MENU;
 	}
 
 	// Or press no with the right mouse button
@@ -174,10 +171,7 @@ void QuitConfirmationMenu::UpdateMenu()
 		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
 		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
 	{
-		Window::Instance()->inQuitPromptMenu = false;
-		Window::Instance()->inMainMenu = true;
-
-		Window::Instance()->isMemoryDeallocated = false;
+		Window::Instance()->state = MAIN_MENU;
 	}
 
 	// Pressing the ESCAPE key will also quit the game
@@ -204,5 +198,11 @@ void QuitConfirmationMenu::RenderMenu()
 
 void QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance()
 {
-	delete quitConfirmationMenuInstance;
+	if (quitConfirmationMenuInstance){
+		delete quitConfirmationMenuInstance;
+		quitConfirmationMenuInstance = nullptr;
+	}
+	else {
+		std::cerr<<"quitConfirmationMenuInstance is not valid to delete\n";
+	}
 }

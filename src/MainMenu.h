@@ -12,12 +12,11 @@ public:
 	virtual ~MainMenu();
 
 	static MainMenu* Instance();
+	static void DeleteMainMenuInstance();
 
 	virtual void InitializeMenu();
 	virtual void UpdateMenu();
 	virtual void RenderMenu();
-
-	void DeleteMainMenuInstance();
 
 private:
 	MainMenu();

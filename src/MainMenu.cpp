@@ -111,9 +111,7 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->GetMousePositionY() >= buttons[0]->position.y && 
 		Window::Instance()->GetMousePositionY() <= buttons[0]->position.y + buttons[0]->size.y)
 	{
-		Window::Instance()->inMainMenu = false;
-		Window::Instance()->inGame = true;
-		Window::Instance()->isMemoryDeallocated = false;
+		Window::Instance()->state = GAME;
 	}
 
 	// Or press play with the right mouse button
@@ -123,9 +121,7 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->GetMousePositionY() >= buttons[0]->position.y &&
 		Window::Instance()->GetMousePositionY() <= buttons[0]->position.y + buttons[0]->size.y)
 	{
-		Window::Instance()->inMainMenu = false;
-		Window::Instance()->inGame = true;
-		Window::Instance()->isMemoryDeallocated = false;
+		Window::Instance()->state = GAME;
 	}
 
 	// Press the quit button with the left mouse button
@@ -135,9 +131,7 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
 		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
 	{
-		Window::Instance()->inMainMenu = false;
-		Window::Instance()->inQuitPromptMenu = true;
-		Window::Instance()->isMemoryDeallocated = false;
+		Window::Instance()->state = QUIT_CONF;
 	}
 
 	// Or press quit with the right mouse button
@@ -147,17 +141,13 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
 		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
 	{
-		Window::Instance()->inMainMenu = false;
-		Window::Instance()->inQuitPromptMenu = true;
-		Window::Instance()->isMemoryDeallocated = false;
+		Window::Instance()->state = QUIT_CONF;
 	}
 
 	// Releasing the ESCAPE key will also take the player to the quit confirmation screen
 	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE))
 	{
-		Window::Instance()->inMainMenu = false;
-		Window::Instance()->inQuitPromptMenu = true;
-		Window::Instance()->isMemoryDeallocated = false;
+		Window::Instance()->state = QUIT_CONF;
 	}
 }
 
@@ -174,5 +164,11 @@ void MainMenu::RenderMenu()
 
 void MainMenu::DeleteMainMenuInstance()
 {
-	delete mainMenuInstance;
+	if (mainMenuInstance){
+		delete mainMenuInstance;
+		mainMenuInstance = nullptr;
+	}
+	else {
+		std::cerr<<"mainMenuInstance is not valid to delete\n";
+	}
 }

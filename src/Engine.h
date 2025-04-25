@@ -9,6 +9,7 @@ public:
 	~Engine();
 
 	static Engine* Instance();
+	static void DeleteEngineInstance();
 
 	void UpdateEngine();
 

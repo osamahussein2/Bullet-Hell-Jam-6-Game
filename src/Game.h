@@ -11,13 +11,12 @@ public:
 	~Game();
 
 	static Game* Instance();
+	static void DeleteGameInstance();
 
 	void InitializeGame();
 	void UpdateGame(float deltaTime_);
 	void HandleInput(float deltaTime_);
 	void RenderGame(float deltaTime_);
-
-	void DeleteGameInstance();
 
 private:
 	Game();

@@ -227,5 +227,11 @@ void Game::RenderGame(float deltaTime_)
 
 void Game::DeleteGameInstance()
 {
-	delete gameInstance;
+	if (gameInstance){
+		delete gameInstance;
+		gameInstance = nullptr;
+	}
+	else {
+		std::cerr<<"gameInstance is not valid to delete\n";
+	}
 }
