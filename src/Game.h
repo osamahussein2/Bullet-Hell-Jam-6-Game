@@ -34,24 +34,6 @@ private:
 
 	int playerHealth;
 
-	enum ShaderMapNumbers
-	{
-		spriteShader = 0
-	};
-
-	enum TextureMapNumbers
-	{
-		playerTexture = 0,
-		healthBarTexture = 1,
-		currentHealthTexture = 2,
-		playerTexture2 = 3
-	};
-
-	enum MusicMapNumbers
-	{
-		anxietyMusic = 0,
-	};
-
 	float timer;
 };
 

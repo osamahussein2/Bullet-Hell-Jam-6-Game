@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "Audio.h"
 #include "Input.h"
+#include "Assets.h"
 
 Game* Game::gameInstance = nullptr;
 
@@ -43,24 +44,9 @@ Game* Game::Instance()
 
 void Game::InitializeGame()
 {
-	Input::Initialize();
-	
-	// Load shaders
-	ResourceManager::LoadShader("SpriteRendererVS.glsl", "SpriteRendererFS.glsl", spriteShader);
-
-	// Load textures
-	ResourceManager::LoadTexture("Textures/example_spritesheet.png", playerTexture);
-	ResourceManager::LoadTexture("Textures/image.png", playerTexture2);
-	ResourceManager::LoadTexture("Textures/Health bar.png", healthBarTexture);
-	ResourceManager::LoadTexture("Textures/Current health.png", currentHealthTexture);
-
-	// Load music
-	ma_sound* default_music = ResourceManager::LoadMusic("Music/Anxiety.wav", anxietyMusic);
-	Audio::Instance()->PlayMusic(default_music);
-	ma_sound_set_volume(default_music, 0.15f);
 
 	// Set render-specific controls
-	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(spriteShader), false, true);
+	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, true);
 	
 	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
 		8, // columns
@@ -89,28 +75,28 @@ void Game::InitializeGame()
 		}
 	);	
 
-	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), false));
-	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), false));
+	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false));
+	healthSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false));
 
 	// Configure shaders
 	projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(), 0.0f, 
 		(float)Window::Instance()->GetWindowHeight(), -1.0f, 1.0f);
 
-	glUseProgram(ResourceManager::GetShader(spriteShader).shaderProgram);
+	glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 
-	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "spriteImage"), 0);
+	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
 
-	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "projectionMatrix"), 
+	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"), 
 		1, GL_FALSE, value_ptr(projection));
 
-	player = new GameObject(vec2(600.0f, 100.0f), vec2(100.0f, 100.0f), ResourceManager::GetTexture(playerTexture), vec3(1.0f),
+	player = new GameObject(vec2(600.0f, 100.0f), vec2(100.0f, 100.0f), ResourceManager::GetTexture(Assets::playerTexture), vec3(1.0f),
 		vec2(0.0f, 0.0f));
 
 	// Health bar UI
-	healthBars.push_back(new UserInterface(vec2(10.0f, 850.0f), vec2(200.0f, 25.0f), ResourceManager::GetTexture(healthBarTexture), vec3(1.0f)));
+	healthBars.push_back(new UserInterface(vec2(10.0f, 850.0f), vec2(200.0f, 25.0f), ResourceManager::GetTexture(Assets::healthBarTexture), vec3(1.0f)));
 
 	// Current health UI
-	healthBars.push_back(new UserInterface(vec2(10.0f, 850.0f), vec2(200.0f, 25.0f), ResourceManager::GetTexture(currentHealthTexture), vec3(1.0f)));
+	healthBars.push_back(new UserInterface(vec2(10.0f, 850.0f), vec2(200.0f, 25.0f), ResourceManager::GetTexture(Assets::currentHealthTexture), vec3(1.0f)));
 }
 
 void Game::UpdateGame(float deltaTime_)
@@ -121,11 +107,11 @@ void Game::UpdateGame(float deltaTime_)
 	projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(), 0.0f,
 		(float)Window::Instance()->GetWindowHeight(), -1.0f, 1.0f);
 
-	glUseProgram(ResourceManager::GetShader(spriteShader).shaderProgram);
+	glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 
-	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "spriteImage"), 0);
+	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
 
-	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "projectionMatrix"),
+	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
 		1, GL_FALSE, value_ptr(projection));
 
 	healthBars[0]->position = vec2(10.0f, Window::Instance()->GetWindowHeight() - 50.0f);
@@ -205,13 +191,13 @@ void Game::RenderGame(float deltaTime_)
 {
 	timer += deltaTime_;
 
-	playerSpriteRenderer->DrawSprite(ResourceManager::GetTexture(playerTexture), player->position, player->size,
+	playerSpriteRenderer->DrawSprite(player->sprite, player->position, player->size,
 		player->rotation, player->color);
 
-	healthSpriteRenderers[0]->DrawSprite(ResourceManager::GetTexture(healthBarTexture), healthBars[0]->position, 
+	healthSpriteRenderers[0]->DrawSprite(ResourceManager::GetTexture(Assets::healthBarTexture), healthBars[0]->position, 
 		healthBars[0]->size, 0.0f, healthBars[0]->color);
 
-	healthSpriteRenderers[1]->DrawSprite(ResourceManager::GetTexture(currentHealthTexture), healthBars[1]->position, 
+	healthSpriteRenderers[1]->DrawSprite(ResourceManager::GetTexture(Assets::currentHealthTexture), healthBars[1]->position, 
 		healthBars[1]->size, 0.0f, healthBars[1]->color);
 
 	//player->DrawSprite(*playerSpriteRenderer);

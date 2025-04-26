@@ -28,17 +28,6 @@ private:
 
 	mat4& projection;
 
-	enum ShaderMapNumbers
-	{
-		spriteShader = 0
-	};
-
-	enum TextureMapNumbers
-	{
-		playButton = 0,
-		quitButton = 1
-	};
-
 	bool shaderIsCurrentlyUsed;
 
 	const vec2 initialButtonSize = vec2(0.2, 0.2f); // relative to window size

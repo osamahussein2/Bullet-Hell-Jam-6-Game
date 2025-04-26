@@ -31,18 +31,6 @@ private:
 
 	mat4& projection;
 
-	enum ShaderMapNumbers
-	{
-		spriteShader = 0
-	};
-
-	enum TextureMapNumbers
-	{
-		yesButton = 0,
-		noButton = 1,
-		quitConfirmationText = 2
-	};
-
 	bool shaderIsCurrentlyUsed;
 
 	const vec2 initialQuitConfirmationTextSize = vec2(0.5f, 0.2f);

@@ -1,7 +1,6 @@
 #include "MainMenu.h"
-#include "QuitConfirmationMenu.h"
 #include "Window.h"
-#include "Game.h"
+#include "Assets.h"
 
 MainMenu* MainMenu::mainMenuInstance = nullptr;
 
@@ -44,25 +43,16 @@ void MainMenu::InitializeMenu()
 {
 	shaderIsCurrentlyUsed = false;
 
-	Input::Initialize();
-
-	// Load shaders
-	ResourceManager::LoadShader("SpriteRendererVS.glsl", "SpriteRendererFS.glsl", spriteShader);
-
-	// Load textures
-	ResourceManager::LoadTexture("Buttons/Play Button.png", playButton);
-	ResourceManager::LoadTexture("Buttons/Quit Button.png", quitButton);
-
-	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), true));
-	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), true));
+	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
+	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
 
 	// Play Button
 	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 300.0f), initialButtonSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(playButton), vec3(1.0f)));
+		ResourceManager::GetTexture(Assets::playButton), vec3(1.0f)));
 
 	// Quit Button
 	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 600.0f), initialButtonSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(quitButton), vec3(1.0f)));
+		ResourceManager::GetTexture(Assets::quitButton), vec3(1.0f)));
 }
 
 void MainMenu::UpdateMenu()
@@ -73,7 +63,7 @@ void MainMenu::UpdateMenu()
 	// If shader isn't in use, tell OpenGL to use the program and set the bool to true for updating the uniform variables
 	if (!shaderIsCurrentlyUsed)
 	{
-		glUseProgram(ResourceManager::GetShader(spriteShader).shaderProgram);
+		glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 
 		shaderIsCurrentlyUsed = true;
 	}
@@ -85,9 +75,9 @@ void MainMenu::UpdateMenu()
 			(float)Window::Instance()->GetWindowHeight(), 0.0f,
 			-1.0f, 1.0f);
 
-		glUniform1i(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "spriteImage"), 0);
+		glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
 
-		glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "projectionMatrix"),
+		glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
 			1, GL_FALSE, value_ptr(projection));
 	}
 

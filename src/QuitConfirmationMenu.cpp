@@ -1,7 +1,6 @@
 #include "QuitConfirmationMenu.h"
 #include "Window.h"
-#include "Game.h"
-#include "MainMenu.h"
+#include "Assets.h"
 
 QuitConfirmationMenu* QuitConfirmationMenu::quitConfirmationMenuInstance = nullptr;
 
@@ -57,35 +56,25 @@ void QuitConfirmationMenu::InitializeMenu()
 {
 	shaderIsCurrentlyUsed = false;
 
-	Input::Initialize();
+	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
+	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
 
-	// Load shaders
-	ResourceManager::LoadShader("SpriteRendererVS.glsl", "SpriteRendererFS.glsl", spriteShader);
-
-	// Load textures
-	ResourceManager::LoadTexture("Buttons/Yes Button.png", yesButton);
-	ResourceManager::LoadTexture("Buttons/No Button.png", noButton);
-	ResourceManager::LoadTexture("Text Images/Quit Confirmation Text.png", quitConfirmationText);
-
-	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), true));
-	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), true));
-
-	textSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(spriteShader), true));
+	textSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
 
 	// Yes Button
 	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 3, 
 		Window::Instance()->GetWindowHeight() / 2), initialButtonSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(yesButton), vec3(1.0f)));
+		ResourceManager::GetTexture(Assets::yesButton), vec3(1.0f)));
 
 	// No Button
 	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 1.5, 
 		Window::Instance()->GetWindowHeight() / 2), initialButtonSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(noButton), vec3(1.0f)));
+		ResourceManager::GetTexture(Assets::noButton), vec3(1.0f)));
 
 	// Quit Confirmation Text
 	texts.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 3,
 		Window::Instance()->GetWindowHeight() / 3), initialQuitConfirmationTextSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(quitConfirmationText), vec3(1.0f)));
+		ResourceManager::GetTexture(Assets::quitConfirmationText), vec3(1.0f)));
 }
 
 void QuitConfirmationMenu::UpdateMenu()
@@ -96,7 +85,7 @@ void QuitConfirmationMenu::UpdateMenu()
 	// If shader isn't in use, tell OpenGL to use the program and set the bool to true for updating the uniform variables
 	if (!shaderIsCurrentlyUsed)
 	{
-		glUseProgram(ResourceManager::GetShader(spriteShader).shaderProgram);
+		glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 
 		shaderIsCurrentlyUsed = true;
 	}
@@ -108,9 +97,9 @@ void QuitConfirmationMenu::UpdateMenu()
 			(float)Window::Instance()->GetWindowHeight(), 0.0f,
 			-1.0f, 1.0f);
 
-		glUniform1i(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "spriteImage"), 0);
+		glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
 
-		glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(spriteShader).shaderProgram, "projectionMatrix"),
+		glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
 			1, GL_FALSE, value_ptr(projection));
 	}
 

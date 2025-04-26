@@ -3,6 +3,7 @@
 #include "MainMenu.h"
 #include "QuitConfirmationMenu.h"
 #include "Input.h"
+#include "Assets.h"
 
 Window* Window::windowInstance = nullptr;
 float lastFrame = 0.f;
@@ -71,10 +72,13 @@ void Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   glfwSetFramebufferSizeCallback(openGLwindow, FrameBufferSizeCallback);
   glfwSetMouseButtonCallback(openGLwindow, MouseButtonCallback);
 
+  Input::Initialize();
+
   // Initialize game here
+  Assets::LoadAssets();
+  MainMenu::Instance()->InitializeMenu();
   QuitConfirmationMenu::Instance()->InitializeMenu();
   Game::Instance()->InitializeGame();
-  MainMenu::Instance()->InitializeMenu();
 }
 
 void Window::UpdateWindow()
@@ -91,21 +95,21 @@ void Window::UpdateWindow()
   switch (state){
     case MAIN_MENU:
         {
-          std::cout<<"MAIN_MENU\n";
+          //std::cout<<"MAIN_MENU\n";
           MainMenu::Instance()->UpdateMenu();
           MainMenu::Instance()->RenderMenu();
         }
         break;
     case QUIT_CONF:
         {
-          std::cout<<"QUIT_CONF\n";
+          //std::cout<<"QUIT_CONF\n";
           QuitConfirmationMenu::Instance()->UpdateMenu();
           QuitConfirmationMenu::Instance()->RenderMenu();
         }
         break;
     case GAME:
         {
-          std::cout<<"GAME\n";
+          //std::cout<<"GAME\n";
           Game::Instance()->UpdateGame(deltaTime);
           Game::Instance()->HandleInput(deltaTime);
           Game::Instance()->RenderGame(deltaTime);
