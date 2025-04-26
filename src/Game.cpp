@@ -92,7 +92,7 @@ void Game::UpdateGame(float deltaTime_)
 	}
 
 	for (UserInterface& healthbar : healthBars){
-		healthbar.Update();
+		healthbar.Update(true);
 	}
 	healthBars[1].size.x *= float(playerHealth) / float(maxPlayerHealth);
 
@@ -158,11 +158,42 @@ void Game::HandleInput(float deltaTime_)
 
 void Game::RenderGame(float deltaTime_)
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//glViewport(0,0,Window::Instance()->GetWindowWidth(),Window::Instance()->GetWindowHeight());
+
+
+	/***********************************************************************/
+	float winW = Window::Instance()->GetWindowWidth();
+	float winH = Window::Instance()->GetWindowHeight();
+
+	float gameW = 1600;
+	float gameH = 900;
+
+	float game_aspect = gameW/gameH;
+	
+	float viewW = std::min(winW, winH * game_aspect);
+	float viewH = viewW / game_aspect;
+
+	float x_diff = winW-viewW;
+	float y_diff = winH-viewH;
+	
+	float x = x_diff/2.f;
+	float y = y_diff/2.f;
+
+	glViewport(0, 0, winW, winH);
+	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	auto projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(),
-		(float)Window::Instance()->GetWindowHeight(), 0.0f,
+	glEnable(GL_SCISSOR_TEST);
+	glScissor(x, y, viewW, viewH);
+	glViewport(x, y, viewW, viewH);
+	glClearColor(1,1,1,1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	glDisable(GL_SCISSOR_TEST);
+	/***********************************************************************/
+
+	auto projection = ortho(0.0f, gameW,
+		gameH, 0.0f,
 		-1.0f, 1.0f);
 
 	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);

@@ -23,10 +23,16 @@ UserInterface::UserInterface(vec2 rel_pos_, vec2 rel_size_, unsigned int sprite_
 	color = color_;
 }
 
-void UserInterface::Update()
+void UserInterface::Update(bool keep_abs)
 {
-    position = rel_pos * Window::Instance()->GetWindowSize();
-    size = rel_size * Window::Instance()->GetWindowSize();
+	if (keep_abs){
+		position = rel_pos * Window::Instance()->GetGameSize();
+		size = rel_size * Window::Instance()->GetGameSize();
+	}
+	else {
+		position = rel_pos * Window::Instance()->GetWindowSize();
+		size = rel_size * Window::Instance()->GetWindowSize();
+	}
 }
 
 void UserInterface::Draw(SpriteRenderer& renderer_)

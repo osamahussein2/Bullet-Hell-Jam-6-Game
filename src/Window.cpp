@@ -14,6 +14,9 @@ double Window::mousePosY = 0;
 int Window::windowWidth = 1200;
 int Window::windowHeight = 900;
 
+int Window::GameWidth = 1600;
+int Window::GameHeight = 900;
+
 // Initialize 2 booleans for initializing the reference booleans with the game states
 bool falseBool = false;
 bool trueBool = true;
@@ -71,6 +74,9 @@ void Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   glfwSetKeyCallback(openGLwindow, KeyCallback);
   glfwSetFramebufferSizeCallback(openGLwindow, FrameBufferSizeCallback);
   glfwSetMouseButtonCallback(openGLwindow, MouseButtonCallback);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   Input::Initialize();
 

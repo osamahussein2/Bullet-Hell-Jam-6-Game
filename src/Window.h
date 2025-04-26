@@ -37,8 +37,12 @@ public:
 	float GetInitialWindowHeight();
 
 	glm::vec2 GetWindowSize() { return glm::vec2(GetWindowWidth(), GetWindowHeight()); }
+	static glm::vec2 GetGameSize() { return glm::vec2(GameWidth, GameHeight); }
 
 	AppState state = MAIN_MENU;
+
+	static int GameWidth;
+	static int GameHeight;
 
 private:
 	// Initialize the window's variables to be NULL first before we do anything with it
