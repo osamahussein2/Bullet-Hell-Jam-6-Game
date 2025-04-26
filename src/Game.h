@@ -17,7 +17,6 @@ public:
 	void UpdateGame(float deltaTime_);
 	void HandleInput(float deltaTime_);
 	void RenderGame(float deltaTime_);
-	void RenderHUD(float deltaTime_);
 
 private:
 	Game();
