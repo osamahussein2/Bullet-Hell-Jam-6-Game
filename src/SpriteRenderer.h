@@ -22,6 +22,12 @@ public:
 	void SetHorFlip(bool flip) { hor_flip = flip; }
 	void SetVertFlip(bool flip) { vert_flip = flip; }
 
+	void ToggleHorFlip() { hor_flip = !hor_flip; }
+	void ToggleVertFlip() { vert_flip = !vert_flip; }
+
+	bool GetHorFlip() { return bool(hor_flip); }
+	bool GetVertFlip() { return bool(vert_flip); }
+
 private:
 	Shader spriteShader;
 	unsigned int spriteVAO, spriteVBO;

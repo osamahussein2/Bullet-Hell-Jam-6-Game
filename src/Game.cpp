@@ -33,10 +33,8 @@ Game* Game::Instance()
 
 void Game::InitializeGame()
 {
-
-	
 	// Set render-specific controls
-	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true, false, true);
+	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
 	
 	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
 		8, // columns
@@ -46,7 +44,7 @@ void Game::InitializeGame()
 		12.f // fps
 		}
 	);
-
+	
 	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
 		8, // columns
 		15, // rows
