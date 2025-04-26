@@ -4,28 +4,14 @@
 
 MainMenu* MainMenu::mainMenuInstance = nullptr;
 
-mat4 nothingInMain = mat4(0.0f);
-
-MainMenu::MainMenu() : Menu(), projection(nothingInMain), shaderIsCurrentlyUsed(false)
+MainMenu::MainMenu() : Menu()
 {
-
 }
 
 MainMenu::~MainMenu()
 {
 	mainMenuInstance = nullptr;
-
-	if (!buttonSpriteRenderers.empty())
-	{
-		buttonSpriteRenderers.clear();
-		buttonSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
-	}
-
-	if (!buttons.empty())
-	{
-		buttons.clear();
-		buttons = vector<UserInterface*>(); // Deallocate the memory of this vector
-	}
+	buttons.clear();
 }
 
 MainMenu* MainMenu::Instance()
@@ -41,92 +27,28 @@ MainMenu* MainMenu::Instance()
 
 void MainMenu::InitializeMenu()
 {
-	shaderIsCurrentlyUsed = false;
+	vec2 rel_size = vec2(0.4, 0.2);
+	float vert_padd = 0.1;
+	vec2 rel_pos = vec2((1-rel_size.x)/2.f, 0.2);
 
-	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
-	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
-
-	// Play Button
-	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 300.0f), initialButtonSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(Assets::playButton), vec3(1.0f)));
-
-	// Quit Button
-	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 2, 600.0f), initialButtonSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(Assets::quitButton), vec3(1.0f)));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::playButton, Assets::spriteShader));
+	rel_pos.y += rel_size.y + vert_padd;
+	buttons.push_back(Button(rel_pos, rel_size, Assets::quitButton, Assets::spriteShader));
+	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
 void MainMenu::UpdateMenu()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
 
-	// If shader isn't in use, tell OpenGL to use the program and set the bool to true for updating the uniform variables
-	if (!shaderIsCurrentlyUsed)
-	{
-		glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
-
-		shaderIsCurrentlyUsed = true;
+	// update buttons
+	for (Button& btn : buttons){
+		btn.Update();
 	}
 
-	// If shader is used, update the projection matrix to match the window's resolution
-	else if (shaderIsCurrentlyUsed)
-	{
-		projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(), 
-			(float)Window::Instance()->GetWindowHeight(), 0.0f,
-			-1.0f, 1.0f);
-
-		glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
-
-		glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
-			1, GL_FALSE, value_ptr(projection));
-	}
-
-	// Update the buttons positions based on the window resolution
-	buttons[0]->position = vec2(Window::Instance()->GetWindowWidth() / 2, Window::Instance()->GetWindowHeight() / 3);
-	buttons[1]->position = vec2(Window::Instance()->GetWindowWidth() / 2, Window::Instance()->GetWindowHeight() / 1.5);
-
-	// Update the buttons sizes based on the window resolution
-	
-	buttons[0]->size = initialButtonSize*Window::Instance()->GetWindowSize();
-	buttons[1]->size = initialButtonSize*Window::Instance()->GetWindowSize();
-
-	// Press the play button with the left mouse button
-	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && 
-		Window::Instance()->GetMousePositionX() >= buttons[0]->position.x && 
-		Window::Instance()->GetMousePositionX() <= buttons[0]->position.x + buttons[0]->size.x &&
-		Window::Instance()->GetMousePositionY() >= buttons[0]->position.y && 
-		Window::Instance()->GetMousePositionY() <= buttons[0]->position.y + buttons[0]->size.y)
-	{
+	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = GAME;
 	}
-
-	// Or press play with the right mouse button
-	else if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= buttons[0]->position.x &&
-		Window::Instance()->GetMousePositionX() <= buttons[0]->position.x + buttons[0]->size.x &&
-		Window::Instance()->GetMousePositionY() >= buttons[0]->position.y &&
-		Window::Instance()->GetMousePositionY() <= buttons[0]->position.y + buttons[0]->size.y)
-	{
-		Window::Instance()->state = GAME;
-	}
-
-	// Press the quit button with the left mouse button
-	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= buttons[1]->position.x &&
-		Window::Instance()->GetMousePositionX() <= buttons[1]->position.x + buttons[1]->size.x &&
-		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
-		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
-	{
-		Window::Instance()->state = QUIT_CONF;
-	}
-
-	// Or press quit with the right mouse button
-	else if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= buttons[1]->position.x &&
-		Window::Instance()->GetMousePositionX() <= buttons[1]->position.x + buttons[1]->size.x &&
-		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
-		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
-	{
+	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = QUIT_CONF;
 	}
 
@@ -139,13 +61,22 @@ void MainMenu::UpdateMenu()
 
 void MainMenu::RenderMenu()
 {
-	// Render the play button
-	buttonSpriteRenderers[0]->DrawSprite(buttons[0]->sprite, buttons[0]->position,
-		buttons[0]->size, 0.0f, buttons[0]->color);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
 
-	// Render the quit button
-	buttonSpriteRenderers[1]->DrawSprite(buttons[1]->sprite, buttons[1]->position,
-		buttons[1]->size, 0.0f, buttons[1]->color);
+	// update projection
+	auto projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(), 
+	(float)Window::Instance()->GetWindowHeight(), 0.0f,
+	-1.0f, 1.0f);
+
+	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
+
+	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
+		1, GL_FALSE, value_ptr(projection));
+
+	for (Button& btn : buttons){
+		btn.Draw(*UserInterface::UiRendererInstance());
+	}
 }
 
 void MainMenu::DeleteMainMenuInstance()

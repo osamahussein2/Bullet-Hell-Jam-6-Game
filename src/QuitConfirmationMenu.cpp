@@ -6,7 +6,7 @@ QuitConfirmationMenu* QuitConfirmationMenu::quitConfirmationMenuInstance = nullp
 
 mat4 nothingInQuitPrompt = mat4(0.0f);
 
-QuitConfirmationMenu::QuitConfirmationMenu() : Menu(), projection(nothingInQuitPrompt), shaderIsCurrentlyUsed(false)
+QuitConfirmationMenu::QuitConfirmationMenu() : Menu()
 {
 
 }
@@ -15,30 +15,8 @@ QuitConfirmationMenu::~QuitConfirmationMenu()
 {
 	quitConfirmationMenuInstance = nullptr;
 
-	if (!buttonSpriteRenderers.empty())
-	{
-		buttonSpriteRenderers.clear();
-		buttonSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
-	}
-
-	if (!buttons.empty())
-	{
-		buttons.clear();
-		buttons = vector<UserInterface*>();
-	}
-
-	if (!textSpriteRenderers.empty())
-	{
-		textSpriteRenderers.clear();
-		textSpriteRenderers = vector<SpriteRenderer*>(); // Deallocate the memory of this vector
-	}
-
-	if (!texts.empty())
-	{
-		texts.clear();
-		texts = vector<UserInterface*>(); // Deallocate the memory of this vector
-	}
-
+	buttons.clear();
+	texts.clear();
 }
 
 QuitConfirmationMenu* QuitConfirmationMenu::Instance()
@@ -54,106 +32,39 @@ QuitConfirmationMenu* QuitConfirmationMenu::Instance()
 
 void QuitConfirmationMenu::InitializeMenu()
 {
-	shaderIsCurrentlyUsed = false;
+	
+	vec2 rel_text_size = vec2(0.6, 0.2);
+	vec2 rel_pos = vec2((1-rel_text_size.x)/2.f, 0.05);
+	texts.push_back(UserInterface(rel_pos, rel_text_size, Assets::quitConfirmationText, Assets::spriteShader));
 
-	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
-	buttonSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
+	vec2 rel_size = vec2(0.3, 0.2);
+	float vert_padd = 0.1; // padding
+	rel_pos.x = (1-rel_size.x)/2.f;
+	rel_pos.y += rel_text_size.y + vert_padd;
 
-	textSpriteRenderers.push_back(new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), true));
-
-	// Yes Button
-	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 3, 
-		Window::Instance()->GetWindowHeight() / 2), initialButtonSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(Assets::yesButton), vec3(1.0f)));
-
-	// No Button
-	buttons.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 1.5, 
-		Window::Instance()->GetWindowHeight() / 2), initialButtonSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(Assets::noButton), vec3(1.0f)));
-
-	// Quit Confirmation Text
-	texts.push_back(new UserInterface(vec2(Window::Instance()->GetWindowWidth() / 3,
-		Window::Instance()->GetWindowHeight() / 3), initialQuitConfirmationTextSize*Window::Instance()->GetWindowSize(),
-		ResourceManager::GetTexture(Assets::quitConfirmationText), vec3(1.0f)));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::yesButton, Assets::spriteShader));
+	rel_pos.y += rel_size.y + vert_padd;
+	buttons.push_back(Button(rel_pos, rel_size, Assets::noButton, Assets::spriteShader));
+	
+	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
 void QuitConfirmationMenu::UpdateMenu()
 {
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	// If shader isn't in use, tell OpenGL to use the program and set the bool to true for updating the uniform variables
-	if (!shaderIsCurrentlyUsed)
-	{
-		glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
-
-		shaderIsCurrentlyUsed = true;
+	
+	// update buttons
+	for (Button& btn : buttons){
+		btn.Update();
+	}
+	
+	for (UserInterface& text : texts){
+		text.Update();
 	}
 
-	// If shader is used, update the projection matrix to match the window's resolution
-	else if (shaderIsCurrentlyUsed)
-	{
-		projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(),
-			(float)Window::Instance()->GetWindowHeight(), 0.0f,
-			-1.0f, 1.0f);
-
-		glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
-
-		glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
-			1, GL_FALSE, value_ptr(projection));
-	}
-
-	// Update the texts positions based on the window resolution
-	texts[0]->position = vec2(Window::Instance()->GetWindowWidth() / 3, Window::Instance()->GetWindowHeight() / 4);
-
-	// Update the texts sizes based on the window resolution
-	texts[0]->size = initialQuitConfirmationTextSize * Window::Instance()->GetWindowSize();
-
-	// Update the buttons positions based on the window resolution
-	buttons[0]->position = vec2(Window::Instance()->GetWindowWidth() / 3, Window::Instance()->GetWindowHeight() / 2);
-	buttons[1]->position = vec2(Window::Instance()->GetWindowWidth() / 1.5, Window::Instance()->GetWindowHeight() / 2);
-
-	// Update the buttons sizes based on the window resolution
-	buttons[0]->size = initialButtonSize * Window::Instance()->GetWindowSize();
-	buttons[1]->size = initialButtonSize * Window::Instance()->GetWindowSize();
-
-	// Press the yes button with the left mouse button
-	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= buttons[0]->position.x &&
-		Window::Instance()->GetMousePositionX() <= buttons[0]->position.x + buttons[0]->size.x &&
-		Window::Instance()->GetMousePositionY() >= buttons[0]->position.y &&
-		Window::Instance()->GetMousePositionY() <= buttons[0]->position.y + buttons[0]->size.y)
-	{
+	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
 		glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
 	}
-
-	// Or press yes with the right mouse button
-	else if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= buttons[0]->position.x &&
-		Window::Instance()->GetMousePositionX() <= buttons[0]->position.x + buttons[0]->size.x &&
-		Window::Instance()->GetMousePositionY() >= buttons[0]->position.y &&
-		Window::Instance()->GetMousePositionY() <= buttons[0]->position.y + buttons[0]->size.y)
-	{
-		glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
-	}
-
-	// Press the no button with the left mouse button
-	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= buttons[1]->position.x &&
-		Window::Instance()->GetMousePositionX() <= buttons[1]->position.x + buttons[1]->size.x &&
-		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
-		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
-	{
-		Window::Instance()->state = MAIN_MENU;
-	}
-
-	// Or press no with the right mouse button
-	else if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= buttons[1]->position.x &&
-		Window::Instance()->GetMousePositionX() <= buttons[1]->position.x + buttons[1]->size.x &&
-		Window::Instance()->GetMousePositionY() >= buttons[1]->position.y &&
-		Window::Instance()->GetMousePositionY() <= buttons[1]->position.y + buttons[1]->size.y)
-	{
+	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = MAIN_MENU;
 	}
 
@@ -166,17 +77,27 @@ void QuitConfirmationMenu::UpdateMenu()
 
 void QuitConfirmationMenu::RenderMenu()
 {
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
 	// Render the quit confirmation text
-	textSpriteRenderers[0]->DrawSprite(texts[0]->sprite, texts[0]->position,
-		texts[0]->size, 0.0f, texts[0]->color);
+	// update projection
+	auto projection = ortho(0.0f, (float)Window::Instance()->GetWindowWidth(),
+		(float)Window::Instance()->GetWindowHeight(), 0.0f,
+		-1.0f, 1.0f);
 
-	// Render the yes button
-	buttonSpriteRenderers[0]->DrawSprite(buttons[0]->sprite, buttons[0]->position,
-		buttons[0]->size, 0.0f, buttons[0]->color);
+	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
 
-	// Render the no button
-	buttonSpriteRenderers[1]->DrawSprite(buttons[1]->sprite, buttons[1]->position,
-		buttons[1]->size, 0.0f, buttons[1]->color);
+	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
+		1, GL_FALSE, value_ptr(projection));
+
+
+	for (Button& btn : buttons){
+		btn.Draw(*UserInterface::UiRendererInstance());
+	}
+
+	for (UserInterface& text : texts){
+		text.Draw(*UserInterface::UiRendererInstance());
+	}
 }
 
 void QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance()

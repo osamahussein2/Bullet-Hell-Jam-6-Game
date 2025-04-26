@@ -15,12 +15,20 @@ uniform int columns;
 uniform int rows;
 uniform int frame;
 
+uniform int hor_flip;
+uniform int vert_flip;
+
 void main()
 {
 	vec2 frame_size = 1.0/vec2(columns, rows); // size of one tile
 
-	vec2 frame_tex = fs_variables.texCoords*frame_size+vec2(0.0, -rows+1)*frame_size;
+	vec2 frame_tex = fs_variables.texCoords*frame_size+vec2(
+			(1-columns)*hor_flip, (1-vert_flip)*(-rows+1)
+		)*frame_size;
 	vec2 uv = vec2(1.0 - frame_tex.x, frame_tex.y);
+	// conditional flip
+	uv.x = hor_flip - (hor_flip*2-1)*uv.x;
+	uv.y = vert_flip - (vert_flip*2-1)*uv.y;
 
 	int col = frame % columns;
 	int row = frame / columns;

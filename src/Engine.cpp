@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "ResourceManager.h"
+#include "Assets.h"
 
 //#include <Windows.h>
 

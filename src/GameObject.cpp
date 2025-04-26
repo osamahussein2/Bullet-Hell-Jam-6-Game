@@ -1,10 +1,11 @@
 #include "GameObject.h"
+#include "ResourceManager.h"
 
 GameObject::GameObject(vec2 pos_, vec2 size_, unsigned int sprite_, vec3 color_, vec2 velocity_)
 {
 	position = pos_;
 	size = size_;
-	sprite = sprite_;
+	sprite = ResourceManager::GetTexture(sprite_);
 	color = color_;
 	velocity = velocity_;
 

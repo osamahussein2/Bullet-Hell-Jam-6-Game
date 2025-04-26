@@ -22,13 +22,4 @@ private:
 	MainMenu();
 
 	static MainMenu* mainMenuInstance;
-
-	vector<UserInterface*> buttons;
-	vector<SpriteRenderer*> buttonSpriteRenderers;
-
-	mat4& projection;
-
-	bool shaderIsCurrentlyUsed;
-
-	const vec2 initialButtonSize = vec2(0.2, 0.2f); // relative to window size
 };

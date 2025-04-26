@@ -1,14 +1,35 @@
 #include "UserInterface.h"
+#include "Window.h"
+#include "ResourceManager.h"
+#include "Assets.h"
 
-UserInterface::UserInterface(vec2 pos_, vec2 size_, unsigned int sprite_, vec3 color_)
+SpriteRenderer *UserInterface::uiRendererInstance = nullptr;
+
+SpriteRenderer *UserInterface::UiRendererInstance()
 {
-	position = pos_;
-	size = size_;
-	sprite = sprite_;
+	if (uiRendererInstance == nullptr)
+	{
+		uiRendererInstance = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, false);
+	}
+  
+	return uiRendererInstance;
+}
+
+UserInterface::UserInterface(vec2 rel_pos_, vec2 rel_size_, unsigned int sprite_, unsigned int shader_, vec3 color_)
+{
+	rel_pos = rel_pos_;
+	rel_size = rel_size_;
+	sprite = ResourceManager::GetTexture(sprite_);
 	color = color_;
 }
 
-void UserInterface::DrawSprite(SpriteRenderer& renderer_)
+void UserInterface::Update()
+{
+    position = rel_pos * Window::Instance()->GetWindowSize();
+    size = rel_size * Window::Instance()->GetWindowSize();
+}
+
+void UserInterface::Draw(SpriteRenderer& renderer_)
 {
 	renderer_.DrawSprite(sprite, position, size, 0.0f, color);
 }

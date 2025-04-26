@@ -79,6 +79,7 @@ void Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   MainMenu::Instance()->InitializeMenu();
   QuitConfirmationMenu::Instance()->InitializeMenu();
   Game::Instance()->InitializeGame();
+  
 }
 
 void Window::UpdateWindow()
@@ -90,30 +91,26 @@ void Window::UpdateWindow()
   lastFrame = currentFrame; // Get the time of the last frame
 
   glfwPollEvents(); // Waits for any input by the user and processes it in real-time
+  glfwGetCursorPos(openGLwindow, &mousePosX, &mousePosY);
+
   Input::Update();
 
   switch (state){
     case MAIN_MENU:
-        {
-          //std::cout<<"MAIN_MENU\n";
-          MainMenu::Instance()->UpdateMenu();
-          MainMenu::Instance()->RenderMenu();
-        }
+        //std::cout<<"MAIN_MENU\n";
+        MainMenu::Instance()->UpdateMenu();
+        MainMenu::Instance()->RenderMenu();
         break;
     case QUIT_CONF:
-        {
-          //std::cout<<"QUIT_CONF\n";
-          QuitConfirmationMenu::Instance()->UpdateMenu();
-          QuitConfirmationMenu::Instance()->RenderMenu();
-        }
+        //std::cout<<"QUIT_CONF\n";
+        QuitConfirmationMenu::Instance()->UpdateMenu();
+        QuitConfirmationMenu::Instance()->RenderMenu();
         break;
     case GAME:
-        {
-          //std::cout<<"GAME\n";
-          Game::Instance()->UpdateGame(deltaTime);
-          Game::Instance()->HandleInput(deltaTime);
-          Game::Instance()->RenderGame(deltaTime);
-        }
+        //std::cout<<"GAME\n";
+        Game::Instance()->HandleInput(deltaTime);
+        Game::Instance()->UpdateGame(deltaTime);
+        Game::Instance()->RenderGame(deltaTime);
         break;
   }
 
@@ -134,17 +131,6 @@ void Window::KeyCallback(GLFWwindow* window, int key, int scancode, int action, 
 
 void Window::MouseButtonCallback(GLFWwindow* window, int button, int action, int mode)
 {
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
-    {
-        glfwGetCursorPos(window, &mousePosX, &mousePosY);
-        //cout << "Cursor Position at (" << mousePosX << " : " << mousePosY << endl;
-    }
-
-    else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
-    {
-        glfwGetCursorPos(window, &mousePosX, &mousePosY);
-        //cout << "Cursor Position at (" << mousePosX << " : " << mousePosY << endl;
-    }
 }
 
 void Window::WindowSizeCallback(GLFWwindow* window, int width, int height)

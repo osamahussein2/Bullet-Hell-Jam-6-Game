@@ -28,6 +28,7 @@ public:
 
 	float GetMousePositionX();
 	float GetMousePositionY();
+	glm::vec2 GetMousePosition() { return glm::vec2(GetMousePositionX(), GetMousePositionY()); }
 
 	float GetWindowWidth();
 	float GetWindowHeight();

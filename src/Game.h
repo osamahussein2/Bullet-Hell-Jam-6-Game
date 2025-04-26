@@ -24,14 +24,12 @@ private:
 	static Game* gameInstance;
 
 	SpriteRenderer* playerSpriteRenderer;
-	vector<SpriteRenderer*> healthSpriteRenderers;
 
 	GameObject* player;
 
-	vector<UserInterface*> healthBars;
+	vector<UserInterface> healthBars = {};
 
-	mat4& projection;
-
+	int maxPlayerHealth;
 	int playerHealth;
 
 	float timer;

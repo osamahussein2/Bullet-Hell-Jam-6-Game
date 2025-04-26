@@ -1,38 +1,23 @@
 #include "SpriteRenderer.h"
 
-SpriteRenderer::SpriteRenderer(Shader shader_, bool spriteFlip_, bool animated_) : animated(animated_), animation()
+SpriteRenderer::SpriteRenderer(Shader shader_, bool hor_flip_, bool vert_flip_, bool animated_) : 
+animated(animated_), animation(), hor_flip(hor_flip_), vert_flip(vert_flip_)
 {
 	spriteShader = shader_;
 
-	if (spriteFlip_ == false)
+	vertices =
 	{
-		vertices =
-		{
-			// position // texture coordinates
-			0.0f, 1.0f, 0.0f, -1.0f,
-			1.0f, 0.0f, -1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.0f,
+		// position // texture coordinates
+		0.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, 0.0f, -1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f,
 
-			0.0f, 1.0f, 0.0f, -1.0f,
-			1.0f, 1.0f, -1.0f, -1.0f,
-			1.0f, 0.0f, -1.0f, 0.0f
-		};
-	}
+		0.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, 1.0f, -1.0f, 1.0f,
+		1.0f, 0.0f, -1.0f, 0.0f
+	};
+	
 
-	else if (spriteFlip_ == true)
-	{
-		vertices =
-		{
-			// position // texture coordinates
-			0.0f, 1.0f, 0.0f, 1.0f,
-			1.0f, 0.0f, -1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 0.0f,
-
-			0.0f, 1.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, -1.0f, 1.0f,
-			1.0f, 0.0f, -1.0f, 0.0f
-		};
-	}
 
 	// Send the vertices to the GPU and configure the vertex attributes
 	glGenVertexArrays(1, &spriteVAO);
@@ -91,6 +76,8 @@ void SpriteRenderer::DrawSprite(unsigned int texture_, vec2 position_, vec2 size
 		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "frame"), 0);	
 	}
 	
+	glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "hor_flip"), hor_flip);	
+	glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "vert_flip"), vert_flip);	
 	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture_);
