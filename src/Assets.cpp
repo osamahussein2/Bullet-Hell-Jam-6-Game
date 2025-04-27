@@ -1,25 +1,31 @@
 #include "Assets.h"
+#include <string>
 
 void Assets::LoadAssets()
 {
+
+	#ifdef __EMSCRIPTEN__
 	// Load shaders
-	ResourceManager::LoadShader("SpriteRendererVS.glsl", "SpriteRendererFS.glsl", spriteShader);
+	ResourceManager::LoadShader("assets/Shaders23/SpriteRendererVS.glsl", "assets/Shaders23/SpriteRendererFS.glsl", spriteShader);
+	#else
+	ResourceManager::LoadShader("assets/Shaders46/SpriteRendererVS.glsl", "assets/Shaders46/SpriteRendererFS.glsl", spriteShader);
+	#endif
 
 	// Load textures
-	ResourceManager::LoadTexture("Textures/example_spritesheet.png", playerTexture);
-	ResourceManager::LoadTexture("Textures/image.png", playerTexture2);
-	ResourceManager::LoadTexture("Textures/Health bar.png", healthBarTexture);
-	ResourceManager::LoadTexture("Textures/Current health.png", currentHealthTexture);
+	ResourceManager::LoadTexture("assets/Textures/example_spritesheet.png", playerTexture);
+	ResourceManager::LoadTexture("assets/Textures/image.png", playerTexture2);
+	ResourceManager::LoadTexture("assets/Textures/Health bar.png", healthBarTexture);
+	ResourceManager::LoadTexture("assets/Textures/Current health.png", currentHealthTexture);
 
-	ResourceManager::LoadTexture("Buttons/Play Button.png", playButton);
-	ResourceManager::LoadTexture("Buttons/Quit Button.png", quitButton);
+	ResourceManager::LoadTexture("assets/Buttons/Play Button.png", playButton);
+	ResourceManager::LoadTexture("assets/Buttons/Quit Button.png", quitButton);
 	
-	ResourceManager::LoadTexture("Buttons/Yes Button.png", yesButton);
-	ResourceManager::LoadTexture("Buttons/No Button.png", noButton);
-	ResourceManager::LoadTexture("Text Images/Quit Confirmation Text.png", quitConfirmationText);
+	ResourceManager::LoadTexture("assets/Buttons/Yes Button.png", yesButton);
+	ResourceManager::LoadTexture("assets/Buttons/No Button.png", noButton);
+	ResourceManager::LoadTexture("assets/Text Images/Quit Confirmation Text.png", quitConfirmationText);
 
 	// Load music
-	ma_sound* default_music = ResourceManager::LoadMusic("Music/Anxiety.wav", anxietyMusic);
+	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
 	Audio::Instance()->PlayMusic(default_music);
 	ma_sound_set_volume(default_music, 0.15f);
 }

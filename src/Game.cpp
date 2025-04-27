@@ -15,7 +15,8 @@ Game::~Game()
 {
 	gameInstance = nullptr;
 
-	delete playerSpriteRenderer, player;
+	delete playerSpriteRenderer;
+	delete player;
 
 	healthBars.clear();
 }

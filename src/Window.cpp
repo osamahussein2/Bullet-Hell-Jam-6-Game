@@ -48,13 +48,18 @@ Window* Window::Instance()
 void Window::InitializeWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share)
 {
   glfwInit();
+  #ifdef __EMSCRIPTEN__
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+  #else
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+  #endif
+  
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   // Create a GLFW window to render it to the screen
   openGLwindow = glfwCreateWindow(width, height, title, monitor, share);
-
 
   // If our GLFWwindow is NULL, write to the console the window cannot be created and close down GLFW library
   if (openGLwindow == NULL)
@@ -64,11 +69,16 @@ void Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   }
 
   glfwMakeContextCurrent(openGLwindow);
-
+  #ifdef __EMSCRIPTEN__
+  if (!gladLoadGLES2Loader((GLADloadproc)glfwGetProcAddress)){
+    cout << "GLAD_GLES2 cannot be initialized!" << endl;
+  }
+  #else
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
   {
     cout << "GLAD cannot be initialized!" << endl;
   }
+  #endif
 
   glfwSetWindowSizeCallback(openGLwindow, WindowSizeCallback);
   glfwSetKeyCallback(openGLwindow, KeyCallback);
@@ -85,7 +95,6 @@ void Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   MainMenu::Instance()->InitializeMenu();
   QuitConfirmationMenu::Instance()->InitializeMenu();
   Game::Instance()->InitializeGame();
-  
 }
 
 void Window::UpdateWindow()

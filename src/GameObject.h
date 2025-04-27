@@ -1,7 +1,6 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include <glad/glad.h>
 #include <glm.hpp>
 
 #include "SpriteRenderer.h"

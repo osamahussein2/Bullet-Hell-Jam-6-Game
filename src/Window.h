@@ -70,8 +70,8 @@ private:
 	static double mousePosX, mousePosY;
 	static int windowWidth, windowHeight;
 
-	const float& initialWindowWidth = 1200.0f;
-	const float& initialWindowHeight = 900.0f;
+	const float initialWindowWidth = 1200.0f;
+	const float initialWindowHeight = 900.0f;
 };
 
 typedef Window WindowInfo;

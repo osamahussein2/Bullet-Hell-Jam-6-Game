@@ -1,7 +1,6 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 
-#include <glad/glad.h>
 #include <glm.hpp>
 
 #include "SpriteRenderer.h"

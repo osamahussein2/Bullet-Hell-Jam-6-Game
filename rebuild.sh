@@ -1,5 +1,3 @@
-mkdir build -p && cd build
-cmake ..
-make
-cp -r BulletHellGame ..
-cd ..
+cmake -B build -DBUILD_TARGET=desktop
+cmake --build build
+cp -r build/BulletHellGame ./
