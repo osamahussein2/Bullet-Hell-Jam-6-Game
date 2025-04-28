@@ -1,0 +1,1 @@
+cd build && zip BulletHellGameV0.1.zip index.*
