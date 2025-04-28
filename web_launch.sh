@@ -1,1 +1,1 @@
-emrun build/BulletHellGame.html --browser chromium
+emrun build/index.html --browser chromium

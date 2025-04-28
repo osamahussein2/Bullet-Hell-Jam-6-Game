@@ -5,6 +5,10 @@
 
 class Assets{
 public:
+    // sounds, might not be the best way to do it
+    static const char* bip_sound;
+
+public:
 
     static void LoadAssets();
 

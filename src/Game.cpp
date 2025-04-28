@@ -130,7 +130,7 @@ void Game::UpdateGame(float deltaTime_)
 void Game::HandleInput(float deltaTime_)
 {
 	if (Input::IsKeyPressed(GLFW_KEY_SPACE)){
-		Audio::Instance()->PlaySound("assets/Sounds/sound.wav");
+		Audio::Instance()->PlaySound(Assets::bip_sound);
 	}
 
 	vec2 direction = vec2(0.0f);

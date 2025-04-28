@@ -1,5 +1,6 @@
 #include "Button.h"
 #include "Window.h"
+#include "Assets.h"
 
 void Button::Update()
 {   
@@ -17,13 +18,13 @@ void Button::Update()
         if (pressed) {
             state = BTN_PRESSED;
             if (prev_state != BTN_PRESSED){
-                Audio::Instance()->PlaySound("assets/Sounds/sound.wav");
+                Audio::Instance()->PlaySound(Assets::bip_sound);
             }
         }
         else {
             state = BTN_HOVERED;
             if (prev_state == BTN_DEFAULT){
-                Audio::Instance()->PlaySound("assets/Sounds/sound.wav");
+                Audio::Instance()->PlaySound(Assets::bip_sound);
             }
         }
     }

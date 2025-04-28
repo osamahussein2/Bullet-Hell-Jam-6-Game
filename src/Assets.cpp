@@ -1,6 +1,8 @@
 #include "Assets.h"
 #include <string>
 
+const char* Assets::bip_sound = "assets/Sounds/sound.wav";
+
 void Assets::LoadAssets()
 {
 

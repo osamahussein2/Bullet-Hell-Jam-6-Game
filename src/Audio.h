@@ -18,7 +18,6 @@ public:
     ma_engine* GetAudioEngine() { return &engine; }
 
     void Clear();
-    
 private:
     Audio();
 
