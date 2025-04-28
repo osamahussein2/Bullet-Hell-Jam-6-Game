@@ -9,4 +9,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -sMAX_WEBGL_VERSION=2")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -sMAX_WEBGL_VERSION=2 --preload-file assets --shell-file shell.html")
+set(CMAKE_EXECUTABLE_NAME "index")
 set(CMAKE_EXECUTABLE_SUFFIX ".html")

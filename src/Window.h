@@ -22,7 +22,7 @@ public:
 	static void DeleteWindowInstance();
 
 	// Initialize OpenGL window here
-	void InitializeWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share);
+	bool InitializeWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share);
 
 	void UpdateWindow();
 

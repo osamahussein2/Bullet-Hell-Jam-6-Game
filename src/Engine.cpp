@@ -41,16 +41,6 @@ void Engine::DeleteEngineInstance()
 void Engine::UpdateEngine()
 {
 	//FreeConsole(); // Don't make the console pop up before the glfw window pops up
-
-	WindowInfo::Instance()->InitializeWindow(1200, 900, "Bullet Hell Application", NULL, NULL);
-
-	/* While we don't want to close the GLFW window, process the input of our window, add our own background color
-	for the window, clear the color buffer bit to render our color to the window, swap the window's buffers,
-	process any events waiting for us to do something to it */
-	while (!glfwWindowShouldClose(glfwGetCurrentContext()))
-	{
-		WindowInfo::Instance()->UpdateWindow();
-	}
-
+	WindowInfo::Instance()->UpdateWindow();
 	// The engine is cleaned in it's destructor, which is called by "delete instance" in DeleteEngineInstance() 
 }

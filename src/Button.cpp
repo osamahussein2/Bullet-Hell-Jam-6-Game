@@ -17,13 +17,13 @@ void Button::Update()
         if (pressed) {
             state = BTN_PRESSED;
             if (prev_state != BTN_PRESSED){
-                Audio::Instance()->PlaySound("Sounds/sound.wav");
+                Audio::Instance()->PlaySound("assets/Sounds/sound.wav");
             }
         }
         else {
             state = BTN_HOVERED;
             if (prev_state == BTN_DEFAULT){
-                Audio::Instance()->PlaySound("Sounds/sound.wav");
+                Audio::Instance()->PlaySound("assets/Sounds/sound.wav");
             }
         }
     }

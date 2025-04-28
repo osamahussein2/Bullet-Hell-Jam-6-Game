@@ -21,10 +21,7 @@ uniform int vert_flip;
 void main()
 {
 	vec2 frame_size = 1.0/vec2(columns, rows); // size of one tile
-
-	vec2 frame_tex = fs_variables.texCoords*frame_size+vec2(
-			0, 0
-		)*frame_size;
+	vec2 frame_tex = fs_variables.texCoords*frame_size;
 	
 	vec2 uv = vec2(1.0 - frame_tex.x, frame_tex.y);
 	// conditional flip
