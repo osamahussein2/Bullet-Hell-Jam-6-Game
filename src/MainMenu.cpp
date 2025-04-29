@@ -39,7 +39,6 @@ void MainMenu::InitializeMenu()
 
 void MainMenu::UpdateMenu()
 {
-
 	// update buttons
 	for (Button& btn : buttons){
 		btn.Update();
@@ -52,10 +51,18 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->state = QUIT_CONF;
 	}
 
-	// Releasing the ESCAPE key will also take the player to the quit confirmation screen
-	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE))
+	// Releasing the ESCAPE key will not register a key press anymore
+	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE) && Window::Instance()->keyRegistered)
+	{
+		Window::Instance()->keyRegistered = false;
+	}
+
+	// Pressing the ESCAPE key will also take the player to the quit confirmation screen
+	else if (Input::IsKeyPressed(GLFW_KEY_ESCAPE) && !Window::Instance()->keyRegistered)
 	{
 		Window::Instance()->state = QUIT_CONF;
+
+		Window::Instance()->keyRegistered = true;
 	}
 }
 

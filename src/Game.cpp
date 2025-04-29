@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Window.h"
+#include "PauseMenu.h"
 #include "Audio.h"
 #include "Input.h"
 #include "Assets.h"
@@ -150,6 +151,20 @@ void Game::HandleInput(float deltaTime_)
 
 	if (Input::IsKeyDown(GLFW_KEY_D) || Input::IsKeyDown(GLFW_KEY_RIGHT)) {
 		direction.x = 1.0f;
+	}
+
+	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE) && Window::Instance()->keyRegistered ||
+		Input::IsKeyReleased(GLFW_KEY_ENTER) && Window::Instance()->keyRegistered)
+	{
+		Window::Instance()->keyRegistered = false;
+	}
+
+	else if (Input::IsKeyDown(GLFW_KEY_ESCAPE) && !Window::Instance()->keyRegistered || 
+		Input::IsKeyDown(GLFW_KEY_ENTER) && !Window::Instance()->keyRegistered)
+	{
+		Window::Instance()->state = PAUSE_MENU;
+
+		Window::Instance()->keyRegistered = true;
 	}
 
 	if (direction != vec2(0.f)) direction = normalize(direction);

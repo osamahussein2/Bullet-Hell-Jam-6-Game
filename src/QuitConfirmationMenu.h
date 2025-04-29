@@ -23,6 +23,23 @@ private:
 
 	static QuitConfirmationMenu* quitConfirmationMenuInstance;
 	std::vector<UserInterface> texts = {};
-	
+};
 
+class QuitToMainMenuConfirmationMenu : public Menu
+{
+public:
+	virtual ~QuitToMainMenuConfirmationMenu();
+
+	static QuitToMainMenuConfirmationMenu* Instance();
+	static void DeleteQuitToMainMenuConfirmationMenuInstance();
+
+	virtual void InitializeMenu();
+	virtual void UpdateMenu();
+	virtual void RenderMenu();
+
+private:
+	QuitToMainMenuConfirmationMenu();
+
+	static QuitToMainMenuConfirmationMenu* quitToMainMenuConfirmationMenuInstance;
+	std::vector<UserInterface> texts = {};
 };

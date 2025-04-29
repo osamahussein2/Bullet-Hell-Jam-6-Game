@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "MainMenu.h"
 #include "QuitConfirmationMenu.h"
+#include "PauseMenu.h"
 #include "Input.h"
 #include "Assets.h"
 
@@ -17,11 +18,7 @@ int Window::windowHeight = 900;
 int Window::GameWidth = 1600;
 int Window::GameHeight = 900;
 
-// Initialize 2 booleans for initializing the reference booleans with the game states
-bool falseBool = false;
-bool trueBool = true;
-
-Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL)
+Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL), keyRegistered(false)
 {
 }
 
@@ -30,6 +27,8 @@ Window::~Window()
   MainMenu::DeleteMainMenuInstance();
   QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance();
   Game::DeleteGameInstance();
+  PauseMenu::DeletePauseMenuInstance();
+  QuitToMainMenuConfirmationMenu::DeleteQuitToMainMenuConfirmationMenuInstance();
 
   // Close all GLFW-related stuff and perhaps terminate the whole program, maybe?
   glfwTerminate();
@@ -100,6 +99,8 @@ bool Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   MainMenu::Instance()->InitializeMenu();
   QuitConfirmationMenu::Instance()->InitializeMenu();
   Game::Instance()->InitializeGame();
+  PauseMenu::Instance()->InitializeMenu();
+  QuitToMainMenuConfirmationMenu::Instance()->InitializeMenu();
 
   return true;
 }
@@ -133,6 +134,16 @@ void Window::UpdateWindow()
         Game::Instance()->HandleInput(deltaTime);
         Game::Instance()->UpdateGame(deltaTime);
         Game::Instance()->RenderGame(deltaTime);
+        break;
+    case PAUSE_MENU:
+        //std::cout<<"PAUSE MENU\n";
+        PauseMenu::Instance()->UpdateMenu();
+        PauseMenu::Instance()->RenderMenu();
+        break;
+    case QUIT_TO_MAIN_MENU_CONF:
+        //std::cout<<"QUIT TO MAIN MENU CONF\n";
+        QuitToMainMenuConfirmationMenu::Instance()->UpdateMenu();
+        QuitToMainMenuConfirmationMenu::Instance()->RenderMenu();
         break;
   }
 

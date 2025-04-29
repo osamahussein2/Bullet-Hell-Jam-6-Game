@@ -10,7 +10,9 @@
 enum AppState {
 	MAIN_MENU,
 	QUIT_CONF,
-	GAME
+	GAME,
+	PAUSE_MENU,
+	QUIT_TO_MAIN_MENU_CONF
 };
 
 class Window
@@ -43,6 +45,8 @@ public:
 
 	static int GameWidth;
 	static int GameHeight;
+
+	bool keyRegistered;
 
 private:
 	// Initialize the window's variables to be NULL first before we do anything with it
