@@ -18,7 +18,7 @@ int Window::windowHeight = 900;
 int Window::GameWidth = 1600;
 int Window::GameHeight = 900;
 
-Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL), keyRegistered(false)
+Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL)
 {
 }
 

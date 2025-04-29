@@ -50,20 +50,6 @@ void MainMenu::UpdateMenu()
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = QUIT_CONF;
 	}
-
-	// Releasing the ESCAPE key will not register a key press anymore
-	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE) && Window::Instance()->keyRegistered)
-	{
-		Window::Instance()->keyRegistered = false;
-	}
-
-	// Pressing the ESCAPE key will also take the player to the quit confirmation screen
-	else if (Input::IsKeyPressed(GLFW_KEY_ESCAPE) && !Window::Instance()->keyRegistered)
-	{
-		Window::Instance()->state = QUIT_CONF;
-
-		Window::Instance()->keyRegistered = true;
-	}
 }
 
 void MainMenu::RenderMenu()

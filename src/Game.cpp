@@ -153,18 +153,9 @@ void Game::HandleInput(float deltaTime_)
 		direction.x = 1.0f;
 	}
 
-	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE) && Window::Instance()->keyRegistered ||
-		Input::IsKeyReleased(GLFW_KEY_ENTER) && Window::Instance()->keyRegistered)
-	{
-		Window::Instance()->keyRegistered = false;
-	}
-
-	else if (Input::IsKeyDown(GLFW_KEY_ESCAPE) && !Window::Instance()->keyRegistered || 
-		Input::IsKeyDown(GLFW_KEY_ENTER) && !Window::Instance()->keyRegistered)
+	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		Window::Instance()->state = PAUSE_MENU;
-
-		Window::Instance()->keyRegistered = true;
 	}
 
 	if (direction != vec2(0.f)) direction = normalize(direction);

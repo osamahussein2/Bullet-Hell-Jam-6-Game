@@ -45,9 +45,6 @@ public:
 
 	static int GameWidth;
 	static int GameHeight;
-
-	bool keyRegistered;
-
 private:
 	// Initialize the window's variables to be NULL first before we do anything with it
 	Window();

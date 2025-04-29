@@ -72,22 +72,6 @@ void QuitConfirmationMenu::UpdateMenu()
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = MAIN_MENU;
 	}
-
-	// Releasing the key will not register the key
-	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE) && Window::Instance()->keyRegistered)
-	{
-		Window::Instance()->keyRegistered = false;
-	}
-
-	// Pressing the ESCAPE key will also quit the game
-	else if (Input::IsKeyPressed(GLFW_KEY_ESCAPE) && !Window::Instance()->keyRegistered)
-	{
-		glfwSetWindowShouldClose(glfwGetCurrentContext(), true);
-
-		Window::Instance()->keyRegistered = true;
-	}
-
-
 }
 
 void QuitConfirmationMenu::RenderMenu()
@@ -189,12 +173,6 @@ void QuitToMainMenuConfirmationMenu::UpdateMenu()
 	}
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = PAUSE_MENU;
-	}
-
-	// Pressing the ESCAPE key will also take the player to the main menu
-	if (Input::IsKeyDown(GLFW_KEY_ESCAPE))
-	{
-		Window::Instance()->state = MAIN_MENU;
 	}
 }
 

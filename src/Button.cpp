@@ -41,10 +41,10 @@ void Button::Draw(SpriteRenderer& renderer_)
             color = vec3(1.0);
             break;
         case BTN_HOVERED:
-            color = vec3(0.5);
+            color = vec3(0.7);
             break;
         case BTN_PRESSED:
-            color = vec3(0.1);
+            color = vec3(0.3);
             break;
     }
 

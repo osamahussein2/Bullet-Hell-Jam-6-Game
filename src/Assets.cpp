@@ -34,5 +34,5 @@ void Assets::LoadAssets()
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
 	Audio::Instance()->PlayMusic(default_music);
-	ma_sound_set_volume(default_music, 0.15f);
+	ma_sound_set_volume(default_music, 0.1f);
 }

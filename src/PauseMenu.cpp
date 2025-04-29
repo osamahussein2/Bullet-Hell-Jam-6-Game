@@ -63,19 +63,9 @@ void PauseMenu::UpdateMenu()
 		Window::Instance()->state = QUIT_TO_MAIN_MENU_CONF;
 	}
 
-	// Releasing the ESCAPE or ENTER key will not register a key press anymore
-	if (Input::IsKeyReleased(GLFW_KEY_ESCAPE) && Window::Instance()->keyRegistered || 
-		Input::IsKeyReleased(GLFW_KEY_ENTER) && Window::Instance()->keyRegistered)
-	{
-		Window::Instance()->keyRegistered = false;
-	}
-
-	// Pressing the ESCAPE key will resume the game again
-	else if (Input::IsKeyPressed(GLFW_KEY_ESCAPE) && !Window::Instance()->keyRegistered)
+	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		Window::Instance()->state = GAME;
-
-		Window::Instance()->keyRegistered = true;
 	}
 }
 
