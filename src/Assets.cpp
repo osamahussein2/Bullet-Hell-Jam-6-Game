@@ -31,6 +31,8 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Text Images/Quit to Main Menu Confirmation Text.png", 
 		quitToMainMenuConfirmationText);
 
+	ResourceManager::LoadTexture("assets/Text Images/text_atlas.png", textAtlas);
+
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
 	Audio::Instance()->PlayMusic(default_music);

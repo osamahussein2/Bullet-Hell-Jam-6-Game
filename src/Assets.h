@@ -30,7 +30,8 @@ public:
 		quitConfirmationText = 8,
         resumeButton = 9,
         gamePauseText = 10,
-        quitToMainMenuConfirmationText = 11
+        quitToMainMenuConfirmationText = 11,
+        textAtlas = 12
     };
 
     enum MusicMapNumbers

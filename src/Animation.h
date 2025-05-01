@@ -56,6 +56,8 @@ public:
     void SetCurrentAnim(int current_anim_){ current_anim = current_anim_; }
     int GetCurrentAnim(){ return current_anim; }
     int GetNumberOfAnims() { return anims.size(); }
+
+    void SetFrame(int frame) { anims[current_anim].current_frame = frame; }
 };
 
 #endif

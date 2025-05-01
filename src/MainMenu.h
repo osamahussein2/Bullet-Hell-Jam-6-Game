@@ -4,6 +4,8 @@
 #include "UserInterface.h"
 #include "Input.h"
 
+#include "TextRenderer.h"
+
 #include <vector>
 
 class MainMenu : public Menu

@@ -50,6 +50,7 @@ void MainMenu::UpdateMenu()
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = QUIT_CONF;
 	}
+	//text_r.UpdateAnimation(1.0/60);
 }
 
 void MainMenu::RenderMenu()
@@ -70,6 +71,9 @@ void MainMenu::RenderMenu()
 	for (Button& btn : buttons){
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
+	
+	float rel_scale = 0.001;
+	TextRenderer::Instance()->DrawText("hell'o world 83% working text! !@#$%^&*()+-", vec2(100, 100), rel_scale * Window::Instance()->GetWindowSize().x);
 }
 
 void MainMenu::DeleteMainMenuInstance()
