@@ -12,8 +12,8 @@ float lastFrame = 0.f;
 double Window::mousePosX = 0;
 double Window::mousePosY = 0;
 
-int Window::windowWidth = 1200;
-int Window::windowHeight = 900;
+int Window::windowWidth = 0;
+int Window::windowHeight = 0;
 
 int Window::GameWidth = 1600;
 int Window::GameHeight = 900;
@@ -46,6 +46,8 @@ Window* Window::Instance()
 
 bool Window::InitializeWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share)
 {
+  windowWidth = width;
+  windowHeight = height;
   glfwInit();
   #ifdef __EMSCRIPTEN__
   glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);

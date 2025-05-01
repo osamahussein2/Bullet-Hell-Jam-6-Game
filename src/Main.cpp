@@ -18,10 +18,18 @@ int main()
 		return 1;
 	}
 
-	if (!WindowInfo::Instance()->InitializeWindow(1200, 900, "Bullet Hell Application", NULL, NULL)){
-		std::cerr << "Failed to initialize window\n";
-		return 1;
+	{
+		float scale = 1.0;
+		if (!WindowInfo::Instance()->InitializeWindow(
+				WindowInfo::Instance()->GetGameSize().x * scale,
+				WindowInfo::Instance()->GetGameSize().y * scale,
+			 	"Bullet Hell Application", NULL, NULL
+			)){
+			std::cerr << "Failed to initialize window\n";
+			return 1;
+		}
 	}
+	
 
 	#ifdef __EMSCRIPTEN__
 	emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
@@ -44,8 +52,4 @@ int main()
 
 void UpdateDrawFrame() {
 	Engine::Instance()->UpdateEngine();
-	//std::cout << "Window size: " << Window::Instance()->GetWindowSize().x << ", " << Window::Instance()->GetWindowSize().y << "\n";
-	#ifdef __EMSCRIPTEN__
-	EM_ASM(console.log("HI"));
-	#endif
 }

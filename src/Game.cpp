@@ -165,15 +165,13 @@ void Game::HandleInput(float deltaTime_)
 
 void Game::RenderGame(float deltaTime_)
 {
-	//glViewport(0,0,Window::Instance()->GetWindowWidth(),Window::Instance()->GetWindowHeight());
-
-
 	/***********************************************************************/
 	float winW = Window::Instance()->GetWindowWidth();
 	float winH = Window::Instance()->GetWindowHeight();
 
-	float gameW = 1600;
-	float gameH = 900;
+	
+	float gameW = Window::Instance()->GetGameSize().x;
+	float gameH = Window::Instance()->GetGameSize().y;
 
 	float game_aspect = gameW/gameH;
 	
@@ -185,17 +183,23 @@ void Game::RenderGame(float deltaTime_)
 	
 	float x = x_diff/2.f;
 	float y = y_diff/2.f;
-
+	
 	glViewport(0, 0, winW, winH);
 	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glEnable(GL_SCISSOR_TEST);
+	#ifdef __EMSCRIPTEN__ // on web just take the whole screen
+	glScissor(0, 0, winW, winH);
+	glViewport(0, 0, winW, winH);
+	glClearColor(1,1,1,1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	#else
 	glScissor(x, y, viewW, viewH);
 	glViewport(x, y, viewW, viewH);
 	glClearColor(1,1,1,1);
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+	#endif
 	glDisable(GL_SCISSOR_TEST);
 	/***********************************************************************/
 
