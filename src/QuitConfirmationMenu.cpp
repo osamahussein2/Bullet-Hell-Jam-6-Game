@@ -89,7 +89,7 @@ void QuitConfirmationMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 
-	TextRenderer::Instance()->DrawTextRelCent("quitting", vec2(0.5, 0.1), 0.004);
+	TextRenderer::Instance()->DrawTextRelCent("quit?", vec2(0.5, 0.1), 0.004);
 }
 
 void QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance()

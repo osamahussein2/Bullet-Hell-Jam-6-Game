@@ -18,14 +18,17 @@ void TextRenderer::DrawChar(char letter, float x, float y, float w, float h)
     if (letter == ' ') {
         GetAnimationHandler()->SetFrame(36);
     }
-    else if (index >= 97 && index <= 122){
+    else if (index >= 97 && index <= 122){ // abcefgh...
         GetAnimationHandler()->SetFrame(index-97);
     }
-    else if (index >= 48 && index <= 57){
+    else if (index >= 48 && index <= 57){ // 0123456789
         GetAnimationHandler()->SetFrame(index-48+26);
     }
-    else if (index >= 33 && index <= 47){
+    else if (index >= 33 && index <= 47){ // some special characters (but not all of them)
         GetAnimationHandler()->SetFrame(index-33+37);
+    }
+    else if (index == 63){ // question mark, special case for now
+        GetAnimationHandler()->SetFrame(52);
     }
     DrawSprite(atlas, vec2(x, y), vec2(w, h), 0.f, vec3(1.0, 1.0, 1.0));
 }

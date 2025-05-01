@@ -25,9 +25,9 @@ public:
         
         GetAnimationHandler()->AddAnimation( AnimationData{
             13, // columns
-            4, // rows
+            5, // rows
             0, // y_pos
-            60, // frames
+            65, // frames
             5.f // fps
             }   
         );
