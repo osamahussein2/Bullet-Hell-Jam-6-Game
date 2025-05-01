@@ -35,7 +35,11 @@ public:
     }
 
     void DrawChar(char letter, float x, float y, float w, float h);
-    void DrawText(const char* text, vec2 pos, float scale);
+    void DrawText(const char* text, vec2 pos, float scale, bool centered_h = false, bool centered_v = false);
+    
+    void DrawTextRelCent(const char* text, vec2 rel_pos, float rel_scale);
+
+    vec2 GetCharacterSize() { return vec2(letW, letH); }
 
 };
 

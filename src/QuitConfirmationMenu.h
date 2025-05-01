@@ -22,7 +22,6 @@ private:
 	QuitConfirmationMenu();
 
 	static QuitConfirmationMenu* quitConfirmationMenuInstance;
-	std::vector<UserInterface> texts = {};
 };
 
 class QuitToMainMenuConfirmationMenu : public Menu
@@ -41,5 +40,4 @@ private:
 	QuitToMainMenuConfirmationMenu();
 
 	static QuitToMainMenuConfirmationMenu* quitToMainMenuConfirmationMenuInstance;
-	std::vector<UserInterface> texts = {};
 };

@@ -1,6 +1,7 @@
 #include "Button.h"
 #include "Window.h"
 #include "Assets.h"
+#include "TextRenderer.h"
 
 void Button::Update()
 {   
@@ -49,6 +50,7 @@ void Button::Draw(SpriteRenderer& renderer_)
     }
 
     renderer_.DrawSprite(sprite, position, size, 0.f, color);
+    TextRenderer::Instance()->DrawText(text, position+vec2(size.x/2, size.y/2), size.x/100, true, true);
 }
 
 bool Button::CheckRectangle()

@@ -1,6 +1,7 @@
 #include "PauseMenu.h"
 #include "Window.h"
 #include "Assets.h"
+#include "TextRenderer.h"
 
 PauseMenu* PauseMenu::pauseMenuInstance = nullptr;
 
@@ -12,7 +13,6 @@ PauseMenu::~PauseMenu()
 {
 	pauseMenuInstance = nullptr;
 	buttons.clear();
-	texts.clear();
 }
 
 PauseMenu* PauseMenu::Instance()
@@ -31,15 +31,10 @@ void PauseMenu::InitializeMenu()
 	vec2 rel_size = vec2(0.4, 0.2);
 	float vert_padd = 0.1;
 	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.2);
-	vec2 rel_text_size = vec2(0.5, 0.15);
 
-	vec2 rel_text_pos = vec2((1 - rel_size.x - 0.1f) / 2.f, 0.005);
-
-	texts.push_back(UserInterface(rel_text_pos, rel_text_size, Assets::gamePauseText, Assets::spriteShader));
-
-	buttons.push_back(Button(rel_pos, rel_size, Assets::resumeButton, Assets::spriteShader));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "resume"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::quitButton, Assets::spriteShader));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "main menu"));
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
@@ -49,11 +44,6 @@ void PauseMenu::UpdateMenu()
 	// update buttons
 	for (Button& btn : buttons) {
 		btn.Update();
-	}
-
-	// Update texts
-	for (UserInterface& text : texts) {
-		text.Update();
 	}
 
 	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
@@ -88,10 +78,7 @@ void PauseMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 
-	// Render texts
-	for (UserInterface& text : texts) {
-		text.Draw(*UserInterface::UiRendererInstance());
-	}
+	TextRenderer::Instance()->DrawTextRelCent("paused", vec2(0.5, 0.1), 0.004);
 }
 
 void PauseMenu::DeletePauseMenuInstance()

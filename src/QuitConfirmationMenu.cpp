@@ -1,6 +1,7 @@
 #include "QuitConfirmationMenu.h"
 #include "Window.h"
 #include "Assets.h"
+#include "TextRenderer.h"
 
 QuitConfirmationMenu* QuitConfirmationMenu::quitConfirmationMenuInstance = nullptr;
 
@@ -21,7 +22,6 @@ QuitConfirmationMenu::~QuitConfirmationMenu()
 	quitConfirmationMenuInstance = nullptr;
 
 	buttons.clear();
-	texts.clear();
 }
 
 QuitConfirmationMenu* QuitConfirmationMenu::Instance()
@@ -40,16 +40,15 @@ void QuitConfirmationMenu::InitializeMenu()
 	
 	vec2 rel_text_size = vec2(0.6, 0.2);
 	vec2 rel_pos = vec2((1-rel_text_size.x)/2.f, 0.05);
-	texts.push_back(UserInterface(rel_pos, rel_text_size, Assets::quitConfirmationText, Assets::spriteShader));
 
 	vec2 rel_size = vec2(0.3, 0.2);
 	float vert_padd = 0.1; // padding
 	rel_pos.x = (1-rel_size.x)/2.f;
 	rel_pos.y += rel_text_size.y + vert_padd;
 
-	buttons.push_back(Button(rel_pos, rel_size, Assets::yesButton, Assets::spriteShader));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "yes"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::noButton, Assets::spriteShader));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "no"));
 	
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
@@ -60,10 +59,6 @@ void QuitConfirmationMenu::UpdateMenu()
 	// update buttons
 	for (Button& btn : buttons){
 		btn.Update();
-	}
-	
-	for (UserInterface& text : texts){
-		text.Update();
 	}
 
 	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
@@ -94,9 +89,7 @@ void QuitConfirmationMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 
-	for (UserInterface& text : texts){
-		text.Draw(*UserInterface::UiRendererInstance());
-	}
+	TextRenderer::Instance()->DrawTextRelCent("quitting", vec2(0.5, 0.1), 0.004);
 }
 
 void QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance()
@@ -127,7 +120,6 @@ QuitToMainMenuConfirmationMenu::~QuitToMainMenuConfirmationMenu()
 	quitToMainMenuConfirmationMenuInstance = nullptr;
 
 	buttons.clear();
-	texts.clear();
 }
 
 QuitToMainMenuConfirmationMenu* QuitToMainMenuConfirmationMenu::Instance()
@@ -145,16 +137,15 @@ void QuitToMainMenuConfirmationMenu::InitializeMenu()
 {
 	vec2 rel_text_size = vec2(0.6, 0.2);
 	vec2 rel_pos = vec2((1 - rel_text_size.x) / 2.f, 0.05);
-	texts.push_back(UserInterface(rel_pos, rel_text_size, Assets::quitToMainMenuConfirmationText, Assets::spriteShader));
 
 	vec2 rel_size = vec2(0.3, 0.2);
 	float vert_padd = 0.1; // padding
 	rel_pos.x = (1 - rel_size.x) / 2.f;
 	rel_pos.y += rel_text_size.y + vert_padd;
 
-	buttons.push_back(Button(rel_pos, rel_size, Assets::yesButton, Assets::spriteShader));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "i'm sure"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::noButton, Assets::spriteShader));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "stay"));
 }
 
 void QuitToMainMenuConfirmationMenu::UpdateMenu()
@@ -162,10 +153,6 @@ void QuitToMainMenuConfirmationMenu::UpdateMenu()
 	// update buttons
 	for (Button& btn : buttons) {
 		btn.Update();
-	}
-
-	for (UserInterface& text : texts) {
-		text.Update();
 	}
 
 	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
@@ -196,9 +183,8 @@ void QuitToMainMenuConfirmationMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 
-	for (UserInterface& text : texts) {
-		text.Draw(*UserInterface::UiRendererInstance());
-	}
+	TextRenderer::Instance()->DrawTextRelCent("make sure", vec2(0.5, 0.1), 0.004);
+	TextRenderer::Instance()->DrawTextRelCent("you want to quit!", vec2(0.5, 0.24), 0.004);
 }
 
 void QuitToMainMenuConfirmationMenu::DeleteQuitToMainMenuConfirmationMenuInstance()

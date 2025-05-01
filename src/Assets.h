@@ -23,15 +23,8 @@ public:
         healthBarTexture = 1,
         currentHealthTexture = 2,
         playerTexture2 = 3,
-		playButton = 4,
-		quitButton = 5,
-		yesButton = 6,
-		noButton = 7,
-		quitConfirmationText = 8,
-        resumeButton = 9,
-        gamePauseText = 10,
-        quitToMainMenuConfirmationText = 11,
-        textAtlas = 12
+        textAtlas = 4,
+        button = 5
     };
 
     enum MusicMapNumbers

@@ -31,9 +31,9 @@ void MainMenu::InitializeMenu()
 	float vert_padd = 0.1;
 	vec2 rel_pos = vec2((1-rel_size.x)/2.f, 0.2);
 
-	buttons.push_back(Button(rel_pos, rel_size, Assets::playButton, Assets::spriteShader));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "play"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::quitButton, Assets::spriteShader));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "quit"));
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
@@ -72,8 +72,6 @@ void MainMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 	
-	float rel_scale = 0.001;
-	TextRenderer::Instance()->DrawText("hell'o world 83% working text! !@#$%^&*()+-", vec2(100, 100), rel_scale * Window::Instance()->GetWindowSize().x);
 }
 
 void MainMenu::DeleteMainMenuInstance()

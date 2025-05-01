@@ -18,20 +18,8 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Textures/image.png", playerTexture2);
 	ResourceManager::LoadTexture("assets/Textures/Health bar.png", healthBarTexture);
 	ResourceManager::LoadTexture("assets/Textures/Current health.png", currentHealthTexture);
-
-	ResourceManager::LoadTexture("assets/Buttons/Play Button.png", playButton);
-	ResourceManager::LoadTexture("assets/Buttons/Quit Button.png", quitButton);
-	
-	ResourceManager::LoadTexture("assets/Buttons/Yes Button.png", yesButton);
-	ResourceManager::LoadTexture("assets/Buttons/No Button.png", noButton);
-	ResourceManager::LoadTexture("assets/Text Images/Quit Confirmation Text.png", quitConfirmationText);
-
-	ResourceManager::LoadTexture("assets/Buttons/Resume Button.png", resumeButton);
-	ResourceManager::LoadTexture("assets/Text Images/Game Paused Text.png", gamePauseText);
-	ResourceManager::LoadTexture("assets/Text Images/Quit to Main Menu Confirmation Text.png", 
-		quitToMainMenuConfirmationText);
-
 	ResourceManager::LoadTexture("assets/Text Images/text_atlas.png", textAtlas);
+	ResourceManager::LoadTexture("assets/Buttons/button.png", button);
 
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);

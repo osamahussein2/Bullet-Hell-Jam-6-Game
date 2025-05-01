@@ -16,10 +16,11 @@ class Button : public UserInterface{
 public:
     ButtonState prev_state = BTN_DEFAULT;
     ButtonState state = BTN_DEFAULT;
+    const char* text;
 
 public:
-    Button(vec2 rel_pos_, vec2 rel_size_, unsigned int sprite_, unsigned int shader_) : // ui size and pos are relative to window
-    UserInterface(rel_pos_, rel_size_, sprite_, shader_, vec3(1.0)) {
+    Button(vec2 rel_pos_, vec2 rel_size_, unsigned int sprite_, unsigned int shader_, const char* text_) : // ui size and pos are relative to window
+    UserInterface(rel_pos_, rel_size_, sprite_, shader_, vec3(1.0)), text(text_) {
     }
 
     void Update();

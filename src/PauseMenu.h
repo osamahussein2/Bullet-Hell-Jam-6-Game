@@ -22,6 +22,4 @@ private:
 	PauseMenu();
 
 	static PauseMenu* pauseMenuInstance;
-
-	std::vector<UserInterface> texts = {};
 };
