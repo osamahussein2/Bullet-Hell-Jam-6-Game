@@ -18,9 +18,6 @@ void Button::Update()
     if (in_rec) {
         if (pressed) {
             state = BTN_PRESSED;
-            if (prev_state != BTN_PRESSED){
-                Audio::Instance()->PlaySound(Assets::bip_sound);
-            }
         }
         else {
             state = BTN_HOVERED;
@@ -37,12 +34,14 @@ void Button::Update()
 void Button::Draw(SpriteRenderer& renderer_)
 {
     color = vec3(1.0);
+    float scale = 1.0;
     switch (state) {
         case BTN_DEFAULT:
             color = vec3(1.0);
             break;
         case BTN_HOVERED:
             color = vec3(0.7);
+            scale = 1.3;
             break;
         case BTN_PRESSED:
             color = vec3(0.3);
@@ -50,7 +49,7 @@ void Button::Draw(SpriteRenderer& renderer_)
     }
 
     renderer_.DrawSprite(sprite, position, size, 0.f, color);
-    TextRenderer::Instance()->DrawText(text, position+vec2(size.x/2, size.y/2), size.x/100, true, true);
+    TextRenderer::Instance()->DrawText(text, position+vec2(size.x/2, size.y/2), scale*size.x/100, true, true);
 }
 
 bool Button::CheckRectangle()
