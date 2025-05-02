@@ -5,6 +5,7 @@
 #include "PauseMenu.h"
 #include "Input.h"
 #include "Assets.h"
+#include "OptionsMenu.h"
 
 Window* Window::windowInstance = nullptr;
 float lastFrame = 0.f;
@@ -29,6 +30,7 @@ Window::~Window()
   Game::DeleteGameInstance();
   PauseMenu::DeletePauseMenuInstance();
   QuitToMainMenuConfirmationMenu::DeleteQuitToMainMenuConfirmationMenuInstance();
+  OptionsMenu::DeleteOptionsMenuInstance();
 
   // Close all GLFW-related stuff and perhaps terminate the whole program, maybe?
   glfwTerminate();
@@ -103,6 +105,7 @@ bool Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   Game::Instance()->InitializeGame();
   PauseMenu::Instance()->InitializeMenu();
   QuitToMainMenuConfirmationMenu::Instance()->InitializeMenu();
+  OptionsMenu::Instance()->InitializeMenu();
 
   return true;
 }
@@ -146,6 +149,11 @@ void Window::UpdateWindow()
         //std::cout<<"QUIT TO MAIN MENU CONF\n";
         QuitToMainMenuConfirmationMenu::Instance()->UpdateMenu();
         QuitToMainMenuConfirmationMenu::Instance()->RenderMenu();
+        break;
+    case OPTIONS_MENU:
+        //std::cout<<"OPTIONS MENU\n";
+        OptionsMenu::Instance()->UpdateMenu();
+        OptionsMenu::Instance()->RenderMenu();
         break;
   }
 

@@ -72,13 +72,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\miniaudio;C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\Freetype\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\miniaudio;C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)builds\Windows 64 bit\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\miniaudio;C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;C:\GameDev\Freetype\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\GameDev\Freetype\lib;C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\miniaudio;C:\Users\osama\Downloads\Bullet-Hell-Jam-6-Game\external\glad\include;C:\GameDev\glm;C:\GameDev\GLFW 3.4 bin WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GameDev\GLFW 3.4 bin WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)builds\Windows 64 bit\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -119,7 +119,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,11 +136,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c" />
+    <ClCompile Include="src\OptionsMenu.cpp" />
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\Assets.cpp" />
     <ClCompile Include="src\Audio.cpp" />
@@ -156,10 +157,12 @@
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
+    <ClCompile Include="src\TextRenderer.cpp" />
     <ClCompile Include="src\UserInterface.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\OptionsMenu.h" />
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Assets.h" />
     <ClInclude Include="src\Audio.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\TextRenderer.h" />
     <ClInclude Include="src\UserInterface.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>

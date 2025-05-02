@@ -1,7 +1,11 @@
 #include "Assets.h"
+#include "OptionsMenu.h"
 #include <string>
 
 const char* Assets::bip_sound = "assets/Sounds/sound.wav";
+
+float Assets::musicVolume = 0.15f;
+float Assets::sfxVolume = 1.0f;
 
 void Assets::LoadAssets()
 {
@@ -21,8 +25,10 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Text Images/text_atlas.png", textAtlas);
 	ResourceManager::LoadTexture("assets/Buttons/button.png", button);
 
+	ResourceManager::LoadTexture("assets/Textures/Slider bar.png", sliderBarTexture);
+
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
 	Audio::Instance()->PlayMusic(default_music);
-	ma_sound_set_volume(default_music, 0.1f);
+	ma_sound_set_volume(default_music, musicVolume);
 }

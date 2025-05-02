@@ -27,11 +27,13 @@ MainMenu* MainMenu::Instance()
 
 void MainMenu::InitializeMenu()
 {
-	vec2 rel_size = vec2(0.4, 0.2);
+	vec2 rel_size = vec2(0.3, 0.15);
 	float vert_padd = 0.1;
 	vec2 rel_pos = vec2((1-rel_size.x)/2.f, 0.2);
 
 	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "play"));
+	rel_pos.y += rel_size.y + vert_padd;
+	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "options"));
 	rel_pos.y += rel_size.y + vert_padd;
 	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "quit"));
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
@@ -48,6 +50,9 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->state = GAME;
 	}
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
+		Window::Instance()->state = OPTIONS_MENU;
+	}
+	if (buttons[2].GetState() == BTN_HOVERED && buttons[2].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = QUIT_CONF;
 	}
 	//text_r.UpdateAnimation(1.0/60);
