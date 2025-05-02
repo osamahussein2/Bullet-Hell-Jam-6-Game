@@ -184,8 +184,6 @@ void OptionsMenu::RestrictMusicSliderHandlePosition()
 	// Restrict the player from going past the music volume slider bar
 	if (sliderHandles[0].position.x > Window::Instance()->GetWindowWidth() / 1.19760479042f)
 	{
-		Assets::musicVolume = 0.15f;
-
 		lastMusicSliderHandlePosition = Window::Instance()->GetWindowWidth() / 1.19760479042f;
 		sliderHandles[0].position.x = Window::Instance()->GetWindowWidth() / 1.19760479042f;
 	}
@@ -203,8 +201,8 @@ void OptionsMenu::RestrictMusicSliderHandlePosition()
 		sliderHandles[0].position.x <= Window::Instance()->GetWindowWidth() / 1.19760479042f)
 	{
 		// Update the music volume based on the music volume slider handle value
-		Assets::musicVolume = (sliderHandles[0].position.x / (Window::Instance()->GetWindowWidth() / 1.19760479042f)) 
-			* 0.15f;
+		Assets::musicVolume = ((sliderHandles[0].position.x - Window::Instance()->GetWindowWidth() / 1.82857142857f)
+			/ (Window::Instance()->GetWindowWidth() / 1.19760479042f)) * 0.45f;
 	}
 }
 
@@ -232,8 +230,8 @@ void OptionsMenu::RestrictSFXSliderHandlePosition()
 		sliderHandles[1].position.x <= Window::Instance()->GetWindowWidth() / 1.19760479042f)
 	{
 		// Update the music volume based on the music volume slider handle value
-		Assets::sfxVolume = (sliderHandles[1].position.x / Window::Instance()->GetWindowWidth() / 1.19760479042f) 
-			* 1.0f;
+		Assets::sfxVolume = ((sliderHandles[1].position.x - Window::Instance()->GetWindowWidth() / 1.82857142857f) / 
+			Window::Instance()->GetWindowWidth() / 1.19760479042f) * 1.0f;
 	}
 }
 
