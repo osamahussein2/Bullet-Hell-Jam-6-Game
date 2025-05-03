@@ -66,6 +66,7 @@ void OptionsMenu::UpdateMenu()
 	ModifySFXSliderHandle();
 
 	ma_sound_set_volume(ResourceManager::GetMusic(anxietyMusic), Assets::musicVolume);
+	ma_sound_set_volume(ResourceManager::GetSound(buttonHoverSound), Assets::sfxVolume);
 
 	RestrictMusicSliderHandlePosition();
 	RestrictSFXSliderHandlePosition();
@@ -202,7 +203,7 @@ void OptionsMenu::RestrictMusicSliderHandlePosition()
 	{
 		// Update the music volume based on the music volume slider handle value
 		Assets::musicVolume = ((sliderHandles[0].position.x - Window::Instance()->GetWindowWidth() / 1.82857142857f)
-			/ (Window::Instance()->GetWindowWidth() / 1.19760479042f)) * 0.45f;
+			/ (Window::Instance()->GetWindowWidth() / 1.19760479042f)) * maxMusicVolumeThreshold;
 	}
 }
 
@@ -231,7 +232,7 @@ void OptionsMenu::RestrictSFXSliderHandlePosition()
 	{
 		// Update the music volume based on the music volume slider handle value
 		Assets::sfxVolume = ((sliderHandles[1].position.x - Window::Instance()->GetWindowWidth() / 1.82857142857f) / 
-			Window::Instance()->GetWindowWidth() / 1.19760479042f) * 1.0f;
+			Window::Instance()->GetWindowWidth() / 1.19760479042f) * maxSFXVolumeThreshold;
 	}
 }
 

@@ -43,4 +43,7 @@ private:
 
 	float lastMusicSliderHandlePosition;
 	float lastSFXSliderHandlePosition;
+
+	const float maxMusicVolumeThreshold = 0.45f;
+	const float maxSFXVolumeThreshold = 4.15f;
 };

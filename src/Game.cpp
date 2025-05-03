@@ -103,7 +103,8 @@ void Game::UpdateGame(float deltaTime_)
 void Game::HandleInput(float deltaTime_)
 {
 	if (Input::IsKeyPressed(GLFW_KEY_SPACE)){
-		Audio::Instance()->PlaySound(Assets::bip_sound);
+		//Audio::Instance()->PlaySound(Assets::bip_sound);
+		Audio::Instance()->PlayMusic(ResourceManager::GetSound(buttonHoverSound));
 	}
 
 	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
