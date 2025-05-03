@@ -8,6 +8,7 @@
 map<int, Shader> ResourceManager::shaders;
 map<int, unsigned int> ResourceManager::textures;
 map<int, ma_sound> ResourceManager::music;
+map<int, ma_sound> ResourceManager::sounds;
 
 GLenum ResourceManager::format = 0;
 
@@ -141,6 +142,34 @@ ma_sound* ResourceManager::GetMusic(int enum_)
     return &music[enum_];
 }
 
+ma_sound* ResourceManager::LoadSound(const char* file, int enum_)
+{
+    ma_result result = ma_sound_init_from_file(
+        Audio::Instance()->GetAudioEngine(),
+        file,
+        MA_SOUND_FLAG_STREAM,
+        NULL,
+        NULL,
+        &sounds[enum_]
+    );
+
+    if (result != MA_SUCCESS) {
+        std::cerr << "Failed to load sound file: " << file << endl;
+    }
+
+    return &sounds[enum_];
+}
+
+ma_sound* ResourceManager::GetSound(int enum_)
+{
+    if (sounds.find(enum_) == sounds.end())
+    {
+        cout << "This mapped sound enum is not found: " << enum_ << endl;
+    }
+
+    return &sounds[enum_];
+}
+
 void ResourceManager::Clear()
 {
     // Delete all shaders properly	
@@ -157,6 +186,12 @@ void ResourceManager::Clear()
 
     // Delete all music properly
     for (pair<int, ma_sound> iter : music)
+    {
+        ma_sound_uninit(&(iter.second));
+    }
+
+    // Delete all sounds properly
+    for (pair<int, ma_sound> iter : sounds)
     {
         ma_sound_uninit(&(iter.second));
     }
