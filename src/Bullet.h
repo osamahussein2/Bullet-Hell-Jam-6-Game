@@ -7,13 +7,22 @@
 class Bullet : public GameObjectPro {
 
 protected:
+    vec2 initialPosition;
+    vec2 initialDirection;
+    float initialSpeed;
+
     vec2 direction;
     float speed;
     float radius;
 
 public:
     Bullet(vec2 pos_, vec2 direction_, float speed_, float radius_, vec2 size_, unsigned int sprite_) : 
-    direction(direction_), speed(speed_), radius(radius_), GameObjectPro(pos_, size_, sprite_) {}
+    direction(direction_), speed(speed_), radius(radius_), GameObjectPro(pos_, size_, sprite_) {
+        position -= vec2(radius, radius);
+        initialPosition = position;
+        initialDirection = direction;
+        initialSpeed = speed;
+    }
 
     virtual void OnCollide(Body& other) override {};
     virtual void UpdateCurrentAnim() override {};
@@ -21,8 +30,7 @@ public:
 
 class PlayerBullet : public Bullet {
 public:
-    PlayerBullet(vec2 pos_, vec2 direction_) : Bullet(pos_, direction_, 300.f, 16.f, vec2(32.0), Assets::playerBulletTexture) {
-        position -= vec2(radius, radius);
+    PlayerBullet(vec2 pos_, vec2 direction_) : Bullet(pos_, direction_, 40.f, 16.f, vec2(32.0), Assets::playerBulletTexture) {
         renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
         const int columns = 6;
         const int rows = 1;

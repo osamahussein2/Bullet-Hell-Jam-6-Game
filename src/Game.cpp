@@ -38,8 +38,8 @@ Game* Game::Instance()
 
 void Game::InitializeGame()
 {
-
-	player = new Player(vec2(0.0f, 0.0f));
+	player = new Player(vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2));
+	player->position -= player->size*vec2(0.5);
 
 	// Health bar UI
 	healthBars.push_back(UserInterface(vec2(0.0, 0.0), vec2(0.3f, 0.1f), Assets::healthBarTexture, Assets::spriteShader));

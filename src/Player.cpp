@@ -35,7 +35,17 @@ void Player::Update(float deltaTime)
 
     if (Input::IsKeyDown(GLFW_KEY_SPACE)) {
         if (since_last_shot >= shoot_cooldown){
-            Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(0.0, -1.0)));
+            //Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(0.0, -1.0)));
+            //Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2+M_PI/7), -sin(M_PI/2+M_PI/7))));
+            //Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2-M_PI/7), -sin(M_PI/2-M_PI/7))));
+            float time = glfwGetTime() * 2;
+            for (int i = 0; i < 10; i++){
+                float angle = time + i*2*M_PI/10;
+                Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(angle), -sin(angle))));
+            }
+            
+            
+            
             since_last_shot = 0.f;
         }
     }
