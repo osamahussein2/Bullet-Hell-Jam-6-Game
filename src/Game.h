@@ -5,6 +5,7 @@
 #include "Player.h"
 
 #include <vector>
+#include "Bullet.h"
 
 class Game
 {
@@ -18,6 +19,8 @@ public:
 	void UpdateGame(float deltaTime_);
 	void HandleInput(float deltaTime_);
 	void RenderGame(float deltaTime_);
+
+	std::vector<Bullet*> playerBullets;
 
 private:
 	Game();

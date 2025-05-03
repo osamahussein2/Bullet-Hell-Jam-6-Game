@@ -31,13 +31,13 @@ void MainMenu::InitializeMenu()
 	float vert_padd = 0.05;
 	vec2 rel_pos = vec2((1-rel_size.x)/2.f, 0.2);
 
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "play"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "play"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "options"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "options"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "credits"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "credits"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "quit"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "quit"));
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 

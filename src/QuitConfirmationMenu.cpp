@@ -46,9 +46,9 @@ void QuitConfirmationMenu::InitializeMenu()
 	rel_pos.x = (1-rel_size.x)/2.f;
 	rel_pos.y += rel_text_size.y + vert_padd;
 
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "yes"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "yes"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "no"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "no"));
 	
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
@@ -143,9 +143,9 @@ void QuitToMainMenuConfirmationMenu::InitializeMenu()
 	rel_pos.x = (1 - rel_size.x) / 2.f;
 	rel_pos.y += rel_text_size.y + vert_padd;
 
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "i'm sure"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "i'm sure"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "stay"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "stay"));
 }
 
 void QuitToMainMenuConfirmationMenu::UpdateMenu()

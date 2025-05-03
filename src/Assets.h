@@ -26,13 +26,18 @@ public:
 
     enum TextureMapNumbers
     {
-        playerTexture = 0,
-        healthBarTexture = 1,
-        currentHealthTexture = 2,
-        playerTexture2 = 3,
-        textAtlas = 4,
-        button = 5,
-        sliderBarTexture = 6
+        textAtlas = 0,
+        buttonTexture = 1,
+        sliderBarTexture = 2,
+
+        playerTexture = 3,
+
+        healthBarTexture = 4,
+        currentHealthTexture = 5,
+        
+        playerBulletTexture = 6,
+        enemyBulletTexture = 7,
+        
     };
 };
 

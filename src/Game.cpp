@@ -18,6 +18,10 @@ Game::~Game()
 
 	delete player;
 
+	for (Bullet* bullet : playerBullets) {
+		delete bullet;
+	}
+
 	healthBars.clear();
 }
 
@@ -47,6 +51,10 @@ void Game::InitializeGame()
 void Game::UpdateGame(float deltaTime_)
 {
 	player->Update(deltaTime_);
+
+	for (Bullet* bullet : playerBullets) {
+		bullet->Update(deltaTime_);
+	}
 
 	for (UserInterface& healthbar : healthBars){
 		healthbar.Update(true);
@@ -147,6 +155,10 @@ void Game::RenderGame(float deltaTime_)
 	timer += deltaTime_;
 
 	player->Draw();
+
+	for (Bullet* bullet : playerBullets) {
+		bullet->Draw();
+	}
 
 	for (UserInterface& healthbar : healthBars){
 		healthbar.Draw(*UserInterface::UiRendererInstance());

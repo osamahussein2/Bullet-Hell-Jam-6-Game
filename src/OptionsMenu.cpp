@@ -35,7 +35,7 @@ void OptionsMenu::InitializeMenu()
 	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.5);
 
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "back"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "back"));
 
 	InitializeSliderBars();
 	InitializeSliderHandles();

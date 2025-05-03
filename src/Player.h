@@ -16,6 +16,9 @@ enum PlayerAnimations {
 class Player : public GameObjectPro {
 private:
     float speed = 200.f;
+    float since_last_shot = 0.f;
+    float shoot_cooldown = 0.2f;
+
 public:
     virtual void OnCollide(Body& other) {};
 

@@ -32,9 +32,9 @@ void PauseMenu::InitializeMenu()
 	float vert_padd = 0.1;
 	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.2);
 
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "resume"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "resume"));
 	rel_pos.y += rel_size.y + vert_padd;
-	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "main menu"));
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "main menu"));
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 

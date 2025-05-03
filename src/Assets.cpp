@@ -18,15 +18,17 @@ void Assets::LoadAssets()
 	#endif
 
 	// Load textures
-	ResourceManager::LoadTexture("assets/Textures/Player.png", playerTexture);
-	ResourceManager::LoadTexture("assets/Textures/image.png", playerTexture2);
-	ResourceManager::LoadTexture("assets/Textures/Health bar.png", healthBarTexture);
-	ResourceManager::LoadTexture("assets/Textures/Current health.png", currentHealthTexture);
 	ResourceManager::LoadTexture("assets/Text Images/text_atlas.png", textAtlas);
-	ResourceManager::LoadTexture("assets/Buttons/button.png", button);
-
+	ResourceManager::LoadTexture("assets/Buttons/button.png", buttonTexture);
 	ResourceManager::LoadTexture("assets/Textures/Slider bar.png", sliderBarTexture);
 
+	ResourceManager::LoadTexture("assets/Textures/Player.png", playerTexture);
+	ResourceManager::LoadTexture("assets/Textures/Health bar.png", healthBarTexture);
+	ResourceManager::LoadTexture("assets/Textures/Current health.png", currentHealthTexture);
+
+	ResourceManager::LoadTexture("assets/Textures/PlayerBullet.png", playerBulletTexture);
+	ResourceManager::LoadTexture("assets/Textures/EnemyBullet.png", enemyBulletTexture);
+	
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
 	Audio::Instance()->PlayMusic(default_music);

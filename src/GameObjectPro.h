@@ -11,6 +11,9 @@ protected:
 
 public:
     ~GameObjectPro() {
+        if (!renderer){
+            std::cerr << "In GameObjectPro destructor renderer is not valid to delete\n";
+        }
         delete renderer;
     }
 
