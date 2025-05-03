@@ -3,7 +3,9 @@
 
 CreditsMenu* CreditsMenu::creditsMenuInstance = nullptr;
 
-CreditsMenu::CreditsMenu() : Menu()
+float lastCreditsFrame = 0.f;
+
+CreditsMenu::CreditsMenu() : Menu(), creditsTime(0.0f), timeShouldIncrease(true)
 {
 }
 
@@ -53,6 +55,12 @@ void CreditsMenu::UpdateMenu()
 
 void CreditsMenu::RenderMenu()
 {
+	float currentCreditsFrame = glfwGetTime(); // Get the current time
+
+	// deltaTime is the time between current frame and last frame
+	float creditsDeltaTime = currentCreditsFrame - lastCreditsFrame;
+	lastCreditsFrame = currentCreditsFrame;
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -68,17 +76,19 @@ void CreditsMenu::RenderMenu()
 
 	TextRenderer::Instance()->DrawTextRelCent("credits menu", vec2(0.5, 0.05), 0.002);
 
-	TextRenderer::Instance()->DrawTextRelCent("programmers", vec2(0.4, 0.2), 0.0015, vec3(1.0, 0.0, 0.0));
+	TextRenderer::Instance()->DrawTextRelCent("programmers", vec2(0.4, 0.2), 0.0015, vec3(creditsTime, 0.0, 0.0));
 
-	TextRenderer::Instance()->DrawTextRelCent("duyha", vec2(0.6, 0.2), 0.0015);
-	TextRenderer::Instance()->DrawTextRelCent("osama hussein", vec2(0.648, 0.27), 0.0015);
+	TextRenderer::Instance()->DrawTextRelCent("duyha", vec2(0.6, 0.2), 0.0015, vec3(creditsTime, 0.0, 0.0));
+	TextRenderer::Instance()->DrawTextRelCent("osama hussein", vec2(0.648, 0.27), 0.0015, vec3(creditsTime, 0.0, 0.0));
 
-	TextRenderer::Instance()->DrawTextRelCent("artist", vec2(0.43, 0.4), 0.0015, vec3(0.0, 1.0, 0.0));
-	TextRenderer::Instance()->DrawTextRelCent("whoobadedo", vec2(0.63, 0.4), 0.0015);
+	TextRenderer::Instance()->DrawTextRelCent("artist", vec2(0.43, 0.4), 0.0015, vec3(0.0, creditsTime, 0.0));
+	TextRenderer::Instance()->DrawTextRelCent("whoobadedo", vec2(0.63, 0.4), 0.0015, vec3(0.0, creditsTime, 0.0));
 
-	TextRenderer::Instance()->DrawTextRelCent("sound/music composers", vec2(0.34, 0.6), 0.0015, vec3(0.0, 0.0, 1.0));
-	TextRenderer::Instance()->DrawTextRelCent("mesiosaki", vec2(0.625, 0.6), 0.0015);
-	TextRenderer::Instance()->DrawTextRelCent("antman242", vec2(0.625, 0.67), 0.0015);
+	TextRenderer::Instance()->DrawTextRelCent("sound/music composers", vec2(0.34, 0.6), 0.0015, vec3(0.0, creditsTime, creditsTime));
+	TextRenderer::Instance()->DrawTextRelCent("mesiosaki", vec2(0.625, 0.6), 0.0015, vec3(0.0, creditsTime, creditsTime));
+	TextRenderer::Instance()->DrawTextRelCent("antman242", vec2(0.625, 0.67), 0.0015, vec3(0.0, creditsTime, creditsTime));
+
+	ChangeTextColorOvertime(creditsDeltaTime);
 
 	for (Button& btn : buttons) {
 		btn.Draw(*UserInterface::UiRendererInstance());
@@ -95,5 +105,38 @@ void CreditsMenu::DeleteCreditsMenuInstance()
 	}
 	else {
 		std::cerr << "creditsMenuInstance is not valid to delete\n";
+	}
+}
+
+void CreditsMenu::ChangeTextColorOvertime(float deltaTime_)
+{
+	// Increment the credits time once time should increase is true
+	if (timeShouldIncrease)
+	{
+		creditsTime += deltaTime_;
+	}
+
+	// Decrement the credits time once time should increase is false
+	else if (!timeShouldIncrease)
+	{
+		creditsTime -= deltaTime_;
+
+		// Make sure the credits time isn't greater than 1 when time is decrementing so that the colors will change faster
+		if (creditsTime >= 1.0f)
+		{
+			creditsTime = 1.0f;
+		}
+	}
+
+	// Set time should increase to false once the credits time reaches the max time
+	if (creditsTime >= timerReachesMaxTime)
+	{
+		timeShouldIncrease = false;
+	}
+
+	// Set time should increase back to true once the credits time reaches zero
+	else if (creditsTime <= timerReachesZero)
+	{
+		timeShouldIncrease = true;
 	}
 }
