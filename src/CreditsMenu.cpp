@@ -68,15 +68,15 @@ void CreditsMenu::RenderMenu()
 
 	TextRenderer::Instance()->DrawTextRelCent("credits menu", vec2(0.5, 0.05), 0.002);
 
-	TextRenderer::Instance()->DrawTextRelCent("programmers", vec2(0.4, 0.2), 0.0015);
+	TextRenderer::Instance()->DrawTextRelCent("programmers", vec2(0.4, 0.2), 0.0015, vec3(1.0, 0.0, 0.0));
 
 	TextRenderer::Instance()->DrawTextRelCent("duyha", vec2(0.6, 0.2), 0.0015);
 	TextRenderer::Instance()->DrawTextRelCent("osama hussein", vec2(0.648, 0.27), 0.0015);
 
-	TextRenderer::Instance()->DrawTextRelCent("artist", vec2(0.43, 0.4), 0.0015);
+	TextRenderer::Instance()->DrawTextRelCent("artist", vec2(0.43, 0.4), 0.0015, vec3(0.0, 1.0, 0.0));
 	TextRenderer::Instance()->DrawTextRelCent("whoobadedo", vec2(0.63, 0.4), 0.0015);
 
-	TextRenderer::Instance()->DrawTextRelCent("sound/music composers", vec2(0.34, 0.6), 0.0015);
+	TextRenderer::Instance()->DrawTextRelCent("sound/music composers", vec2(0.34, 0.6), 0.0015, vec3(0.0, 0.0, 1.0));
 	TextRenderer::Instance()->DrawTextRelCent("mesiosaki", vec2(0.625, 0.6), 0.0015);
 	TextRenderer::Instance()->DrawTextRelCent("antman242", vec2(0.625, 0.67), 0.0015);
 

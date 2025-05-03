@@ -12,7 +12,7 @@ TextRenderer *TextRenderer::Instance()
 	return TextRendererInstance;
 }
 
-void TextRenderer::DrawChar(char letter, float x, float y, float w, float h)
+void TextRenderer::DrawChar(char letter, float x, float y, float w, float h, vec3 color)
 {
     int index = int(letter);
     if (letter == ' ') {
@@ -30,10 +30,10 @@ void TextRenderer::DrawChar(char letter, float x, float y, float w, float h)
     else if (index == 63){ // question mark, special case for now
         GetAnimationHandler()->SetFrame(52);
     }
-    DrawSprite(atlas, vec2(x, y), vec2(w, h), 0.f, vec3(1.0, 1.0, 1.0));
+    DrawSprite(atlas, vec2(x, y), vec2(w, h), 0.f, color);
 }
 
-void TextRenderer::DrawText(const char* text, vec2 pos, float scale, bool centered_h, bool centered_v)
+void TextRenderer::DrawText(const char* text, vec2 pos, float scale, bool centered_h, bool centered_v, vec3 color)
 {
     float w = letW*scale;
     float h = letH*scale;
@@ -53,12 +53,12 @@ void TextRenderer::DrawText(const char* text, vec2 pos, float scale, bool center
     }
     
     for (size_t i = 0; text[i] != '\0'; ++i) {
-        DrawChar(text[i], x, y, w, h);
+        DrawChar(text[i], x, y, w, h, color);
         x += w + offset;
     }
 }
 
-void TextRenderer::DrawTextRelCent(const char *text, vec2 rel_pos, float rel_scale)
+void TextRenderer::DrawTextRelCent(const char *text, vec2 rel_pos, float rel_scale, vec3 color)
 {
-    DrawText(text, rel_pos*Window::Instance()->GetWindowSize(), rel_scale*Window::Instance()->GetWindowSize().x, true, true);
+    DrawText(text, rel_pos*Window::Instance()->GetWindowSize(), rel_scale*Window::Instance()->GetWindowSize().x, true, true, color);
 }
