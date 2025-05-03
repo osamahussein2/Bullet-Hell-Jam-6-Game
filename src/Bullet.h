@@ -15,6 +15,8 @@ protected:
     float speed;
     float radius;
 
+    float timer = 0.f;
+
 public:
     Bullet(vec2 pos_, vec2 direction_, float speed_, float radius_, vec2 size_, unsigned int sprite_) : 
     direction(direction_), speed(speed_), radius(radius_), GameObjectPro(pos_, size_, sprite_) {
@@ -22,6 +24,15 @@ public:
         initialPosition = position;
         initialDirection = direction;
         initialSpeed = speed;
+    }
+
+    virtual void Update(float deltaTime) override {
+        timer += deltaTime;
+
+        velocity = direction * speed;
+        position += velocity * deltaTime;
+
+        renderer->UpdateAnimation(deltaTime);
     }
 
     virtual void OnCollide(Body& other) override {};
@@ -39,11 +50,12 @@ public:
     }
 
     virtual void Update(float deltaTime) override {
+        // custom logic before parent update
+        Bullet::Update(deltaTime);
 
-        velocity = direction * speed;
-        position += velocity * deltaTime;
-
-        renderer->UpdateAnimation(deltaTime);
+        if (timer > 10) {
+            destroyed = true;
+        }
     }
 };
 
