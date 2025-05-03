@@ -13,7 +13,8 @@ enum AppState {
 	GAME,
 	PAUSE_MENU,
 	QUIT_TO_MAIN_MENU_CONF,
-	OPTIONS_MENU
+	OPTIONS_MENU,
+	CREDITS_MENU
 };
 
 class Window

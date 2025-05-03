@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c" />
+    <ClCompile Include="src\CreditsMenu.cpp" />
     <ClCompile Include="src\OptionsMenu.cpp" />
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\Assets.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CreditsMenu.h" />
     <ClInclude Include="src\OptionsMenu.h" />
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Assets.h" />
