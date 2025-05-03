@@ -53,7 +53,14 @@ void Game::UpdateGame(float deltaTime_)
 	player->Update(deltaTime_);
 
 	for (Bullet* bullet : playerBullets) {
-		bullet->Update(deltaTime_);
+
+		if (!bullet->destroyed) bullet->Update(deltaTime_);
+
+		// If the bullet reach the top of the screen, destroy it
+		if (bullet->position.y <= -20.0f)
+		{
+			bullet->destroyed = true;
+		}
 	}
 
 	for (UserInterface& healthbar : healthBars){
@@ -159,7 +166,7 @@ void Game::RenderGame(float deltaTime_)
 	player->Draw();
 
 	for (Bullet* bullet : playerBullets) {
-		bullet->Draw();
+		if (!bullet->destroyed) bullet->Draw();
 	}
 
 	for (UserInterface& healthbar : healthBars){
