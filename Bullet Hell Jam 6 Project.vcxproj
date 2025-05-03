@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c" />
+    <ClCompile Include="src\GameOverMenu.cpp" />
     <ClCompile Include="src\CreditsMenu.cpp" />
     <ClCompile Include="src\OptionsMenu.cpp" />
     <ClCompile Include="src\Animation.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\PauseMenu.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\QuitConfirmationMenu.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -163,6 +165,7 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameOverMenu.h" />
     <ClInclude Include="src\CreditsMenu.h" />
     <ClInclude Include="src\OptionsMenu.h" />
     <ClInclude Include="src\Animation.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\PauseMenu.h" />
+    <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\QuitConfirmationMenu.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Shader.h" />

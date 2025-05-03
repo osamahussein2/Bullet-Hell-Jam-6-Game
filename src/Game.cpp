@@ -65,6 +65,8 @@ void Game::UpdateGame(float deltaTime_)
 	if (playerHealth <= 0.0f)
 	{
 		playerHealth = 0.0f;
+
+		Window::Instance()->state = GAME_OVER;
 	}
 	else
 	{

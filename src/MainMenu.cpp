@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 #include "Window.h"
 #include "Assets.h"
+#include "Game.h"
 
 MainMenu* MainMenu::mainMenuInstance = nullptr;
 
@@ -49,6 +50,7 @@ void MainMenu::UpdateMenu()
 	}
 
 	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
+		Game::Instance()->playerHealth = Game::Instance()->maxPlayerHealth;
 		Window::Instance()->state = GAME;
 	}
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {

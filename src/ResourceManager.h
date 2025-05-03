@@ -21,6 +21,7 @@ public:
     static map<int, Shader> shaders;
     static map<int, unsigned int> textures;
     static map<int, ma_sound> music;
+    static map<int, ma_sound> sounds;
 
     // Loads (and generates) a shader program from file loading vertex, fragment (and geometry) shader's source code.
     // If gShaderFile is not nullptr, it also loads a geometry shader
@@ -37,6 +38,9 @@ public:
 
     static ma_sound* LoadMusic(const char* file, int enum_);
     static ma_sound* GetMusic(int enum_);
+
+    static ma_sound* LoadSound(const char* file, int enum_);
+    static ma_sound* GetSound(int enum_);
 
     // Properly de-allocates all loaded resources
     static void Clear();
