@@ -19,6 +19,9 @@ public:
 	void HandleInput(float deltaTime_);
 	void RenderGame(float deltaTime_);
 
+	int playerHealth;
+	const int maxPlayerHealth;
+
 private:
 	Game();
 
@@ -27,9 +30,6 @@ private:
 	Player* player;
 
 	vector<UserInterface> healthBars = {};
-
-	int maxPlayerHealth;
-	int playerHealth;
 
 	float timer;
 };

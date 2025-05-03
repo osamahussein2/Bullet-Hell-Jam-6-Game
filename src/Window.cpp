@@ -7,6 +7,7 @@
 #include "Assets.h"
 #include "OptionsMenu.h"
 #include "CreditsMenu.h"
+#include "GameOverMenu.h"
 
 Window* Window::windowInstance = nullptr;
 float lastFrame = 0.f;
@@ -33,6 +34,7 @@ Window::~Window()
   QuitToMainMenuConfirmationMenu::DeleteQuitToMainMenuConfirmationMenuInstance();
   OptionsMenu::DeleteOptionsMenuInstance();
   CreditsMenu::DeleteCreditsMenuInstance();
+  GameOverMenu::DeleteGameOverMenuInstance();
 
   // Close all GLFW-related stuff and perhaps terminate the whole program, maybe?
   glfwTerminate();
@@ -109,6 +111,7 @@ bool Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   QuitToMainMenuConfirmationMenu::Instance()->InitializeMenu();
   OptionsMenu::Instance()->InitializeMenu();
   CreditsMenu::Instance()->InitializeMenu();
+  GameOverMenu::Instance()->InitializeMenu();
 
   return true;
 }
@@ -162,6 +165,11 @@ void Window::UpdateWindow()
         //std::cout<<"CREDITS MENU\n";
         CreditsMenu::Instance()->UpdateMenu();
         CreditsMenu::Instance()->RenderMenu();
+        break;
+    case GAME_OVER:
+        //std::cout<<"GAME OVER MENU\n";
+        GameOverMenu::Instance()->UpdateMenu();
+        GameOverMenu::Instance()->RenderMenu();
         break;
   }
 
