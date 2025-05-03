@@ -27,8 +27,8 @@ MainMenu* MainMenu::Instance()
 
 void MainMenu::InitializeMenu()
 {
-	vec2 rel_size = vec2(0.25, 0.1);
-	float vert_padd = 0.1;
+	vec2 rel_size = vec2(0.25, 0.15);
+	float vert_padd = 0.05;
 	vec2 rel_pos = vec2((1-rel_size.x)/2.f, 0.2);
 
 	buttons.push_back(Button(rel_pos, rel_size, Assets::button, Assets::spriteShader, "play"));

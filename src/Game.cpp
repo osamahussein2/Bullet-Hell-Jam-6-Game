@@ -16,7 +16,6 @@ Game::~Game()
 {
 	gameInstance = nullptr;
 
-	delete playerSpriteRenderer;
 	delete player;
 
 	healthBars.clear();
@@ -35,38 +34,8 @@ Game* Game::Instance()
 
 void Game::InitializeGame()
 {
-	// Set render-specific controls
-	playerSpriteRenderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
-	
-	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
-		8, // columns
-		15, // rows
-		1, // y_pos
-		6, // frames
-		12.f // fps
-		}
-	);
-	
-	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
-		8, // columns
-		15, // rows
-		2, // y_pos
-		6, // frames
-		12.f // fps
-		}
-	);
 
-	playerSpriteRenderer->GetAnimationHandler()->AddAnimation(AnimationData{
-		8, // columns
-		15, // rows
-		0, // y_pos
-		8, // frames
-		12.f // fps
-		}
-	);	
-
-	player = new GameObject(vec2(600.0f, 100.0f), vec2(100.0f, 100.0f), Assets::playerTexture, vec3(1.0f),
-		vec2(0.0f, 0.0f));
+	player = new Player(vec2(0.0f, 0.0f));
 
 	// Health bar UI
 	healthBars.push_back(UserInterface(vec2(0.0, 0.0), vec2(0.3f, 0.1f), Assets::healthBarTexture, Assets::spriteShader));
@@ -77,21 +46,7 @@ void Game::InitializeGame()
 
 void Game::UpdateGame(float deltaTime_)
 {
-	player->position += player->velocity * deltaTime_;
-	
-	if (player->velocity.x < 0){
-		playerSpriteRenderer->SetHorFlip(true);
-	}
-	else if (player->velocity.x > 0){
-		playerSpriteRenderer->SetHorFlip(false);
-	}
-
-	// player animation
-	playerSpriteRenderer->UpdateAnimation(deltaTime_);
-	Animation* player_anim = playerSpriteRenderer->GetAnimationHandler();
-	if (Input::IsKeyPressed(GLFW_KEY_SPACE)){ // just to switch animations
-		player_anim->SetCurrentAnim( (player_anim->GetCurrentAnim()+1) % player_anim->GetNumberOfAnims());
-	}
+	player->Update(deltaTime_);
 
 	for (UserInterface& healthbar : healthBars){
 		healthbar.Update(true);
@@ -134,33 +89,10 @@ void Game::HandleInput(float deltaTime_)
 		Audio::Instance()->PlaySound(Assets::bip_sound);
 	}
 
-	vec2 direction = vec2(0.0f);
-	// Move the player around the game
-
-	if (Input::IsKeyDown(GLFW_KEY_W) || Input::IsKeyDown(GLFW_KEY_UP)) {
-		direction.y = -1.0f;
-	}
-
-	if (Input::IsKeyDown(GLFW_KEY_S) || Input::IsKeyDown(GLFW_KEY_DOWN)) {
-		direction.y = 1.0f;
-	}
-
-	if (Input::IsKeyDown(GLFW_KEY_A) || Input::IsKeyDown(GLFW_KEY_LEFT)) {
-		direction.x = -1.0f;
-	}
-
-	if (Input::IsKeyDown(GLFW_KEY_D) || Input::IsKeyDown(GLFW_KEY_RIGHT)) {
-		direction.x = 1.0f;
-	}
-
 	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		Window::Instance()->state = PAUSE_MENU;
 	}
-
-	if (direction != vec2(0.f)) direction = normalize(direction);
-	float speed = 450.f;
-	player->velocity = direction * speed;
 }
 
 void Game::RenderGame(float deltaTime_)
@@ -214,9 +146,7 @@ void Game::RenderGame(float deltaTime_)
 
 	timer += deltaTime_;
 
-	playerSpriteRenderer->DrawSprite(player->sprite, player->position, player->size,
-		player->rotation, player->color);
-
+	player->Draw();
 
 	for (UserInterface& healthbar : healthBars){
 		healthbar.Draw(*UserInterface::UiRendererInstance());

@@ -2,6 +2,7 @@
 #include "SpriteRenderer.h"
 #include "GameObject.h"
 #include "UserInterface.h"
+#include "Player.h"
 
 #include <vector>
 
@@ -23,9 +24,7 @@ private:
 
 	static Game* gameInstance;
 
-	SpriteRenderer* playerSpriteRenderer;
-
-	GameObject* player;
+	Player* player;
 
 	vector<UserInterface> healthBars = {};
 

@@ -18,7 +18,7 @@ void Assets::LoadAssets()
 	#endif
 
 	// Load textures
-	ResourceManager::LoadTexture("assets/Textures/example_spritesheet.png", playerTexture);
+	ResourceManager::LoadTexture("assets/Textures/Player.png", playerTexture);
 	ResourceManager::LoadTexture("assets/Textures/image.png", playerTexture2);
 	ResourceManager::LoadTexture("assets/Textures/Health bar.png", healthBarTexture);
 	ResourceManager::LoadTexture("assets/Textures/Current health.png", currentHealthTexture);

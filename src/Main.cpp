@@ -19,10 +19,10 @@ int main()
 	}
 
 	{
-		float scale = 1.0;
+		float aspect = WindowInfo::Instance()->GetGameSize().x / WindowInfo::Instance()->GetGameSize().y;
 		if (!WindowInfo::Instance()->InitializeWindow(
-				WindowInfo::Instance()->GetGameSize().x * scale,
-				WindowInfo::Instance()->GetGameSize().y * scale,
+				1600,
+				1600/aspect,
 			 	"Bullet Hell Application", NULL, NULL
 			)){
 			std::cerr << "Failed to initialize window\n";
