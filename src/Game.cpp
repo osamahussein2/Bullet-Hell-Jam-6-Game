@@ -70,7 +70,7 @@ void Game::UpdateGame(float deltaTime_)
 	}
 	else
 	{
-		playerHealth -= 1.0f * deltaTime_;
+		//playerHealth -= 1.0f * deltaTime_;
 
 		if (playerHealth >= 132.0f)
 		{
