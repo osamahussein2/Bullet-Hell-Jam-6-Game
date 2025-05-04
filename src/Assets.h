@@ -42,6 +42,10 @@ public:
         
         playerBulletTexture = 6,
         enemyBulletTexture = 7,
+
+        auraUITexture = 8,
+        auraBarTexture = 9,
+        scoreUITexture = 10
         
     };
 };

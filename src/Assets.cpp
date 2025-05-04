@@ -28,12 +28,17 @@ void Assets::LoadAssets()
 
 	ResourceManager::LoadTexture("assets/Textures/PlayerBullet.png", playerBulletTexture);
 	ResourceManager::LoadTexture("assets/Textures/EnemyBullet.png", enemyBulletTexture);
+
+	ResourceManager::LoadTexture("assets/Textures/Aura bar.png", auraBarTexture);
+	ResourceManager::LoadTexture("assets/Textures/Aura UI.png", auraUITexture);
+	ResourceManager::LoadTexture("assets/Textures/Score UI.png", scoreUITexture);
 	
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
 	Audio::Instance()->PlayMusic(default_music);
 	ma_sound_set_volume(default_music, musicVolume);
 
+	// Load sounds
 	ResourceManager::LoadSound("assets/Sounds/sound.wav", buttonHoverSound);
 	ma_sound_set_volume(ResourceManager::GetSound(buttonHoverSound), sfxVolume);
 }

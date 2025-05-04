@@ -21,8 +21,12 @@ public:
 	void RenderGame(float deltaTime_);
 
 	std::vector<Bullet*> playerBullets;
+	
 	int playerHealth;
 	const int maxPlayerHealth;
+
+	float playerAura;
+	const float maxPlayerAura;
 
 private:
 	Game();
@@ -32,6 +36,7 @@ private:
 	Player* player;
 
 	vector<UserInterface> healthBars = {};
+	vector<UserInterface> HUDs = {};
 
 	float timer;
 };
