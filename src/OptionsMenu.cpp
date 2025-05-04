@@ -29,11 +29,17 @@ OptionsMenu* OptionsMenu::Instance()
 
 void OptionsMenu::InitializeMenu()
 {
-	vec2 rel_size = vec2(0.3, 0.15);
+	vec2 rel_size = vec2(0.2, 0.1);
 	float vert_padd = 0.1;
 	float hori_padd = 0.1;
-	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.5);
+	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.45);
 
+	vert_padd = 0.35f;
+	rel_pos.y += rel_size.y - vert_padd;
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "fullscreen"));
+
+	vert_padd = 0.45f;
+	rel_size = vec2(0.3, 0.15);
 	rel_pos.y += rel_size.y + vert_padd;
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "back"));
 
@@ -59,6 +65,12 @@ void OptionsMenu::UpdateMenu()
 	}
 
 	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
+#ifndef __EMSCRIPTEN__
+		Window::Instance()->ToggleFullscreen();
+#endif
+	}
+
+	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = MAIN_MENU;
 	}
 

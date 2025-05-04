@@ -48,8 +48,9 @@ public:
 
 	static int GameWidth;
 	static int GameHeight;
-private:
+
 	void ToggleFullscreen();
+private:
 	// Initialize the window's variables to be NULL first before we do anything with it
 	Window();
 
