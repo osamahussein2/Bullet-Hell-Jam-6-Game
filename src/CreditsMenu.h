@@ -23,12 +23,9 @@ public:
 
 private:
 	CreditsMenu();
-
-	void ChangeTextColorOvertime(float deltaTime_);
-
+	
 	static CreditsMenu* creditsMenuInstance;
 
-	float creditsTime;
 	bool timeShouldIncrease;
 
 	const float timerReachesZero = 0.0f;
