@@ -20,23 +20,10 @@ Game::Game() : playerAura(1.0f), maxPlayerAura(1.0f), timer(0.0f)
 
 Game::~Game()
 {
+	delete player;
 	gameInstance = nullptr;
 
-	delete player;
-
-	for (Bullet* bullet : playerBullets) {
-		delete bullet;
-	}
-
-	for (Bullet* bullet : enemyBullets) {
-		delete bullet;
-	}
-
-	for (Enemy* enemy : enemies) {
-		delete enemy;
-	}
-
-	HUDs.clear();
+	Clear();
 }
 
 Game* Game::Instance()
@@ -52,11 +39,7 @@ Game* Game::Instance()
 
 void Game::InitializeGame()
 {
-	player = new Player(vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2));
-	player->position -= player->size*vec2(0.5);
-
-	enemies.push_back(new Bomba(player->position + vec2(150, -80)));
-	enemies.push_back(new CultistBasic(player->position + vec2(-100, -50)));
+	player = new Player(vec2(0.0));
 
 	vec2 gSize = Window::Instance()->GetGameSize();
 
@@ -66,8 +49,6 @@ void Game::InitializeGame()
 	HUDs.push_back(UserInterface(vec2(0.0, -8), vec2(80, 8), Assets::auraBarTexture, Assets::spriteShader, vec3(1.0), true));
 	// Score UI
 	HUDs.push_back(UserInterface(vec2(gSize.x-96, -32), vec2(96, 32), Assets::scoreUITexture, Assets::spriteShader, vec3(1.0), true));
-
-	LoadGame();
 }
 
 void Game::UpdateGame(float deltaTime_)
@@ -189,16 +170,16 @@ void Game::RenderGame(float deltaTime_)
 
 	player->Draw();
 
+	for (Enemy* enemy : enemies) {
+		enemy->Draw();
+	}
+
 	for (Bullet* bullet : playerBullets) {
 		bullet->Draw();
 	}
 
 	for (Bullet* bullet : enemyBullets) {
 		bullet->Draw();
-	}
-
-	for (Enemy* enemy : enemies) {
-		enemy->Draw();
 	}
 		
 	
@@ -227,7 +208,32 @@ void Game::HandleCollisions(float deltaTime_)
 
 void Game::LoadGame()
 {
+	Clear();
 	playerAura = maxPlayerAura;
+	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
+	player->position = center - player->size*vec2(0.5);
+
+	enemies.push_back(new Bomba(center + vec2(150, -80)));
+	enemies.push_back(new CultistBasic(center + vec2(-100, -50)));
+	enemies.push_back(new CultistBasic(center+ vec2(0, -120)));
+}
+
+void Game::Clear()
+{
+	for (Bullet* bullet : playerBullets) {
+		delete bullet;
+	}
+	playerBullets.clear();
+
+	for (Bullet* bullet : enemyBullets) {
+		delete bullet;
+	}
+	enemyBullets.clear();
+
+	for (Enemy* enemy : enemies) {
+		delete enemy;
+	}
+	enemies.clear();
 }
 
 void Game::DeleteGameInstance()

@@ -24,6 +24,7 @@ private:
     CultistBasicState state = CLB_ST_MOVE;
     bool hit_this_frame = false;
     float moving_timer = 0.f;
+    float random_shoot_offset = 0.f; // randomizes shoot cooldown a little
 
 public:
     virtual void OnCollide(Body* other);

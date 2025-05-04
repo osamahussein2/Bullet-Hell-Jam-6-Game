@@ -16,7 +16,7 @@ enum PlayerAnimations {
 enum PlayerState {
     PL_ST_IDLE = 0, 
     PL_ST_MOVE = 1,
-    PL_ST_SPIN = 2,
+    PL_ST_HIT = 2,
     PL_ST_SHOOT = 3
 };
 
@@ -24,7 +24,7 @@ class Player : public ShootingObject {
 private:
     PlayerState state = PL_ST_IDLE;
     bool hit_this_frame = false;
-    float speed = 200.f;
+    float speed = 2000.f;
 
 public:
     virtual void OnCollide(Body* other);
@@ -34,6 +34,8 @@ public:
     virtual void Update(float deltaTime) override;
     virtual void UpdateCurrentAnim() override;
 
+    vec2 HandleMovementInput();
+    void Shoot();
 };
 
 #endif

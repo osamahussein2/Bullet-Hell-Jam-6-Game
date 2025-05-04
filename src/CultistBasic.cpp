@@ -5,13 +5,13 @@
 void CultistBasic::OnCollide(Body *other) {
     hit_this_frame = true;
 }
-CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 2.5) {
+CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 1.2) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 5;
 
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_HIT, 4, 6.f});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_SHOOT, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_SHOOT, 6, 7.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_LEFT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_RIGHT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_IDLE, 6, 6.f});
@@ -36,6 +36,10 @@ void CultistBasic::Update(float deltaTime) {
     case CLB_ST_MOVE:
         moving_timer += deltaTime;
         velocity.x = sin(moving_timer)*150;
+        if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
+            state = CLB_ST_SHOOT;
+            random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
+        }
         break;
     case CLB_SHOOT:
         renderer->GetAnimationHandler()->SetCurrentAnim(CLB_SHOOT);
@@ -47,7 +51,9 @@ void CultistBasic::Update(float deltaTime) {
             for (int i = 0; i < n; i++) {
                 float ang = i*a;
                 vec2 offset = vec2(cos(ang), sin(ang))*patt_rad;
-                Game::Instance()->enemyBullets.push_back(new CirlcePatternBullet(position+size*vec2(0.5)+offset, vec2(cos(glfwGetTime())/2, 1.0), Assets::enemyBulletTexture, ang, patt_rad));
+                vec2 dir = Game::Instance()->player->position - position;
+                if (dir != vec2(0.0)) dir = normalize(dir);
+                Game::Instance()->enemyBullets.push_back(new CirlcePatternBullet(position+size*vec2(0.5)+offset, dir, Assets::enemyBulletTexture, ang, patt_rad));
             }
         
             since_last_shot = 0.f;
@@ -76,7 +82,6 @@ void CultistBasic::UpdateCurrentAnim() {
         case CLB_ST_MOVE:
             if (velocity.x > 0) renderer->GetAnimationHandler()->SetCurrentAnim(CLB_RIGHT);
             else if (velocity.x < 0) renderer->GetAnimationHandler()->SetCurrentAnim(CLB_LEFT);
-            if (since_last_shot >= shoot_cooldown) state = CLB_ST_SHOOT;
             break;
     }
 };

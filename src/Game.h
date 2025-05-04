@@ -25,6 +25,7 @@ public:
 	void HandleCollisions(float deltaTime_);
 
 	void LoadGame();
+	void Clear();
 
 	std::vector<Enemy*> enemies;
 	std::vector<Bullet*> playerBullets;
@@ -35,12 +36,12 @@ public:
 	float playerAura;
 	const float maxPlayerAura;
 
+	Player* player;
+
 private:
 	Game();
 
 	static Game* gameInstance;
-
-	Player* player;
 
 	vector<UserInterface> HUDs = {};
 
