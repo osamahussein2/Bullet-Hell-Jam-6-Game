@@ -41,7 +41,7 @@ void TextRenderer::DrawText(const char* text, vec2 pos, float scale, bool center
     float x = pos.x;
     float y = pos.y;
 
-    float offset = 0.1*scale;
+    float offset = 0.0*scale;
 
     if (centered_h){
         int l = strlen(text);
@@ -52,13 +52,39 @@ void TextRenderer::DrawText(const char* text, vec2 pos, float scale, bool center
         y -= h/2;
     }
     
-    for (size_t i = 0; text[i] != '\0'; ++i) {
+    for (int i = 0; text[i] != '\0'; ++i) {
         DrawChar(text[i], x, y, w, h, color);
         x += w + offset;
+    }
+}
+
+void TextRenderer::DrawTextFromRight(const char *text, vec2 pos, float scale, bool centered_v, vec3 color)
+{
+    float w = letW*scale;
+    float h = letH*scale;
+
+    float x = pos.x;
+    float y = pos.y;
+
+    float offset = 0.0*scale;
+
+    if (centered_v){
+        y -= h/2;
+    }
+    
+    int l = strlen(text);
+    for (int i = l-1; i>=0; --i) {
+        DrawChar(text[i], x, y, w, h, color);
+        x -= w + offset;
     }
 }
 
 void TextRenderer::DrawTextRelCent(const char *text, vec2 rel_pos, float rel_scale, vec3 color)
 {
     DrawText(text, rel_pos*Window::Instance()->GetWindowSize(), rel_scale*Window::Instance()->GetWindowSize().x, true, true, color);
+}
+
+void TextRenderer::DrawTextRelFromRight(const char *text, vec2 rel_pos, float rel_scale, vec3 color)
+{
+    DrawTextFromRight(text, rel_pos*Window::Instance()->GetWindowSize(), rel_scale*Window::Instance()->GetWindowSize().x, true, color);
 }

@@ -36,11 +36,12 @@ public:
 
     void DrawChar(char letter, float x, float y, float w, float h, vec3 color = vec3(1.0));
     void DrawText(const char* text, vec2 pos, float scale, bool centered_h = false, bool centered_v = false, vec3 color = vec3(1.0));
+    void DrawTextFromRight(const char* text, vec2 pos, float scale, bool centered_v = false, vec3 color = vec3(1.0));
     
     void DrawTextRelCent(const char* text, vec2 rel_pos, float rel_scale, vec3 color = vec3(1.0));
+    void DrawTextRelFromRight(const char* text, vec2 rel_pos, float rel_scale, vec3 color = vec3(1.0));
 
     vec2 GetCharacterSize() { return vec2(letW, letH); }
-
 };
 
 #endif

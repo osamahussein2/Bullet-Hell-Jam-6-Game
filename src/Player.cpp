@@ -7,6 +7,25 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+void Player::OnCollide(Body *other)
+{
+    hit_this_frame = true;
+}
+
+Player::Player(vec2 pos_) : ShootingObject(pos_, vec2(56, 56), Assets::playerTexture, 0.2) {
+    renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
+    const int columns = 6;
+    const int rows = 5;
+
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_IDLE, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_RIGHT, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_LEFT, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_SPIN, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_SHOOT, 6, 6.f});
+
+    collisions.push_back(new CircleCollision(16, vec2(20.0)));
+}
+
 void Player::Update(float deltaTime)
 {
     vec2 direction = vec2(0.0f);
@@ -52,6 +71,8 @@ void Player::Update(float deltaTime)
     }
 
     GameObjectPro::Update(deltaTime);
+
+    hit_this_frame = false;
 }
 
 void Player::UpdateCurrentAnim() {

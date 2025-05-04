@@ -24,13 +24,14 @@ public:
 
 	void HandleCollisions(float deltaTime_);
 
+	void LoadGame();
+
 	std::vector<Enemy*> enemies;
 	std::vector<Bullet*> playerBullets;
 	std::vector<Bullet*> enemyBullets;
-	
-	float playerHealth;
-	const float maxPlayerHealth;
 
+	int score = 1;
+	
 	float playerAura;
 	const float maxPlayerAura;
 
@@ -41,7 +42,6 @@ private:
 
 	Player* player;
 
-	vector<UserInterface> healthBars = {};
 	vector<UserInterface> HUDs = {};
 
 	float timer;

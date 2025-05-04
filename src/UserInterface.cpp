@@ -15,17 +15,25 @@ SpriteRenderer *UserInterface::UiRendererInstance()
 	return uiRendererInstance;
 }
 
-UserInterface::UserInterface(vec2 rel_pos_, vec2 rel_size_, unsigned int sprite_, unsigned int shader_, vec3 color_)
+UserInterface::UserInterface(vec2 pos_, vec2 size_, unsigned int sprite_, unsigned int shader_, vec3 color_, bool abs_game_)
 {
-	rel_pos = rel_pos_;
-	rel_size = rel_size_;
+	if (abs_game_) { // pos_ and size_ aren't relative here, so we convert them to be relative
+		vec2 gSize = Window::Instance()->GetGameSize();
+		vec2 Pos = pos_ + vec2(0, gSize.y);
+		rel_pos = Pos / gSize;
+		rel_size = size_ / gSize;
+	}
+	else {
+		rel_pos = pos_;
+		rel_size = size_;
+	}
 	sprite = ResourceManager::GetTexture(sprite_);
 	color = color_;
 }
 
-void UserInterface::Update(bool keep_abs)
+void UserInterface::Update(bool relative_to_game)
 {
-	if (keep_abs){
+	if (relative_to_game){
 		position = rel_pos * Window::Instance()->GetGameSize();
 		size = rel_size * Window::Instance()->GetGameSize();
 	}

@@ -56,9 +56,7 @@ void GameOverMenu::UpdateMenu()
 	}
 
 	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
-		Game::Instance()->playerHealth = Game::Instance()->maxPlayerHealth;
-		Game::Instance()->playerAura = Game::Instance()->maxPlayerAura;
-
+		Game::Instance()->LoadGame();
 		Window::Instance()->state = GAME;
 	}
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {

@@ -5,13 +5,15 @@
 #include "Input.h"
 #include "Assets.h"
 
+#include "TextRenderer.h"
+
 #include "Bullet.h"
 #include "Enemy.h"
 
 Game* Game::gameInstance = nullptr;
 
 
-Game::Game() : playerHealth(200.0f), maxPlayerHealth(200.0f), playerAura(100.0f), maxPlayerAura(100.0f), timer(0.0f)
+Game::Game() : playerAura(1.0f), maxPlayerAura(1.0f), timer(0.0f)
 {
 }
 
@@ -33,7 +35,6 @@ Game::~Game()
 		delete enemy;
 	}
 
-	healthBars.clear();
 	HUDs.clear();
 }
 
@@ -56,28 +57,21 @@ void Game::InitializeGame()
 	enemies.push_back(new Bomba(player->position + vec2(-100, -50)));
 	enemies.push_back(new CultistBasic(player->position + vec2(100, -50)));
 
-	// Health bar UI
-	healthBars.push_back(UserInterface(vec2(0.0, 0.0), vec2(0.3f, 0.1f), Assets::healthBarTexture, Assets::spriteShader));
-
-	// Current health UI
-	healthBars.push_back(UserInterface(vec2(0.0, 0.0), vec2(0.3f, 0.1f), Assets::currentHealthTexture, Assets::spriteShader));
+	vec2 gSize = Window::Instance()->GetGameSize();
 
 	// Aura UI
-	HUDs.push_back(UserInterface(vec2(0.0, 0.9), vec2(0.3f, 0.1f), Assets::auraUITexture, Assets::spriteShader));
-
-	// Full aura bar
-	HUDs.push_back(UserInterface(vec2(0.0, 0.975), vec2(0.25f, 0.025f), Assets::healthBarTexture, Assets::spriteShader,
-		vec3(1.0f, 0.0f, 0.0f)));
-
+	HUDs.push_back(UserInterface(vec2(0.0, -32), vec2(96, 32), Assets::auraUITexture, Assets::spriteShader, vec3(1.0), true));
 	// Current aura bar
-	HUDs.push_back(UserInterface(vec2(0.0, 0.975), vec2(0.25f, 0.025f), Assets::auraBarTexture, Assets::spriteShader));
-
+	HUDs.push_back(UserInterface(vec2(0.0, -8), vec2(80, 8), Assets::auraBarTexture, Assets::spriteShader, vec3(1.0), true));
 	// Score UI
-	HUDs.push_back(UserInterface(vec2(0.7, 0.9), vec2(0.3f, 0.1f), Assets::scoreUITexture, Assets::spriteShader));
+	HUDs.push_back(UserInterface(vec2(gSize.x-96, -32), vec2(96, 32), Assets::scoreUITexture, Assets::spriteShader, vec3(1.0), true));
+
+	LoadGame();
 }
 
 void Game::UpdateGame(float deltaTime_)
 {
+	score++;
 	player->Update(deltaTime_);
 
 	HandleCollisions(deltaTime_);
@@ -109,56 +103,23 @@ void Game::UpdateGame(float deltaTime_)
 	}
 
 
-	for (UserInterface& healthbar : healthBars){
-		healthbar.Update(true);
-	}
+	// UI drawing
 
 	for (UserInterface& hud : HUDs)
 	{
 		hud.Update(true);
 	}
 
-	healthBars[1].size.x *= playerHealth / maxPlayerHealth;
-
 	// Change the current aura bar size in x coordinate depending on player's current aura value
-	HUDs[2].size.x *= playerAura / maxPlayerAura;
+	HUDs[1].rel_pos.x = HUDs[1].rel_size.x * playerAura / maxPlayerAura - HUDs[1].rel_size.x;
 	
-	if (playerHealth <= 0.0f)
-	{
-		playerHealth = 0.0f;
-
+	if (playerAura <= 0.0f) {
+		playerAura = 0.0f;
 		Window::Instance()->state = GAME_OVER;
 	}
-	else
-	{
-		//playerHealth -= 1.0f * deltaTime_;
-		//playerAura -= 4.0f * deltaTime_;
-
-		// Make sure the player aura value never goes below 0
-		if (playerAura <= 0.0f)
-		{
-			playerAura = 0.0f;
-		}
-
-		if (playerHealth >= 132.0f)
-		{
-			// Make the health bar green
-			healthBars[1].color = vec3(0.0f, 1.0f, 0.0f);
-		}
-
-		else if (playerHealth >= 66.0f)
-		{
-			// Make the health bar yellow
-			healthBars[1].color = vec3(1.0f, 1.0f, 0.0f);
-		}
-
-		else if (playerHealth < 66.0f)
-		{
-			// Make the health bar red
-			healthBars[1].color = vec3(1.0f, 0.0f, 0.0f);
-		}
+	else {
+		//playerAura -= 0.1 * deltaTime_;
 	}
-		
 }
 
 void Game::HandleInput(float deltaTime_)
@@ -238,15 +199,16 @@ void Game::RenderGame(float deltaTime_)
 	for (Enemy* enemy : enemies) {
 		enemy->Draw();
 	}
-
-	for (UserInterface& healthbar : healthBars){
-		healthbar.Draw(*UserInterface::UiRendererInstance());
-	}
-
+		
+	
 	for (UserInterface& aura : HUDs)
 	{
 		aura.Draw(*UserInterface::UiRendererInstance());
 	}
+	
+	vec2 gSize = Window::Instance()->GetGameSize();
+	TextRenderer::Instance()->DrawTextFromRight(std::to_string(score).c_str(), vec2(gSize.x-10, gSize.y-8), 0.8, true, vec3(0.0));
+	//HUDs[2].Draw(*UserInterface::UiRendererInstance());
 }
 
 void Game::HandleCollisions(float deltaTime_)
@@ -260,6 +222,11 @@ void Game::HandleCollisions(float deltaTime_)
 	for (Bullet* bullet : enemyBullets) {
 		player->CollideWith(bullet);
 	}
+}
+
+void Game::LoadGame()
+{
+	playerAura = maxPlayerAura;
 }
 
 void Game::DeleteGameInstance()

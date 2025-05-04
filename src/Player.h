@@ -13,28 +13,23 @@ enum PlayerAnimations {
     PL_SHOOT = 4,
 };
 
+enum PlayerState {
+    PL_ST_IDLE = 0, 
+    PL_ST_MOVE = 1,
+    PL_ST_SPIN = 2,
+    PL_ST_SHOOT = 3
+};
+
 class Player : public ShootingObject {
 private:
+    PlayerState state = PL_ST_IDLE;
+    bool hit_this_frame = false;
     float speed = 200.f;
 
 public:
-    virtual void OnCollide(Body* other) {
-        renderer->GetAnimationHandler()->SetCurrentAnim(PL_SPIN);
-    };
+    virtual void OnCollide(Body* other);
 
-    Player(vec2 pos_) : ShootingObject(pos_, vec2(56, 56), Assets::playerTexture, 0.2) {
-        renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
-        const int columns = 6;
-        const int rows = 5;
-
-        renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_IDLE, 6, 6.f});
-        renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_RIGHT, 6, 6.f});
-        renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_LEFT, 6, 6.f});
-        renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_SPIN, 6, 6.f});
-        renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_SHOOT, 6, 6.f});
-
-        collisions.push_back(new CircleCollision(16, vec2(20.0)));
-    }
+    Player(vec2 pos_);
 
     virtual void Update(float deltaTime) override;
     virtual void UpdateCurrentAnim() override;
