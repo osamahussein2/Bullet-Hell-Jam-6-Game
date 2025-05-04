@@ -5,7 +5,9 @@
 #include "Player.h"
 
 #include <vector>
-#include "Bullet.h"
+
+class Bullet;
+class Enemy;
 
 class Game
 {
@@ -20,7 +22,11 @@ public:
 	void HandleInput(float deltaTime_);
 	void RenderGame(float deltaTime_);
 
+	void HandleCollisions(float deltaTime_);
+
+	std::vector<Enemy*> enemies;
 	std::vector<Bullet*> playerBullets;
+	std::vector<Bullet*> enemyBullets;
 	int playerHealth;
 	const int maxPlayerHealth;
 

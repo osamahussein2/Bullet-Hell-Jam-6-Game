@@ -12,5 +12,13 @@ void Animation::Update(float deltaTime){
     if (anim.frame_count >= (1.f / (anim.fps*deltaTime) )) {
         anim.frame_count = 0;
         anim.current_frame = (anim.current_frame + 1) % anim.frames;
+        if (qued_anim != -1) {
+            anim.current_frame = 0;
+            current_anim = qued_anim;
+            AnimationData& anim = anims[current_anim];
+            qued_anim = -1;
+            anim.frame_count = 0;
+            anim.current_frame = 0;
+        }
     }
 }

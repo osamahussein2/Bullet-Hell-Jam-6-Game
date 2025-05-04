@@ -37,6 +37,9 @@ public:
         
         playerBulletTexture = 6,
         enemyBulletTexture = 7,
+
+        bombaTexture = 8,
+        cultistBasicTexture = 9,
         
     };
 };

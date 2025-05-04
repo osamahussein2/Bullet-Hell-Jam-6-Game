@@ -5,6 +5,9 @@
 #include "Input.h"
 #include "Assets.h"
 
+#include "Bullet.h"
+#include "Enemy.h"
+
 Game* Game::gameInstance = nullptr;
 
 
@@ -20,6 +23,14 @@ Game::~Game()
 
 	for (Bullet* bullet : playerBullets) {
 		delete bullet;
+	}
+
+	for (Bullet* bullet : enemyBullets) {
+		delete bullet;
+	}
+
+	for (Enemy* enemy : enemies) {
+		delete enemy;
 	}
 
 	healthBars.clear();
@@ -41,6 +52,9 @@ void Game::InitializeGame()
 	player = new Player(vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2));
 	player->position -= player->size*vec2(0.5);
 
+	enemies.push_back(new Bomba(player->position + vec2(-100, -50)));
+	enemies.push_back(new CultistBasic(player->position + vec2(100, -50)));
+
 	// Health bar UI
 	healthBars.push_back(UserInterface(vec2(0.0, 0.0), vec2(0.3f, 0.1f), Assets::healthBarTexture, Assets::spriteShader));
 
@@ -52,6 +66,12 @@ void Game::UpdateGame(float deltaTime_)
 {
 	player->Update(deltaTime_);
 
+	HandleCollisions(deltaTime_);
+
+	for (Enemy* enemy : enemies) {
+		enemy->Update(deltaTime_);
+	}
+
 	for (auto it = playerBullets.begin(); it != playerBullets.end(); ) {
 		auto bullet = *it;
 		bullet->Update(deltaTime_);
@@ -62,6 +82,18 @@ void Game::UpdateGame(float deltaTime_)
 			++it;
 		}
 	}
+
+	for (auto it = enemyBullets.begin(); it != enemyBullets.end(); ) {
+		auto bullet = *it;
+		bullet->Update(deltaTime_);
+		if (bullet->destroyed) {
+			delete bullet;
+			it = enemyBullets.erase(it);
+		} else {
+			++it;
+		}
+	}
+
 
 	for (UserInterface& healthbar : healthBars){
 		healthbar.Update(true);
@@ -146,7 +178,7 @@ void Game::RenderGame(float deltaTime_)
 	#else
 	glScissor(x, y, viewW, viewH);
 	glViewport(x, y, viewW, viewH);
-	glClearColor(1,1,1,1);
+	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	#endif
 	glDisable(GL_SCISSOR_TEST);
@@ -169,10 +201,31 @@ void Game::RenderGame(float deltaTime_)
 		bullet->Draw();
 	}
 
+	for (Bullet* bullet : enemyBullets) {
+		bullet->Draw();
+	}
+
+	for (Enemy* enemy : enemies) {
+		enemy->Draw();
+	}
+
 	for (UserInterface& healthbar : healthBars){
 		healthbar.Draw(*UserInterface::UiRendererInstance());
 	}
 		
+}
+
+void Game::HandleCollisions(float deltaTime_)
+{
+	for (Bullet* bullet : playerBullets) {
+		for (Enemy* enemy : enemies) {
+			enemy->CollideWith(bullet);
+		}	
+	}
+
+	for (Bullet* bullet : enemyBullets) {
+		player->CollideWith(bullet);
+	}
 }
 
 void Game::DeleteGameInstance()

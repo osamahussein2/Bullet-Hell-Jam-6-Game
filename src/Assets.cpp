@@ -28,6 +28,9 @@ void Assets::LoadAssets()
 
 	ResourceManager::LoadTexture("assets/Textures/PlayerBullet.png", playerBulletTexture);
 	ResourceManager::LoadTexture("assets/Textures/EnemyBullet.png", enemyBulletTexture);
+
+	ResourceManager::LoadTexture("assets/Textures/bomba.png", bombaTexture);
+	ResourceManager::LoadTexture("assets/Textures/cultistBasic.png", cultistBasicTexture);
 	
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);

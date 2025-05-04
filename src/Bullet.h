@@ -32,21 +32,23 @@ public:
         velocity = direction * speed;
         position += velocity * deltaTime;
 
-        renderer->UpdateAnimation(deltaTime);
+        GameObjectPro::Update(deltaTime);
     }
 
-    virtual void OnCollide(Body& other) override {};
+    virtual void OnCollide(Body* other) override {};
     virtual void UpdateCurrentAnim() override {};
 };
 
 class PlayerBullet : public Bullet {
 public:
-    PlayerBullet(vec2 pos_, vec2 direction_) : Bullet(pos_, direction_, 40.f, 16.f, vec2(32.0), Assets::playerBulletTexture) {
+    PlayerBullet(vec2 pos_, vec2 direction_) : Bullet(pos_, direction_, 200.f, 16.f, vec2(32.0), Assets::playerBulletTexture) {
         renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
         const int columns = 6;
         const int rows = 1;
 
         renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, 0, 6, 6.f});
+
+        collisions.push_back(new CircleCollision(radius, vec2(radius)));
     }
 
     virtual void Update(float deltaTime) override {

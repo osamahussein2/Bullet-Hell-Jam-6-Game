@@ -65,7 +65,7 @@ void SpriteRenderer::DrawSprite(unsigned int texture_, vec2 position_, vec2 size
 
 	// animation stuff
 	if (animated){
-		FrameData f = animation.GetCurrentFrame();
+		FrameData f = animation.GetCurrentFrameData();
 		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "columns"), f.columns);
 		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "rows"), f.rows);
 		glUniform1i(glGetUniformLocation(spriteShader.shaderProgram, "frame"), f.frame);	

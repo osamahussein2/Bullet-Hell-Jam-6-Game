@@ -55,7 +55,7 @@ struct Body {
     glm::vec2 body_position;
 
     std::vector<Collision*> collisions;
-    virtual void OnCollide(Body& other) = 0;
+    virtual void OnCollide(Body* other) = 0;
 
     void UpdatePositions() {
         for (Collision* collision : collisions) {
@@ -63,12 +63,12 @@ struct Body {
         }
     }
 
-    bool CollideWith(Body& other) {
+    bool CollideWith(Body* other) {
         for (Collision* collision : collisions) {
-            for (Collision* other_collision : other.collisions) {
+            for (Collision* other_collision : other->collisions) {
                 if (collision->collidesWith(*other_collision)) {
                     OnCollide(other);
-                    other.OnCollide(*this);
+                    other->OnCollide(this);
                     return true;
                 }
             }
