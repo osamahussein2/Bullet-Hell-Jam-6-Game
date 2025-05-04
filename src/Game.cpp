@@ -86,8 +86,9 @@ void Game::UpdateGame(float deltaTime_)
 		hud.Update(true);
 	}
 
-	healthBars[1].size.x *= float(playerHealth) / float(maxPlayerHealth);
+	healthBars[1].size.x *= playerHealth / maxPlayerHealth;
 
+	// Change the current aura bar size in x coordinate depending on player's current aura value
 	HUDs[2].size.x *= playerAura / maxPlayerAura;
 	
 	if (playerHealth <= 0.0f)

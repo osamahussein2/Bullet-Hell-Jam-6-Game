@@ -22,8 +22,8 @@ public:
 
 	std::vector<Bullet*> playerBullets;
 	
-	int playerHealth;
-	const int maxPlayerHealth;
+	float playerHealth;
+	const float maxPlayerHealth;
 
 	float playerAura;
 	const float maxPlayerAura;
