@@ -53,11 +53,13 @@ void Player::Update(float deltaTime)
 
     since_last_shot += deltaTime;
 
+    UpdateCurrentAnim();
+
     if (Input::IsKeyDown(GLFW_KEY_SPACE)) {
         if (since_last_shot >= shoot_cooldown){
             Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(0.0, -1.0)));
-            Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2+M_PI/7), -sin(M_PI/2+M_PI/7))));
-            Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2-M_PI/7), -sin(M_PI/2-M_PI/7))));
+            Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2+M_PI/9), -sin(M_PI/2+M_PI/9))));
+            Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2-M_PI/9), -sin(M_PI/2-M_PI/9))));
             // float time = glfwGetTime() * 2;
             // for (int i = 0; i < 10; i++){
             //     float angle = time + i*2*M_PI/10;
@@ -76,19 +78,16 @@ void Player::Update(float deltaTime)
 }
 
 void Player::UpdateCurrentAnim() {
-    if (renderer->GetAnimationHandler()->GetCurrentAnim() != PL_SPIN){
-        if (velocity.x > 0) {
-            renderer->GetAnimationHandler()->SetCurrentAnim(PL_RIGHT);
-        }
-        else if (velocity.x < 0) {
-            renderer->GetAnimationHandler()->SetCurrentAnim(PL_LEFT);
-        }
-        else {
-            renderer->GetAnimationHandler()->SetCurrentAnim(PL_IDLE);
-        }
-    
-        if (Input::IsKeyDown(GLFW_KEY_SPACE)) {
-            renderer->GetAnimationHandler()->SetCurrentAnim(PL_SHOOT);
-        }   
+    if (Input::IsKeyDown(GLFW_KEY_SPACE)) {
+        renderer->GetAnimationHandler()->SetCurrentAnim(PL_SHOOT);
+    }   
+    else if (velocity.x > 0) {
+        renderer->GetAnimationHandler()->SetCurrentAnim(PL_RIGHT);
+    }
+    else if (velocity.x < 0) {
+        renderer->GetAnimationHandler()->SetCurrentAnim(PL_LEFT);
+    }
+    else {
+        renderer->GetAnimationHandler()->SetCurrentAnim(PL_IDLE);
     }
 }

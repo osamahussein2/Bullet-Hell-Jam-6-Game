@@ -4,11 +4,12 @@
 #include "Audio.h"
 #include "Input.h"
 #include "Assets.h"
-
 #include "TextRenderer.h"
 
 #include "Bullet.h"
 #include "Enemy.h"
+#include "CultistBasic.h"
+#include "Bomba.h"
 
 Game* Game::gameInstance = nullptr;
 
@@ -54,8 +55,8 @@ void Game::InitializeGame()
 	player = new Player(vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2));
 	player->position -= player->size*vec2(0.5);
 
-	enemies.push_back(new Bomba(player->position + vec2(-100, -50)));
-	enemies.push_back(new CultistBasic(player->position + vec2(100, -50)));
+	enemies.push_back(new Bomba(player->position + vec2(150, -80)));
+	enemies.push_back(new CultistBasic(player->position + vec2(-100, -50)));
 
 	vec2 gSize = Window::Instance()->GetGameSize();
 
