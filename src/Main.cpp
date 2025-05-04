@@ -18,12 +18,19 @@ int main()
 		return 1;
 	}
 
+	GLFWmonitor* monitor;
+	#ifdef __EMSCRIPTEN__
+	monitor = NULL;
+	#else
+	monitor = glfwGetPrimaryMonitor();
+	#endif
+
 	{
 		float aspect = WindowInfo::Instance()->GetGameSize().x / WindowInfo::Instance()->GetGameSize().y;
 		if (!WindowInfo::Instance()->InitializeWindow(
 				1600,
 				1600/aspect,
-			 	"Bullet Hell Application", glfwGetPrimaryMonitor(), NULL
+			 	"Bullet Hell Application", monitor, NULL
 			)){
 			std::cerr << "Failed to initialize window\n";
 			return 1;

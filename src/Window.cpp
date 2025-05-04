@@ -129,9 +129,11 @@ void Window::UpdateWindow()
 
   Input::Update();
 
+  #ifndef __EMSCRIPTEN__
   if (Input::IsKeyPressed(GLFW_KEY_F11)) {
       ToggleFullscreen();
-    }
+  }
+  #endif
 
   switch (state){
     case MAIN_MENU:
