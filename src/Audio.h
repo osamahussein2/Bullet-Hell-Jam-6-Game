@@ -3,6 +3,8 @@
 
 #include "miniaudio.h"
 
+class MultiSound;
+
 class Audio {
 public:
     ~Audio();
@@ -11,7 +13,8 @@ public:
 
     bool Initialize();
 
-    void PlaySound(const char* soundPath);
+    void PlaySound(unsigned sound);
+    void PlaySound(MultiSound* sound);
 
     void PlayMusic(ma_sound* music);
 

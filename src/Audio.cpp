@@ -1,5 +1,7 @@
 #include "Audio.h"
 #include <iostream>
+#include "MultiSound.h"
+#include "ResourceManager.h"
 
 Audio* Audio::audioInstance = nullptr;
 
@@ -16,8 +18,14 @@ Audio::Audio(){}
 
 Audio::~Audio(){}
 
-void Audio::PlaySound(const char* soundPath){
-    ma_result result = ma_engine_play_sound(&engine, soundPath, NULL);
+void Audio::PlaySound(unsigned sound)
+{
+    PlaySound(ResourceManager::GetSound(sound));
+}
+
+void Audio::PlaySound(MultiSound *sound)
+{
+    sound->Play();
 }
 
 void Audio::PlayMusic(ma_sound* music){

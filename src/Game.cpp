@@ -107,8 +107,7 @@ void Game::UpdateGame(float deltaTime_)
 void Game::HandleInput(float deltaTime_)
 {
 	if (Input::IsKeyPressed(GLFW_KEY_SPACE)){
-		//Audio::Instance()->PlaySound(Assets::bip_sound);
-		Audio::Instance()->PlayMusic(ResourceManager::GetSound(buttonHoverSound));
+		Audio::Instance()->PlaySound(Assets::buttonHoverSound);
 	}
 
 	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
@@ -146,7 +145,7 @@ void Game::RenderGame(float deltaTime_)
 	#ifdef __EMSCRIPTEN__ // on web just take the whole screen
 	glScissor(0, 0, winW, winH);
 	glViewport(0, 0, winW, winH);
-	glClearColor(1,1,1,1);
+	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	#else
 	glScissor(x, y, viewW, viewH);
@@ -214,8 +213,8 @@ void Game::LoadGame()
 	player->position = center - player->size*vec2(0.5);
 
 	enemies.push_back(new Bomba(center + vec2(150, -80)));
-	enemies.push_back(new CultistBasic(center + vec2(-100, -50)));
-	enemies.push_back(new CultistBasic(center+ vec2(0, -120)));
+	enemies.push_back(new CultistBasic(center + vec2(-250, -50)));
+	enemies.push_back(new CultistBasic(center+ vec2(-300, -120)));
 }
 
 void Game::Clear()

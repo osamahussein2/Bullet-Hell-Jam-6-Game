@@ -22,8 +22,7 @@ void Button::Update()
         else {
             state = BTN_HOVERED;
             if (prev_state == BTN_DEFAULT){
-                //Audio::Instance()->PlaySound(Assets::bip_sound);
-                Audio::Instance()->PlayMusic(ResourceManager::GetSound(buttonHoverSound));
+                Audio::Instance()->PlaySound(Assets::buttonHoverSound);
             }
         }
     }

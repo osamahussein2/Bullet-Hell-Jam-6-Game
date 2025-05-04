@@ -65,8 +65,10 @@ void OptionsMenu::UpdateMenu()
 	ModifyMusicSliderHandle();
 	ModifySFXSliderHandle();
 
-	ma_sound_set_volume(ResourceManager::GetMusic(anxietyMusic), Assets::musicVolume);
-	ma_sound_set_volume(ResourceManager::GetSound(buttonHoverSound), Assets::sfxVolume);
+	//ma_sound_set_volume(ResourceManager::GetMusic(Assets::anxietyMusic), Assets::musicVolume);
+	ResourceManager::ApplyMusicVolume(Assets::musicVolume);
+	ResourceManager::ApplySfxVolume(Assets::sfxVolume);
+	//ma_sound_set_volume(ResourceManager::GetSound(Assets::buttonHoverSound), Assets::sfxVolume);
 
 	RestrictMusicSliderHandlePosition();
 	RestrictSFXSliderHandlePosition();

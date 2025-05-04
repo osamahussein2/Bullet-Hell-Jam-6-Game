@@ -42,5 +42,5 @@ void Assets::LoadAssets()
 
 	// Load sounds
 	ResourceManager::LoadSound("assets/Sounds/sound.wav", buttonHoverSound);
-	ma_sound_set_volume(ResourceManager::GetSound(buttonHoverSound), sfxVolume);
+	ResourceManager::GetSound(buttonHoverSound)->SetVolume(sfxVolume);
 }

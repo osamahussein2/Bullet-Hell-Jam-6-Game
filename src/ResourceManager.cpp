@@ -8,7 +8,7 @@
 map<int, Shader> ResourceManager::shaders;
 map<int, unsigned int> ResourceManager::textures;
 map<int, ma_sound> ResourceManager::music;
-map<int, ma_sound> ResourceManager::sounds;
+map<int, MultiSound> ResourceManager::sounds;
 
 GLenum ResourceManager::format = 0;
 
@@ -142,25 +142,15 @@ ma_sound* ResourceManager::GetMusic(int enum_)
     return &music[enum_];
 }
 
-ma_sound* ResourceManager::LoadSound(const char* file, int enum_)
+MultiSound* ResourceManager::LoadSound(const char* file, int enum_)
 {
-    ma_result result = ma_sound_init_from_file(
-        Audio::Instance()->GetAudioEngine(),
-        file,
-        MA_SOUND_FLAG_STREAM,
-        NULL,
-        NULL,
-        &sounds[enum_]
-    );
-
-    if (result != MA_SUCCESS) {
-        std::cerr << "Failed to load sound file: " << file << endl;
-    }
+    sounds[enum_] = MultiSound();
+    sounds[enum_].Load(file);
 
     return &sounds[enum_];
 }
 
-ma_sound* ResourceManager::GetSound(int enum_)
+MultiSound* ResourceManager::GetSound(int enum_)
 {
     if (sounds.find(enum_) == sounds.end())
     {
@@ -168,6 +158,20 @@ ma_sound* ResourceManager::GetSound(int enum_)
     }
 
     return &sounds[enum_];
+}
+
+void ResourceManager::ApplyMusicVolume(float volume)
+{
+    for (auto& iter : music) {
+        ma_sound_set_volume(&iter.second, volume);
+    }
+}
+
+void ResourceManager::ApplySfxVolume(float volume)
+{
+    for (auto& iter : sounds) {
+        iter.second.SetVolume(volume);
+    }
 }
 
 void ResourceManager::Clear()
@@ -191,8 +195,8 @@ void ResourceManager::Clear()
     }
 
     // Delete all sounds properly
-    for (pair<int, ma_sound> iter : sounds)
+    for (auto& iter : sounds)
     {
-        ma_sound_uninit(&(iter.second));
+        iter.second.Unload();
     }
 }

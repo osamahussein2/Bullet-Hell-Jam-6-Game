@@ -3,16 +3,6 @@
 
 #include "ResourceManager.h"
 
-enum MusicMapNumbers
-{
-    anxietyMusic = 0,
-};
-
-enum SoundMapNumbers
-{
-    buttonHoverSound = 0,
-};
-
 class Assets{
 public:
     // sounds, might not be the best way to do it
@@ -50,6 +40,17 @@ public:
         scoreUITexture = 12
         
     };
+
+    enum MusicMapNumbers
+    {
+        anxietyMusic = 0,
+    };
+    
+    enum SoundMapNumbers
+    {
+        buttonHoverSound = 0,
+    };
+
 };
 
 #endif
