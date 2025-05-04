@@ -3,6 +3,10 @@
 #include "Game.h"
 #include "Bullet.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 void Player::Update(float deltaTime)
 {
     vec2 direction = vec2(0.0f);

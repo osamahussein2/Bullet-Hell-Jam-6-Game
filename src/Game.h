@@ -27,8 +27,12 @@ public:
 	std::vector<Enemy*> enemies;
 	std::vector<Bullet*> playerBullets;
 	std::vector<Bullet*> enemyBullets;
-	int playerHealth;
-	const int maxPlayerHealth;
+	
+	float playerHealth;
+	const float maxPlayerHealth;
+
+	float playerAura;
+	const float maxPlayerAura;
 
 private:
 	Game();
@@ -38,6 +42,7 @@ private:
 	Player* player;
 
 	vector<UserInterface> healthBars = {};
+	vector<UserInterface> HUDs = {};
 
 	float timer;
 };

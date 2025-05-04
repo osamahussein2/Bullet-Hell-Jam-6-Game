@@ -2,7 +2,7 @@
 #include "OptionsMenu.h"
 #include <string>
 
-const char* Assets::bip_sound = "assets/Sounds/sound.wav";
+//const char* Assets::bip_sound = "assets/Sounds/sound.wav";
 
 float Assets::musicVolume = 0.15f;
 float Assets::sfxVolume = 1.0f;
@@ -31,9 +31,16 @@ void Assets::LoadAssets()
 
 	ResourceManager::LoadTexture("assets/Textures/bomba.png", bombaTexture);
 	ResourceManager::LoadTexture("assets/Textures/cultistBasic.png", cultistBasicTexture);
+	ResourceManager::LoadTexture("assets/Textures/Aura bar.png", auraBarTexture);
+	ResourceManager::LoadTexture("assets/Textures/Aura UI.png", auraUITexture);
+	ResourceManager::LoadTexture("assets/Textures/Score UI.png", scoreUITexture);
 	
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
 	Audio::Instance()->PlayMusic(default_music);
 	ma_sound_set_volume(default_music, musicVolume);
+
+	// Load sounds
+	ResourceManager::LoadSound("assets/Sounds/sound.wav", buttonHoverSound);
+	ma_sound_set_volume(ResourceManager::GetSound(buttonHoverSound), sfxVolume);
 }

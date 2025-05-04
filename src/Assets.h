@@ -8,10 +8,15 @@ enum MusicMapNumbers
     anxietyMusic = 0,
 };
 
+enum SoundMapNumbers
+{
+    buttonHoverSound = 0,
+};
+
 class Assets{
 public:
     // sounds, might not be the best way to do it
-    static const char* bip_sound;
+    //static const char* bip_sound;
 
 public:
 
@@ -40,6 +45,9 @@ public:
 
         bombaTexture = 8,
         cultistBasicTexture = 9,
+        auraUITexture = 10,
+        auraBarTexture = 11,
+        scoreUITexture = 12
         
     };
 };
