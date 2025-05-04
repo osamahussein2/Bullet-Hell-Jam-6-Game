@@ -23,7 +23,7 @@ int main()
 		if (!WindowInfo::Instance()->InitializeWindow(
 				1600,
 				1600/aspect,
-			 	"Bullet Hell Application", NULL, NULL
+			 	"Bullet Hell Application", glfwGetPrimaryMonitor(), NULL
 			)){
 			std::cerr << "Failed to initialize window\n";
 			return 1;

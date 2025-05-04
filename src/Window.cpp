@@ -129,6 +129,10 @@ void Window::UpdateWindow()
 
   Input::Update();
 
+  if (Input::IsKeyPressed(GLFW_KEY_F11)) {
+      ToggleFullscreen();
+    }
+
   switch (state){
     case MAIN_MENU:
         //std::cout<<"MAIN_MENU\n";
@@ -236,4 +240,29 @@ void Window::DeleteWindowInstance()
     else {
         std::cerr<<"windowInstance is not valid to delete\n";
     }
+}
+void Window::ToggleFullscreen() {
+  static bool isFullscreen = false;
+  static int savedX, savedY, savedWidth, savedHeight;
+
+  if (!isFullscreen) {
+      // Save current position and size
+      glfwGetWindowPos(openGLwindow, &savedX, &savedY);
+      glfwGetWindowSize(openGLwindow, &savedWidth, &savedHeight);
+
+      // Get the primary monitor's resolution
+      GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+      const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+      glfwSetWindowMonitor(
+        openGLwindow, monitor, 0, 0, mode->width, mode->height, mode->refreshRate
+      );
+  } else {
+      // Restore windowed mode
+      glfwSetWindowMonitor(
+        openGLwindow, nullptr, savedX, savedY, savedWidth, savedHeight, GLFW_DONT_CARE
+      );
+  }
+
+  isFullscreen = !isFullscreen;
 }
