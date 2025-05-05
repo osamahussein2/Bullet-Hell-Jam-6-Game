@@ -39,14 +39,14 @@ public:
 
 class PlayerBullet : public Bullet {
 public:
-    PlayerBullet(vec2 pos_, vec2 direction_) : Bullet(pos_, direction_, 200.f, 16.f, vec2(32.0), Assets::playerBulletTexture) {
+    PlayerBullet(vec2 pos_, vec2 direction_) : Bullet(pos_, direction_, 200.f, 9.f, vec2(32.0), Assets::playerBulletTexture) {
         renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
         const int columns = 6;
         const int rows = 1;
 
         renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, 0, 6, 6.f});
 
-        collisions.push_back(new CircleCollision(radius, vec2(radius)));
+        collisions.push_back(new CircleCollision(radius, size*0.5f));
     }
 
     virtual void Update(float deltaTime) override {
@@ -70,14 +70,14 @@ private:
 public:
     CirlcePatternBullet(vec2 pos_, vec2 direction_, unsigned sprite_, float angle_, float patt_rad_) : 
     angle(angle_), patternRadius(patt_rad_),
-    Bullet(pos_, direction_, 200.f, 16.f, vec2(32.0), sprite_) {
+    Bullet(pos_, direction_, 200.f, 9.f, vec2(32.0), sprite_) {
         renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
         const int columns = 6;
         const int rows = 1;
 
         renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, 0, 6, 6.f});
 
-        collisions.push_back(new CircleCollision(radius, vec2(radius)));
+        collisions.push_back(new CircleCollision(radius, size*0.5f));
     }
 
     virtual void Update(float deltaTime) override {

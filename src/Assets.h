@@ -37,8 +37,14 @@ public:
         cultistBasicTexture = 9,
         auraUITexture = 10,
         auraBarTexture = 11,
-        scoreUITexture = 12
+        scoreUITexture = 12,
         
+
+
+
+        //Debug textures
+        circleTexture = 999,
+        rectangleTexture = 1000
     };
 
     enum MusicMapNumbers

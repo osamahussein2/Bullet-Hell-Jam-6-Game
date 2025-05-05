@@ -18,8 +18,8 @@ double Window::mousePosY = 0;
 int Window::windowWidth = 0;
 int Window::windowHeight = 0;
 
-int Window::GameWidth = 160*4;
-int Window::GameHeight = 90*4;
+int Window::GameWidth = 640;
+int Window::GameHeight = 360;
 
 Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL)
 {

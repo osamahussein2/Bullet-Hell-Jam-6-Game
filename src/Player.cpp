@@ -28,8 +28,9 @@ Player::Player(vec2 pos_) : ShootingObject(pos_, vec2(56, 56), Assets::playerTex
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_SPIN, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_SHOOT, 6, 6.f});
 
-    float coll_r = 10;
-    collisions.push_back(new CircleCollision(coll_r, vec2(coll_r, coll_r+size.x/2)));
+    float coll_r = 8;
+    collisions.push_back(new CircleCollision(coll_r, vec2(size.x/2, size.y/3)));
+    collisions.push_back(new CircleCollision(coll_r, vec2(size.x/2, size.y/3*2)));
 }
 
 void Player::Update(float deltaTime)

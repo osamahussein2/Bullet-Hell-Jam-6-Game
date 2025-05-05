@@ -20,7 +20,7 @@ CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultis
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_RIGHT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_IDLE, 6, 6.f});
 
-    collisions.push_back(new CircleCollision(16, vec2(20.0)));
+    collisions.push_back(new CircleCollision(16, size*0.5f));
 }
 
 void CultistBasic::Update(float deltaTime) {

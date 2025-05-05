@@ -106,6 +106,8 @@ void Game::UpdateGame(float deltaTime_)
 	else {
 		//playerAura -= 0.1 * deltaTime_;
 	}
+
+	Debug::Instance()->Update();
 }
 
 void Game::HandleInput(float deltaTime_)

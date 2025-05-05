@@ -24,7 +24,7 @@ struct CircleCollision : public Collision {
     glm::vec2 rel_center;
     glm::vec2 center;
 
-    CircleCollision(float radius_, glm::vec2 rel_center_) : radius(radius_), rel_center(rel_center_) {}
+    CircleCollision(float radius_, glm::vec2 rel_center_) : radius(radius_), rel_center(rel_center_-glm::vec2(radius)) {}
 
     virtual bool collidesWith(Collision& other) override {
         return other.collideWithCircle(*this);

@@ -35,6 +35,10 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Textures/Aura UI.png", auraUITexture);
 	ResourceManager::LoadTexture("assets/Textures/Score UI.png", scoreUITexture);
 	
+	// Debug textures
+	ResourceManager::LoadTexture("assets/Debug/circle.png", circleTexture);
+	ResourceManager::LoadTexture("assets/Debug/rectangle.png", rectangleTexture);
+
 	// Load music
 	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
 	Audio::Instance()->PlayMusic(default_music);
