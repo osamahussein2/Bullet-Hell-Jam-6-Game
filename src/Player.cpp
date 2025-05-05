@@ -36,21 +36,6 @@ void Player::Update(float deltaTime)
 {
     vec2 direction = vec2(0.0);
 
-    // Clamp player's accleration between 0 and their set max speed
-    acceleration = glm::clamp(acceleration, 0.0f, speed);
-
-    // Decelerate
-    if (shouldPlayerAccelerate == false)
-    {
-        acceleration -= speed / maxDecelerationTime * deltaTime;
-    }
-
-    // Accelerate
-    else
-    {
-        acceleration += speed / maxAccelerationTime * deltaTime;
-    }
-
     if (hit_this_frame){
         if (state != PL_ST_HIT) {
             Game::Instance()->playerAura -= 0.1;
@@ -97,8 +82,6 @@ void Player::Update(float deltaTime)
         break;
     }
 
-    
-    float drag = 8.0f;
     velocity += direction * acceleration * deltaTime;
     velocity *= std::max(0.0f, 1.0f - drag * deltaTime);
     position += velocity * deltaTime;
@@ -133,28 +116,19 @@ void Player::UpdateCurrentAnim() {
 vec2 Player::HandleMovementInput()
 {
     vec2 direction = vec2(0.0f);    
-    shouldPlayerAccelerate = false;
 
     if (Input::IsKeyDown(GLFW_KEY_W) || Input::IsKeyDown(GLFW_KEY_UP)) {
 
         direction.y = -1.0f;
-
-        shouldPlayerAccelerate = true;
     }
     if (Input::IsKeyDown(GLFW_KEY_S) || Input::IsKeyDown(GLFW_KEY_DOWN)) {
         direction.y = 1.0f;
-
-        shouldPlayerAccelerate = true;
     }
     if (Input::IsKeyDown(GLFW_KEY_A) || Input::IsKeyDown(GLFW_KEY_LEFT)) {
         direction.x = -1.0f;
-
-        shouldPlayerAccelerate = true;
     }
     if (Input::IsKeyDown(GLFW_KEY_D) || Input::IsKeyDown(GLFW_KEY_RIGHT)) {
         direction.x = 1.0f;
-
-        shouldPlayerAccelerate = true;
     }
 	if (direction != vec2(0.f)) direction = normalize(direction);
     return direction;

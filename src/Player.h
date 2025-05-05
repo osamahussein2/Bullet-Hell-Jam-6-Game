@@ -24,12 +24,8 @@ class Player : public ShootingObject {
 private:
     PlayerState state = PL_ST_IDLE;
     bool hit_this_frame = false;
-    float speed = 2000.f;
-    float acceleration = 0.0f;
-    float maxAccelerationTime = 3.0f;
-    float maxDecelerationTime = 1.0f;
-
-    bool shouldPlayerAccelerate = false;
+    float acceleration = 2000.f;
+    float drag = 8;
 
 public:
     virtual void OnCollide(Body* other);
