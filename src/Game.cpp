@@ -56,6 +56,10 @@ void Game::UpdateGame(float deltaTime_)
 	score++;
 	player->Update(deltaTime_);
 
+	// Clamp the player's position to not exceed the game's size
+	player->position.x = clamp(player->position.x, -10.0f, Window::Instance()->GetGameSize().x - 50.0f);
+	player->position.y = clamp(player->position.y, 0.0f, Window::Instance()->GetGameSize().y - 50.0f);
+
 	HandleCollisions(deltaTime_);
 
 	for (Enemy* enemy : enemies) {
