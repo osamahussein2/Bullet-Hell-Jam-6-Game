@@ -216,11 +216,14 @@ void Game::LoadGame()
 	Clear();
 	playerAura = maxPlayerAura;
 	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
-	player->position = center - player->size*vec2(0.5);
+	player->position = center;
 
 	enemies.push_back(new Bomba(center + vec2(150, -80)));
-	enemies.push_back(new CultistBasic(center + vec2(-250, -50)));
-	enemies.push_back(new CultistBasic(center+ vec2(-300, -120)));
+
+	// must be careful, enemies must be initially in their movement range
+	enemies.push_back(new CultistBasic(vec2(center.x, 80)));
+	enemies.push_back(new CultistBasic(vec2(80, 120)));
+	enemies.push_back(new CultistBasic(vec2(center.x*2-80, 120)));
 }
 
 void Game::Clear()

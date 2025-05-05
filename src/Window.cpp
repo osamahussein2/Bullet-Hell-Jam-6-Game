@@ -55,6 +55,7 @@ bool Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   windowWidth = width;
   windowHeight = height;
   glfwInit();
+  glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_FALSE);
   #ifdef __EMSCRIPTEN__
   glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

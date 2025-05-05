@@ -19,7 +19,9 @@ public:
         delete renderer;
     }
 
-    GameObjectPro(vec2 pos_, vec2 size_, unsigned int sprite_) : Body(), GameObject(pos_, size_, sprite_, vec3(1.0), vec2(0.0)) {}
+    GameObjectPro(vec2 pos_, vec2 size_, unsigned int sprite_) : Body(), GameObject(pos_, size_, sprite_, vec3(1.0), vec2(0.0)) {
+        position -= size*0.5f;
+    }
 
     virtual void Update(float deltaTime);
 

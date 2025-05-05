@@ -20,7 +20,6 @@ protected:
 public:
     Bullet(vec2 pos_, vec2 direction_, float speed_, float radius_, vec2 size_, unsigned int sprite_) : 
     direction(direction_), speed(speed_), radius(radius_), GameObjectPro(pos_, size_, sprite_) {
-        position -= vec2(radius, radius);
         initialPosition = position;
         initialDirection = direction;
         initialSpeed = speed;
@@ -65,7 +64,7 @@ private:
     float angle;
     float angularSpeed = 1;
     float patternRadius;
-    float centerSpeed = 90;
+    float centerSpeed = 120;
 
 public:
     CirlcePatternBullet(vec2 pos_, vec2 direction_, unsigned sprite_, float angle_, float patt_rad_) : 

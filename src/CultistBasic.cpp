@@ -2,9 +2,9 @@
 #include "Game.h"
 #include "Bullet.h"
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+#include <math.h>
+
+#include "Window.h"
 
 void CultistBasic::OnCollide(Body *other) {
     hit_this_frame = true;
@@ -21,6 +21,9 @@ CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultis
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_IDLE, 6, 6.f});
 
     collisions.push_back(new CircleCollision(16, size*0.5f));
+
+    float w = Window::Instance()->GetGameSize().x;
+    phase = std::asin( (position.x+size.x/2 - w/2)/amplitude/w );
 }
 
 void CultistBasic::Update(float deltaTime) {
@@ -38,12 +41,16 @@ void CultistBasic::Update(float deltaTime) {
         }
         break;
     case CLB_ST_MOVE:
-        moving_timer += deltaTime;
-        velocity.x = sin(moving_timer)*150;
-        if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
-            state = CLB_ST_SHOOT;
-            random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
+        {
+            moving_timer += deltaTime;
+            float w = Window::Instance()->GetGameSize().x;
+            velocity.x = w*amplitude*cos(moving_timer+phase);
+            if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
+                state = CLB_ST_SHOOT;
+                random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
+            }
         }
+
         break;
     case CLB_SHOOT:
         renderer->GetAnimationHandler()->SetCurrentAnim(CLB_SHOOT);

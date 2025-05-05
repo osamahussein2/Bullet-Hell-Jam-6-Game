@@ -26,6 +26,11 @@ private:
     float moving_timer = 0.f;
     float random_shoot_offset = 0.f; // randomizes shoot cooldown a little
 
+    // movement pattern
+    float frequency = 1.f;
+    float amplitude = 0.4; // relative to the arena size
+    float phase;
+
 public:
     virtual void OnCollide(Body* other);
 
