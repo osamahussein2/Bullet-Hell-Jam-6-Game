@@ -25,6 +25,9 @@ private:
     PlayerState state = PL_ST_IDLE;
     bool hit_this_frame = false;
     float speed = 2000.f;
+    float acceleration = 0.0f;
+
+    bool shouldPlayerAccelerate = false;
 
 public:
     virtual void OnCollide(Body* other);

@@ -191,6 +191,7 @@
     <ClInclude Include="src\QuitConfirmationMenu.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\ShootingObject.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\TextRenderer.h" />
