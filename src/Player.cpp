@@ -83,7 +83,8 @@ void Player::Update(float deltaTime)
     }
 
     velocity += direction * acceleration * deltaTime;
-    velocity *= std::max(0.0f, 1.0f - drag * deltaTime);
+    // deceleration
+    velocity *= 1.0f / (1.0f + drag * deltaTime);
     position += velocity * deltaTime;
 
     since_last_shot += deltaTime;
