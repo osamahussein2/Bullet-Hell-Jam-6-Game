@@ -42,13 +42,13 @@ void Player::Update(float deltaTime)
     // Decelerate
     if (shouldPlayerAccelerate == false)
     {
-        acceleration -= speed * deltaTime;
+        acceleration -= speed / maxDecelerationTime * deltaTime;
     }
 
     // Accelerate
     else
     {
-        acceleration += speed * deltaTime;
+        acceleration += speed / maxAccelerationTime * deltaTime;
     }
 
     if (hit_this_frame){

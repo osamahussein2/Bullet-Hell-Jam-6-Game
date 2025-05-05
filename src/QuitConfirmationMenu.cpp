@@ -156,6 +156,7 @@ void QuitToMainMenuConfirmationMenu::UpdateMenu()
 	}
 
 	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
+
 		Window::Instance()->state = MAIN_MENU;
 	}
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {

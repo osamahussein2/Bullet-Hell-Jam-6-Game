@@ -26,6 +26,8 @@ private:
     bool hit_this_frame = false;
     float speed = 2000.f;
     float acceleration = 0.0f;
+    float maxAccelerationTime = 3.0f;
+    float maxDecelerationTime = 1.0f;
 
     bool shouldPlayerAccelerate = false;
 
