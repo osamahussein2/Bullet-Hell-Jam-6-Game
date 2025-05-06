@@ -17,6 +17,8 @@ protected:
 
     float timer = 0.f;
 
+    float damage = 0.1; // full health of a regular unit is 1.0
+
 public:
     Bullet(vec2 pos_, vec2 direction_, float speed_, float radius_, vec2 size_, unsigned int sprite_) : 
     direction(direction_), speed(speed_), radius(radius_), GameObjectPro(pos_, size_, sprite_) {
@@ -32,20 +34,17 @@ public:
         GameObjectPro::Update(deltaTime);
     }
 
-    virtual void OnCollide(Body* other) override {};
+    virtual void OnCollide(Body* other) override {
+        destroyed = true;
+    };
     virtual void UpdateCurrentAnim() override {};
+
+    float GetDamage() { return damage; }
 };
 
-class PlayerBullet : public Bullet {
+class StraightBullet : public Bullet {
 public:
-    PlayerBullet(vec2 pos_, vec2 direction_) : Bullet(pos_, direction_, 200.f, 9.f, vec2(32.0), Assets::playerBulletTexture) {
-        renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
-        const int columns = 6;
-        const int rows = 1;
-
-        renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, 0, 6, 6.f});
-
-        collisions.push_back(new CircleCollision(radius, size*0.5f));
+    StraightBullet(vec2 pos_, vec2 direction_, unsigned sprite) : Bullet(pos_, direction_, 200.f, 9.f, vec2(32.0), sprite) {
     }
 
     virtual void Update(float deltaTime) override {
@@ -58,6 +57,32 @@ public:
         }
     }
 };
+
+class PlayerBullet : public StraightBullet {
+public:
+    PlayerBullet(vec2 pos_, vec2 direction_) : StraightBullet(pos_, direction_, Assets::playerBulletTexture) {
+        renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
+        const int columns = 6;
+        const int rows = 1;
+
+        renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, 0, 6, 6.f});
+
+        collisions.push_back(new CircleCollision(radius, size*0.5f));
+    }
+};
+
+class StraightEnemyBullet : public StraightBullet {
+    public:
+        StraightEnemyBullet(vec2 pos_, vec2 direction_) : StraightBullet(pos_, direction_, Assets::enemyBulletTexture) {
+            renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
+            const int columns = 6;
+            const int rows = 1;
+    
+            renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, 0, 6, 6.f});
+    
+            collisions.push_back(new CircleCollision(radius, size*0.5f));
+        }
+    };
 
 class CirlcePatternBullet : public Bullet {
 private:

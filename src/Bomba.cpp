@@ -1,6 +1,6 @@
 #include "Bomba.h"
 
-Bomba::Bomba(vec2 pos_) : Enemy(pos_, vec2(64, 64), Assets::bombaTexture, 0.2) {
+Bomba::Bomba(vec2 pos_) : Enemy(pos_, vec2(64, 64), Assets::bombaTexture, 0.2, 1.0) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 1;
     const int rows = 2;

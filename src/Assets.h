@@ -46,6 +46,7 @@ public:
         progressBarBoss = 16,
         progressBarPoint = 17,
 
+        enemyHealthTexture = 18,
 
 
         //Debug textures

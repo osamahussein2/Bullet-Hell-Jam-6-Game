@@ -8,9 +8,15 @@
 #include "Window.h"
 
 void CultistBasic::OnCollide(Body *other) {
-    hit_this_frame = true;
+    if (state != CLB_ST_HIT && state != CLB_SHOOT) {
+        state = CLB_ST_HIT;
+        hit_this_frame = true;
+        if (Bullet* bullet = dynamic_cast<Bullet*>(other)) {
+            health -= bullet->GetDamage();
+        }
+    }
 }
-CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 1.2) {
+CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 1.2, 1.0) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 5;
@@ -28,49 +34,39 @@ CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultis
 }
 
 void CultistBasic::Update(float deltaTime) {
-
-    if (hit_this_frame) state = CLB_ST_HIT;
     since_last_shot += deltaTime;
 
+    if (health <= 0) state = CLB_ST_DEAD;
     switch (state) {
     case CLB_HIT:
-        velocity.x = 0;
+        Move(deltaTime);
         if (!hit_this_frame) {
-            if (renderer->GetAnimationHandler()->GetCurrentAnimationData().current_frame == renderer->GetAnimationHandler()->GetCurrentAnimationData().frames-1) {
+            if (renderer->IsLastFrame()) {
                 state = CLB_ST_MOVE;
             }
         }
         break;
     case CLB_ST_MOVE:
-        {
-            moving_timer += deltaTime;
-            float w = Window::Instance()->GetGameSize().x;
-            velocity.x = w*amplitude*cos(moving_timer+phase);
-            if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
-                state = CLB_ST_SHOOT;
-                random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
-            }
+        Move(deltaTime);
+        if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
+            state = CLB_ST_SHOOT;
+            random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
         }
-
         break;
     case CLB_SHOOT:
-        velocity.x = 0;
+        velocity.x = 0.f;
         if (since_last_shot >= shoot_cooldown){
-            int n = 10;
-            float a = 2*M_PI / n;
-            float patt_rad = 15;
-            for (int i = 0; i < n; i++) {
-                float ang = i*a;
-                vec2 offset = vec2(cos(ang), sin(ang))*patt_rad;
-                vec2 dir = Game::Instance()->player->position - position;
-                if (dir != vec2(0.0)) dir = normalize(dir);
-                Game::Instance()->enemyBullets.push_back(new CirlcePatternBullet(position+size*vec2(0.5)+offset, dir, Assets::enemyBulletTexture, ang, patt_rad));
-            }
-        
-            since_last_shot = 0.f;
+            Shoot();
         }
-        if (renderer->GetAnimationHandler()->GetCurrentAnimationData().current_frame == renderer->GetAnimationHandler()->GetCurrentAnimationData().frames-1) {
+        if (renderer->IsLastFrame()) {
             state = CLB_ST_MOVE;
+        }
+        break;
+    case CLB_ST_DEAD:
+        velocity = vec2(0.0);
+        time_dead += deltaTime;
+        if (time_dead > 0.f) {
+            destroyed = true;
         }
         break;
     }
@@ -96,4 +92,23 @@ void CultistBasic::UpdateCurrentAnim() {
             renderer->GetAnimationHandler()->SetCurrentAnim(CLB_SHOOT);
             break;
     }
+}
+void CultistBasic::Move(float deltaTime) {
+    moving_timer += deltaTime;
+    float w = Window::Instance()->GetGameSize().x;
+    velocity.x = w*amplitude*cos(moving_timer+phase);
+}
+void CultistBasic::Shoot() {
+    int n = 10;
+    float a = 2*M_PI / n;
+    float patt_rad = 15;
+    for (int i = 0; i < n; i++) {
+        float ang = i*a;
+        vec2 offset = vec2(cos(ang), sin(ang))*patt_rad;
+        vec2 dir = Game::Instance()->player->position - position;
+        if (dir != vec2(0.0)) dir = normalize(dir);
+        Game::Instance()->enemyBullets.push_back(new CirlcePatternBullet(position+size*vec2(0.5)+offset, dir, Assets::enemyBulletTexture, ang, patt_rad));
+    }
+
+    since_last_shot = 0.f;
 };

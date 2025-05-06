@@ -16,7 +16,8 @@ enum SummonerState {
     SM_ST_HIT = 0,
     SM_ST_SUMMON = 1,
     SM_ST_MOVE = 2,
-    SM_ST_IDLE = 3
+    SM_ST_IDLE = 3,
+    SM_ST_DEAD = 4
 };
 
 class Summoner : public Enemy {
@@ -25,6 +26,7 @@ private:
     bool hit_this_frame = false;
     float moving_timer = 0.f;
     float random_shoot_offset = -3.f; // randomizes shoot cooldown a little
+    float time_dead = 0.f;
 
     // movement pattern
     float frequency = 0.5f;
@@ -39,6 +41,7 @@ public:
     virtual void Update(float deltaTime) override;
 
     virtual void UpdateCurrentAnim() override;
+    void Move(float deltaTime);
 };
 
 #endif

@@ -41,6 +41,8 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Textures/progress_bar_unit.png", progressBarUnit);
 	ResourceManager::LoadTexture("assets/Textures/progress_bar_unit_boss.png", progressBarBoss);
 	ResourceManager::LoadTexture("assets/Textures/progress_bar_point.png", progressBarPoint);
+
+	ResourceManager::LoadTexture("assets/Textures/enemyHealthBar.png", enemyHealthTexture);
 	
 	// Debug textures
 	ResourceManager::LoadTexture("assets/Debug/circle.png", circleTexture);

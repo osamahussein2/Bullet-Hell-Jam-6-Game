@@ -28,6 +28,11 @@ public:
 	bool GetHorFlip() { return bool(hor_flip); }
 	bool GetVertFlip() { return bool(vert_flip); }
 
+    bool IsLastFrame() {
+		AnimationData anim = animation.GetCurrentAnimationData();
+        return (anim.current_frame == anim.frames-1);
+    }
+
 private:
 	Shader spriteShader;
 	unsigned int spriteVAO, spriteVBO;

@@ -42,6 +42,12 @@ void Game::InitializeGame()
 
 void Game::UpdateGame(float deltaTime_)
 {
+
+	if (enemies.size() == 0) {
+		progress.GoNext();
+		LoadGame();
+	}
+
 	score++;
 	player->Update(deltaTime_);
 
@@ -51,9 +57,17 @@ void Game::UpdateGame(float deltaTime_)
 
 	HandleCollisions(deltaTime_);
 
-	for (Enemy* enemy : enemies) {
+	for (auto it = enemies.begin(); it != enemies.end(); ) {
+		auto enemy = *it;
 		enemy->Update(deltaTime_);
+		if (enemy->destroyed) {
+			delete enemy;
+			it = enemies.erase(it);
+		} else {
+			++it;
+		}
 	}
+
 	enemies.insert(enemies.end(), new_enemies.begin(), new_enemies.end());
 	new_enemies.clear();
 

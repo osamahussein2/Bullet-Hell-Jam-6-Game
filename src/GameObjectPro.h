@@ -25,12 +25,11 @@ public:
 
     virtual void Update(float deltaTime);
 
-    void Draw();
+    virtual void Draw();
 
     void DebugDraw();
 
     virtual void UpdateCurrentAnim() = 0;
-
 };
 
 #endif

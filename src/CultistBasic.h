@@ -16,7 +16,8 @@ enum CultistBasicState {
     CLB_ST_HIT = 0,
     CLB_ST_SHOOT = 1,
     CLB_ST_MOVE = 2,
-    CLB_ST_IDLE = 3
+    CLB_ST_IDLE = 3,
+    CLB_ST_DEAD = 4,
 };
 
 class CultistBasic : public Enemy {
@@ -25,6 +26,7 @@ private:
     bool hit_this_frame = false;
     float moving_timer = 0.f;
     float random_shoot_offset = 0.f; // randomizes shoot cooldown a little
+    float time_dead = 0.f;
 
     // movement pattern
     float frequency = 1.f;
@@ -39,6 +41,9 @@ public:
     virtual void Update(float deltaTime) override;
 
     virtual void UpdateCurrentAnim() override;
+
+    void Move(float deltaTime);
+    void Shoot();
 };
 
 #endif

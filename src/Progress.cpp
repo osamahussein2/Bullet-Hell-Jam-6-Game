@@ -14,12 +14,12 @@ void Stage1_1::Load()
 	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
 	game->player->position = center;
 
-    game->enemies.push_back(new Bomba(center + vec2(150, -80)));
+    //game->enemies.push_back(new Bomba(center + vec2(150, -80)));
 
 	// must be careful, enemies must be initially in their movement range
-	game->enemies.push_back(new CultistBasic(vec2(center.x, 80)));
+	//game->enemies.push_back(new CultistBasic(vec2(center.x, 80)));
 	game->enemies.push_back(new CultistBasic(vec2(80, 120)));
-	game->enemies.push_back(new CultistBasic(vec2(center.x*2-80, 120)));
+	//game->enemies.push_back(new CultistBasic(vec2(center.x*2-80, 120)));
 }
 
 void Stage1_2::Load()
