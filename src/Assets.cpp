@@ -34,6 +34,10 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Textures/Aura bar.png", auraBarTexture);
 	ResourceManager::LoadTexture("assets/Textures/Aura UI.png", auraUITexture);
 	ResourceManager::LoadTexture("assets/Textures/Score UI.png", scoreUITexture);
+
+	ResourceManager::LoadTexture("assets/Textures/progress_bar_unit.png", progressBarUnit);
+	ResourceManager::LoadTexture("assets/Textures/progress_bar_unit_boss.png", progressBarBoss);
+	ResourceManager::LoadTexture("assets/Textures/progress_bar_point.png", progressBarPoint);
 	
 	// Debug textures
 	ResourceManager::LoadTexture("assets/Debug/circle.png", circleTexture);

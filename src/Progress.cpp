@@ -30,7 +30,7 @@ void Stage1_2::Load()
     game->enemies.push_back(new Bomba(center + vec2(100, -100)));
 }
 
-Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), } ) {}
+Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new Stage1_2(), new Stage1_2(), new Stage1_2() } ) {}
 
 Level *Level1::GetNextLevel()
 {

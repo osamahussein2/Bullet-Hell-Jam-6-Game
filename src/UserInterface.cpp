@@ -19,8 +19,7 @@ UserInterface::UserInterface(vec2 pos_, vec2 size_, unsigned int sprite_, unsign
 {
 	if (abs_game_) { // pos_ and size_ aren't relative here, so we convert them to be relative
 		vec2 gSize = Window::Instance()->GetGameSize();
-		vec2 Pos = pos_ + vec2(0, gSize.y);
-		rel_pos = Pos / gSize;
+		rel_pos = pos_ / gSize;
 		rel_size = size_ / gSize;
 	}
 	else {
@@ -43,7 +42,13 @@ void UserInterface::Update(bool relative_to_game)
 	}
 }
 
-void UserInterface::Draw(SpriteRenderer& renderer_)
+void UserInterface::Draw(SpriteRenderer& renderer_, vec2 rel_offset_, bool relative_to_game)
 {
-	renderer_.DrawSprite(sprite, position, size, 0.0f, color);
+	if (relative_to_game) {
+		renderer_.DrawSprite(sprite, position+rel_offset_* Window::Instance()->GetGameSize(), size, 0.0f, color);
+	}
+	else {
+		renderer_.DrawSprite(sprite, position+rel_offset_* Window::Instance()->GetWindowSize(), size, 0.0f, color);
+	}
+	
 }

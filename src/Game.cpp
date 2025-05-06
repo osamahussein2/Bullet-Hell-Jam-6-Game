@@ -77,11 +77,16 @@ void Game::UpdateGame(float deltaTime_)
 	}
 
 
-	// UI drawing
+	// UI updating
 
 	for (UserInterface& hud : HUDs)
 	{
 		hud.Update(true);
+	}
+
+	for (UserInterface& bar : progressBarUnits)
+	{
+		bar.Update(true);
 	}
 
 	// Change the current aura bar size in x coordinate depending on player's current aura value
@@ -187,6 +192,9 @@ void Game::RenderGame(float deltaTime_)
 		aura.Draw(*UserInterface::UiRendererInstance());
 	}
 	
+	
+	DrawProgressBar();
+
 	vec2 gSize = Window::Instance()->GetGameSize();
 	TextRenderer::Instance()->DrawTextFromRight(std::to_string(score).c_str(), vec2(gSize.x-10, gSize.y-8), 0.8, true, vec3(0.0));
 	//HUDs[2].Draw(*UserInterface::UiRendererInstance());
@@ -213,11 +221,15 @@ void Game::LoadGame()
 
 	vec2 gSize = Window::Instance()->GetGameSize();
 	// Aura UI
-	HUDs.push_back(UserInterface(vec2(0.0, -32), vec2(96, 32), Assets::auraUITexture, Assets::spriteShader, vec3(1.0), true));
+	HUDs.push_back(UserInterface(vec2(0.0, gSize.y-32), vec2(96, 32), Assets::auraUITexture, Assets::spriteShader, vec3(1.0), true));
 	// Current aura bar
-	HUDs.push_back(UserInterface(vec2(0.0, -8), vec2(80, 8), Assets::auraBarTexture, Assets::spriteShader, vec3(1.0), true));
+	HUDs.push_back(UserInterface(vec2(0.0, gSize.y-8), vec2(80, 8), Assets::auraBarTexture, Assets::spriteShader, vec3(1.0), true));
 	// Score UI
-	HUDs.push_back(UserInterface(vec2(gSize.x-96, -32), vec2(96, 32), Assets::scoreUITexture, Assets::spriteShader, vec3(1.0), true));
+	HUDs.push_back(UserInterface(vec2(gSize.x-96, gSize.y-32), vec2(96, 32), Assets::scoreUITexture, Assets::spriteShader, vec3(1.0), true));
+
+	progressBarUnits.push_back(UserInterface(vec2(0, 24), vec2(48, 24), Assets::progressBarUnit, Assets::spriteShader, vec3(1.0), true));
+	progressBarUnits.push_back(UserInterface(vec2(0, 24), vec2(48, 24), Assets::progressBarBoss, Assets::spriteShader, vec3(1.0), true));
+	progressBarUnits.push_back(UserInterface(vec2(0, 24), vec2(24, 24), Assets::progressBarPoint, Assets::spriteShader, vec3(1.0), true));
 
 	playerAura = maxPlayerAura;
 
@@ -244,6 +256,7 @@ void Game::Clear()
 	enemies.clear();
 
 	HUDs.clear();
+	progressBarUnits.clear();
 }
 
 void Game::DeleteGameInstance()
@@ -255,4 +268,43 @@ void Game::DeleteGameInstance()
 	else {
 		std::cerr<<"gameInstance is not valid to delete\n";
 	}
+}
+
+void Game::DrawProgressBar()
+{
+	int siz = progress.currentLevel->stages.size();
+	vec2 gSize = Window::Instance()->GetGameSize();
+	float rel_off_x = progressBarUnits[0].size.x/gSize.x;
+	
+	float rel_center = 0.5;
+	float l = rel_off_x*siz;
+	float start_x = rel_center-l/2;
+	
+	for (int i = 0; i < siz; i++) {
+		if (i < siz-1) {
+			progressBarUnits[0].Draw(
+				*UserInterface::UiRendererInstance(),
+				vec2(rel_off_x*i+start_x, 0),
+				true
+			);
+		}
+		else {
+			progressBarUnits[1].Draw(
+				*UserInterface::UiRendererInstance(),
+				vec2(rel_off_x*i+start_x, 0),
+				true
+			);
+		}
+	}
+
+	int cur = progress.currentLevel->currentStage;
+	float unot_off = 8.f * float(cur != siz-1) / gSize.x;
+
+	progressBarUnits[2].Draw(
+		*UserInterface::UiRendererInstance(),
+		vec2(rel_off_x*cur+start_x+unot_off, 0),
+		true
+	);
+	
+
 }

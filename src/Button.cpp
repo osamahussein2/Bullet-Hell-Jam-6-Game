@@ -31,7 +31,7 @@ void Button::Update()
     }
 }
 
-void Button::Draw(SpriteRenderer& renderer_)
+void Button::Draw(SpriteRenderer& renderer_, vec2 rel_offset_, bool relative_to_game)
 {
     color = vec3(1.0);
     float scale = 1.0;
@@ -48,7 +48,8 @@ void Button::Draw(SpriteRenderer& renderer_)
             break;
     }
 
-    renderer_.DrawSprite(sprite, position, size, 0.f, color);
+    //renderer_.DrawSprite(sprite, position, size, 0.f, color);
+    UserInterface::Draw(renderer_, rel_offset_, relative_to_game);
     TextRenderer::Instance()->DrawText(text, position+vec2(size.x/2, size.y/2), scale*size.x/100, true, true);
 }
 

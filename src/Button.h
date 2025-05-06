@@ -24,7 +24,7 @@ public:
     }
 
     void Update();
-    virtual void Draw(SpriteRenderer& renderer_) override;
+    virtual void Draw(SpriteRenderer& renderer_, vec2 rel_offset_ = vec2(0.0), bool relative_to_game = false) override;
 
     bool CheckRectangle();
     ButtonState GetState() { return state; }

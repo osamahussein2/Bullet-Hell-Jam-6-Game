@@ -43,9 +43,12 @@ public:
 private:
 	Game();
 
+	void DrawProgressBar();
+
 	static Game* gameInstance;
 
 	vector<UserInterface> HUDs = {};
+	vector<UserInterface> progressBarUnits = {};
 
 	float timer;
 };

@@ -39,6 +39,9 @@ public:
         auraBarTexture = 11,
         scoreUITexture = 12,
         
+        progressBarUnit = 13,
+        progressBarBoss = 14,
+        progressBarPoint = 15,
 
 
 
