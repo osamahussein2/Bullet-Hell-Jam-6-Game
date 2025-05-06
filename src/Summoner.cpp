@@ -1,16 +1,15 @@
-#include "CultistBasic.h"
+#include "Summoner.h"
 #include "Game.h"
 #include "Bullet.h"
 
 #include <math.h>
-#include "Player.h"
 
 #include "Window.h"
 
-void CultistBasic::OnCollide(Body *other) {
+void Summoner::OnCollide(Body *other) {
     hit_this_frame = true;
 }
-CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 1.2) {
+Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 1.2) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 5;
@@ -27,7 +26,7 @@ CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultis
     phase = std::asin( (position.x+size.x/2 - w/2)/amplitude/w );
 }
 
-void CultistBasic::Update(float deltaTime) {
+void Summoner::Update(float deltaTime) {
 
     if (hit_this_frame) state = CLB_ST_HIT;
     since_last_shot += deltaTime;
@@ -83,7 +82,7 @@ void CultistBasic::Update(float deltaTime) {
     hit_this_frame = false;
 }
 
-void CultistBasic::UpdateCurrentAnim() {
+void Summoner::UpdateCurrentAnim() {
     switch (state) {
         case CLB_ST_IDLE:
             renderer->GetAnimationHandler()->SetCurrentAnim(CLB_IDLE);

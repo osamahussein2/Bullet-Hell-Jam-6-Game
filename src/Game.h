@@ -1,11 +1,11 @@
 #include "ResourceManager.h"
-#include "SpriteRenderer.h"
-#include "GameObject.h"
-#include "UserInterface.h"
-#include "Player.h"
-
 #include <vector>
 
+#include "Player.h"
+#include "UserInterface.h"
+#include "Progress.h"
+
+// forward declarations
 class Bullet;
 class Enemy;
 
@@ -37,6 +37,8 @@ public:
 	const float maxPlayerAura;
 
 	Player* player;
+
+	Progress progress;
 
 private:
 	Game();

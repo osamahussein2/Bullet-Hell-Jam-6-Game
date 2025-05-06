@@ -8,19 +8,16 @@
 
 #include "Bullet.h"
 #include "Enemy.h"
-#include "CultistBasic.h"
-#include "Bomba.h"
 
 Game* Game::gameInstance = nullptr;
 
 
-Game::Game() : playerAura(1.0f), maxPlayerAura(1.0f), timer(0.0f)
+Game::Game() : playerAura(1.0f), maxPlayerAura(1.0f), timer(0.0f), progress()
 {
 }
 
 Game::~Game()
 {
-	delete player;
 	gameInstance = nullptr;
 
 	Clear();
@@ -39,16 +36,7 @@ Game* Game::Instance()
 
 void Game::InitializeGame()
 {
-	player = new Player(vec2(0.0));
-
-	vec2 gSize = Window::Instance()->GetGameSize();
-
-	// Aura UI
-	HUDs.push_back(UserInterface(vec2(0.0, -32), vec2(96, 32), Assets::auraUITexture, Assets::spriteShader, vec3(1.0), true));
-	// Current aura bar
-	HUDs.push_back(UserInterface(vec2(0.0, -8), vec2(80, 8), Assets::auraBarTexture, Assets::spriteShader, vec3(1.0), true));
-	// Score UI
-	HUDs.push_back(UserInterface(vec2(gSize.x-96, -32), vec2(96, 32), Assets::scoreUITexture, Assets::spriteShader, vec3(1.0), true));
+	LoadGame();
 }
 
 void Game::UpdateGame(float deltaTime_)
@@ -119,6 +107,12 @@ void Game::HandleInput(float deltaTime_)
 	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		Window::Instance()->state = PAUSE_MENU;
+	}
+
+	if (Input::IsKeyPressed(GLFW_KEY_P))
+	{
+		progress.GoNext();
+		LoadGame();
 	}
 }
 
@@ -214,20 +208,26 @@ void Game::HandleCollisions(float deltaTime_)
 void Game::LoadGame()
 {
 	Clear();
+	
+	player = new Player(vec2(0.0));
+
+	vec2 gSize = Window::Instance()->GetGameSize();
+	// Aura UI
+	HUDs.push_back(UserInterface(vec2(0.0, -32), vec2(96, 32), Assets::auraUITexture, Assets::spriteShader, vec3(1.0), true));
+	// Current aura bar
+	HUDs.push_back(UserInterface(vec2(0.0, -8), vec2(80, 8), Assets::auraBarTexture, Assets::spriteShader, vec3(1.0), true));
+	// Score UI
+	HUDs.push_back(UserInterface(vec2(gSize.x-96, -32), vec2(96, 32), Assets::scoreUITexture, Assets::spriteShader, vec3(1.0), true));
+
 	playerAura = maxPlayerAura;
-	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
-	player->position = center;
 
-	enemies.push_back(new Bomba(center + vec2(150, -80)));
-
-	// must be careful, enemies must be initially in their movement range
-	enemies.push_back(new CultistBasic(vec2(center.x, 80)));
-	enemies.push_back(new CultistBasic(vec2(80, 120)));
-	enemies.push_back(new CultistBasic(vec2(center.x*2-80, 120)));
+	progress.Load();
 }
 
 void Game::Clear()
 {
+	if (player) delete player;
+
 	for (Bullet* bullet : playerBullets) {
 		delete bullet;
 	}
@@ -242,6 +242,8 @@ void Game::Clear()
 		delete enemy;
 	}
 	enemies.clear();
+
+	HUDs.clear();
 }
 
 void Game::DeleteGameInstance()
