@@ -46,6 +46,10 @@ public:
     static void ApplyMusicVolume(float volume);
     static void ApplySfxVolume(float volume);
 
+    static int currentMusic;
+    static void StopMusic(int enum_);
+    static void StartMusic(int enum_);
+
     // Properly de-allocates all loaded resources
     static void Clear();
 

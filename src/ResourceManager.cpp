@@ -9,6 +9,7 @@ map<int, Shader> ResourceManager::shaders;
 map<int, unsigned int> ResourceManager::textures;
 map<int, ma_sound> ResourceManager::music;
 map<int, MultiSound> ResourceManager::sounds;
+int ResourceManager::currentMusic = 0;
 
 GLenum ResourceManager::format = 0;
 
@@ -172,6 +173,18 @@ void ResourceManager::ApplySfxVolume(float volume)
     for (auto& iter : sounds) {
         iter.second.SetVolume(volume);
     }
+}
+
+void ResourceManager::StopMusic(int enum_)
+{
+    ma_sound_stop(&music[enum_]);
+}
+
+void ResourceManager::StartMusic(int enum_)
+{
+    StopMusic(currentMusic);
+    currentMusic = enum_;
+    ma_sound_start(&music[currentMusic]);
 }
 
 void ResourceManager::Clear()

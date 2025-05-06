@@ -6,6 +6,7 @@
 
 struct Stage {
     virtual void Load() = 0;
+    virtual void Update(float deltaTime) {};
 };
 
 struct Level {
@@ -44,6 +45,13 @@ struct Stage1_2 : Stage {
     virtual void Load() override;
 };
 
+struct BeholderFight : Stage {
+    bool spawnedBoss = false;
+    float timer = 0.f;
+    virtual void Load() override;
+    virtual void Update(float deltaTime) override;
+};
+
 struct Level1 : Level {
     Level1();
     virtual Level* GetNextLevel() override;
@@ -65,6 +73,10 @@ struct Progress {
     }
 
     void Load() { currentLevel->Load(); }
+
+    void Update(float deltaTime) {
+        currentLevel->stages[currentLevel->currentStage]->Update(deltaTime);
+    }
 
     void GoNext() {
         if (currentLevel->GoNext()) {

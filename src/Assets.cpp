@@ -43,15 +43,18 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Textures/progress_bar_point.png", progressBarPoint);
 
 	ResourceManager::LoadTexture("assets/Textures/enemyHealthBar.png", enemyHealthTexture);
+	ResourceManager::LoadTexture("assets/Textures/beholder.png", beholderTexture);
 	
 	// Debug textures
 	ResourceManager::LoadTexture("assets/Debug/circle.png", circleTexture);
 	ResourceManager::LoadTexture("assets/Debug/rectangle.png", rectangleTexture);
 
 	// Load music
-	ma_sound* default_music = ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
-	Audio::Instance()->PlayMusic(default_music);
-	ma_sound_set_volume(default_music, musicVolume);
+	ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
+	ResourceManager::LoadMusic("assets/Music/LTHAWFD.wav", LTHAWFD);
+	ResourceManager::StartMusic(anxietyMusic);
+	//Audio::Instance()->PlayMusic(default_music);
+	//ma_sound_set_volume(default_music, musicVolume);
 
 	// Load sounds
 	ResourceManager::LoadSound("assets/Sounds/sound.wav", buttonHoverSound);

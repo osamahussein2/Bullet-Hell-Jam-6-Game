@@ -48,6 +48,8 @@ void Game::UpdateGame(float deltaTime_)
 		LoadGame();
 	}
 
+	progress.Update(deltaTime_);
+	
 	score++;
 	player->Update(deltaTime_);
 

@@ -42,7 +42,7 @@ void Orb::Update(float deltaTime)
         Move(deltaTime);
         if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
             state = ORB_ST_SHOOT;
-            //random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
+            random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*0.5;
         }
         break;
     case ORB_ST_SHOOT:

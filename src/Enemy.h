@@ -27,7 +27,6 @@ public:
             vec2(size.x*health/max_health, 3), 
             0, vec3(1.0)
         );
-
     }
 };
 

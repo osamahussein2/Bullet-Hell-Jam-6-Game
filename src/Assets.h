@@ -47,7 +47,7 @@ public:
         progressBarPoint = 17,
 
         enemyHealthTexture = 18,
-
+        beholderTexture = 19,
 
         //Debug textures
         circleTexture = 999,
@@ -57,6 +57,7 @@ public:
     enum MusicMapNumbers
     {
         anxietyMusic = 0,
+        LTHAWFD = 1,
     };
     
     enum SoundMapNumbers
