@@ -34,6 +34,8 @@ void PauseMenu::InitializeMenu()
 
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "resume"));
 	rel_pos.y += rel_size.y + vert_padd;
+	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "options"));
+	rel_pos.y += rel_size.y + vert_padd;
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "main menu"));
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
@@ -50,6 +52,10 @@ void PauseMenu::UpdateMenu()
 		Window::Instance()->state = GAME;
 	}
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
+		Window::Instance()->prevState = PAUSE_MENU;
+		Window::Instance()->state = OPTIONS_MENU;
+	}
+	if (buttons[2].GetState() == BTN_HOVERED && buttons[2].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = QUIT_TO_MAIN_MENU_CONF;
 	}
 

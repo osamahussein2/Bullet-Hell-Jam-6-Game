@@ -54,6 +54,7 @@ void MainMenu::UpdateMenu()
 		Window::Instance()->state = GAME;
 	}
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
+		Window::Instance()->prevState = MAIN_MENU;
 		Window::Instance()->state = OPTIONS_MENU;
 	}
 	if (buttons[2].GetState() == BTN_HOVERED && buttons[2].GetPreviousState() == BTN_PRESSED) {

@@ -71,7 +71,16 @@ void OptionsMenu::UpdateMenu()
 	}
 
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
-		Window::Instance()->state = MAIN_MENU;
+
+		if (Window::Instance()->prevState == MAIN_MENU)
+		{
+			Window::Instance()->state = MAIN_MENU;
+		}
+
+		else if (Window::Instance()->prevState == PAUSE_MENU)
+		{
+			Window::Instance()->state = PAUSE_MENU;
+		}
 	}
 
 	ModifyMusicSliderHandle();
