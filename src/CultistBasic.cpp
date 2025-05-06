@@ -54,7 +54,6 @@ void CultistBasic::Update(float deltaTime) {
 
         break;
     case CLB_SHOOT:
-        renderer->GetAnimationHandler()->SetCurrentAnim(CLB_SHOOT);
         velocity.x = 0;
         if (since_last_shot >= shoot_cooldown){
             int n = 10;
@@ -74,8 +73,6 @@ void CultistBasic::Update(float deltaTime) {
             state = CLB_ST_MOVE;
         }
         break;
-    default:
-        break;
     }
     position += velocity*deltaTime;
     UpdateCurrentAnim();
@@ -94,6 +91,9 @@ void CultistBasic::UpdateCurrentAnim() {
         case CLB_ST_MOVE:
             if (velocity.x > 0) renderer->GetAnimationHandler()->SetCurrentAnim(CLB_RIGHT);
             else if (velocity.x < 0) renderer->GetAnimationHandler()->SetCurrentAnim(CLB_LEFT);
+            break;
+        case CLB_ST_SHOOT:
+            renderer->GetAnimationHandler()->SetCurrentAnim(CLB_SHOOT);
             break;
     }
 };

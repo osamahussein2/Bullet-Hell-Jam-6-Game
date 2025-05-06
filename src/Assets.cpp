@@ -31,6 +31,9 @@ void Assets::LoadAssets()
 
 	ResourceManager::LoadTexture("assets/Textures/bomba.png", bombaTexture);
 	ResourceManager::LoadTexture("assets/Textures/cultistBasic.png", cultistBasicTexture);
+	ResourceManager::LoadTexture("assets/Textures/summoner.png", summonerTexture);
+	ResourceManager::LoadTexture("assets/Textures/orb.png", orbTexture);
+
 	ResourceManager::LoadTexture("assets/Textures/Aura bar.png", auraBarTexture);
 	ResourceManager::LoadTexture("assets/Textures/Aura UI.png", auraUITexture);
 	ResourceManager::LoadTexture("assets/Textures/Score UI.png", scoreUITexture);

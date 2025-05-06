@@ -1,7 +1,8 @@
 #include "Summoner.h"
 #include "Game.h"
 #include "Bullet.h"
-
+#include "Orb.h"
+#include "CultistBasic.h"
 #include <math.h>
 
 #include "Window.h"
@@ -9,16 +10,16 @@
 void Summoner::OnCollide(Body *other) {
     hit_this_frame = true;
 }
-Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 1.2) {
+Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::summonerTexture, 1) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 5;
 
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_HIT, 4, 6.f});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_SHOOT, 6, 7.f});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_LEFT, 6, 6.f});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_RIGHT, 6, 6.f});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_IDLE, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_HIT, 4, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_SUMMON, 6, 7.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_RIGHT, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_LEFT, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_IDLE, 6, 6.f});
 
     collisions.push_back(new CircleCollision(16, size*0.5f));
 
@@ -28,52 +29,39 @@ Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTe
 
 void Summoner::Update(float deltaTime) {
 
-    if (hit_this_frame) state = CLB_ST_HIT;
+    if (hit_this_frame) state = SM_ST_HIT;
     since_last_shot += deltaTime;
 
     switch (state) {
-    case CLB_HIT:
+    case SM_ST_HIT:
         velocity.x = 0;
         if (!hit_this_frame) {
             if (renderer->GetAnimationHandler()->GetCurrentAnimationData().current_frame == renderer->GetAnimationHandler()->GetCurrentAnimationData().frames-1) {
-                state = CLB_ST_MOVE;
+                state = SM_ST_MOVE;
             }
         }
         break;
-    case CLB_ST_MOVE:
+    case SM_ST_MOVE:
         {
             moving_timer += deltaTime;
             float w = Window::Instance()->GetGameSize().x;
             velocity.x = w*amplitude*cos(moving_timer+phase);
             if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
-                state = CLB_ST_SHOOT;
-                random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
+                state = SM_ST_SUMMON;
+                //random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
             }
         }
 
         break;
-    case CLB_SHOOT:
-        renderer->GetAnimationHandler()->SetCurrentAnim(CLB_SHOOT);
+    case SM_ST_SUMMON:
         velocity.x = 0;
-        if (since_last_shot >= shoot_cooldown){
-            int n = 10;
-            float a = 2*M_PI / n;
-            float patt_rad = 15;
-            for (int i = 0; i < n; i++) {
-                float ang = i*a;
-                vec2 offset = vec2(cos(ang), sin(ang))*patt_rad;
-                vec2 dir = Game::Instance()->player->position - position;
-                if (dir != vec2(0.0)) dir = normalize(dir);
-                Game::Instance()->enemyBullets.push_back(new CirlcePatternBullet(position+size*vec2(0.5)+offset, dir, Assets::enemyBulletTexture, ang, patt_rad));
-            }
-        
-            since_last_shot = 0.f;
-        }
         if (renderer->GetAnimationHandler()->GetCurrentAnimationData().current_frame == renderer->GetAnimationHandler()->GetCurrentAnimationData().frames-1) {
-            state = CLB_ST_MOVE;
+            if (since_last_shot >= shoot_cooldown){
+                Game::Instance()->new_enemies.push_back(new Orb(position+size*vec2(0.5)+vec2(0,10)));            
+                since_last_shot = 0.f;
+            }
+            state = SM_ST_MOVE;
         }
-        break;
-    default:
         break;
     }
     position += velocity*deltaTime;
@@ -84,15 +72,18 @@ void Summoner::Update(float deltaTime) {
 
 void Summoner::UpdateCurrentAnim() {
     switch (state) {
-        case CLB_ST_IDLE:
-            renderer->GetAnimationHandler()->SetCurrentAnim(CLB_IDLE);
+        case SM_ST_IDLE:
+            renderer->GetAnimationHandler()->SetCurrentAnim(SM_IDLE);
             break;
-        case CLB_ST_HIT:
-            renderer->GetAnimationHandler()->SetCurrentAnim(CLB_HIT);
+        case SM_ST_HIT:
+            renderer->GetAnimationHandler()->SetCurrentAnim(SM_HIT);
             break;
-        case CLB_ST_MOVE:
-            if (velocity.x > 0) renderer->GetAnimationHandler()->SetCurrentAnim(CLB_RIGHT);
-            else if (velocity.x < 0) renderer->GetAnimationHandler()->SetCurrentAnim(CLB_LEFT);
+        case SM_ST_MOVE:
+            if (velocity.x > 0) renderer->GetAnimationHandler()->SetCurrentAnim(SM_RIGHT);
+            else if (velocity.x < 0) renderer->GetAnimationHandler()->SetCurrentAnim(SM_LEFT);
+            break;
+        case SM_ST_SUMMON:
+            renderer->GetAnimationHandler()->SetCurrentAnim(SM_SUMMON);
             break;
     }
 };

@@ -35,13 +35,16 @@ public:
 
         bombaTexture = 8,
         cultistBasicTexture = 9,
-        auraUITexture = 10,
-        auraBarTexture = 11,
-        scoreUITexture = 12,
+        summonerTexture = 10,
+        orbTexture = 11,
+
+        auraUITexture = 12,
+        auraBarTexture = 13,
+        scoreUITexture = 14,
         
-        progressBarUnit = 13,
-        progressBarBoss = 14,
-        progressBarPoint = 15,
+        progressBarUnit = 15,
+        progressBarBoss = 16,
+        progressBarPoint = 17,
 
 
 

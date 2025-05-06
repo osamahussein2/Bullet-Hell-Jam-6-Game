@@ -8,6 +8,7 @@
 
 #include "Bullet.h"
 #include "Enemy.h"
+#include "Summoner.h"
 
 Game* Game::gameInstance = nullptr;
 
@@ -53,6 +54,8 @@ void Game::UpdateGame(float deltaTime_)
 	for (Enemy* enemy : enemies) {
 		enemy->Update(deltaTime_);
 	}
+	enemies.insert(enemies.end(), new_enemies.begin(), new_enemies.end());
+	new_enemies.clear();
 
 	for (auto it = playerBullets.begin(); it != playerBullets.end(); ) {
 		auto bullet = *it;
@@ -216,7 +219,6 @@ void Game::HandleCollisions(float deltaTime_)
 void Game::LoadGame()
 {
 	Clear();
-	
 	player = new Player(vec2(0.0));
 
 	vec2 gSize = Window::Instance()->GetGameSize();
@@ -226,25 +228,24 @@ void Game::LoadGame()
 	HUDs.push_back(UserInterface(vec2(0.0, gSize.y-8), vec2(80, 8), Assets::auraBarTexture, Assets::spriteShader, vec3(1.0), true));
 	// Score UI
 	HUDs.push_back(UserInterface(vec2(gSize.x-96, gSize.y-32), vec2(96, 32), Assets::scoreUITexture, Assets::spriteShader, vec3(1.0), true));
-
-	progressBarUnits.push_back(UserInterface(vec2(0, 24), vec2(48, 24), Assets::progressBarUnit, Assets::spriteShader, vec3(1.0), true));
-	progressBarUnits.push_back(UserInterface(vec2(0, 24), vec2(48, 24), Assets::progressBarBoss, Assets::spriteShader, vec3(1.0), true));
-	progressBarUnits.push_back(UserInterface(vec2(0, 24), vec2(24, 24), Assets::progressBarPoint, Assets::spriteShader, vec3(1.0), true));
-
+	
+	progressBarUnits.push_back(UserInterface(vec2(0, 6), vec2(48, 24), Assets::progressBarUnit, Assets::spriteShader, vec3(1.0), true));
+	progressBarUnits.push_back(UserInterface(vec2(0, 6), vec2(48, 24), Assets::progressBarBoss, Assets::spriteShader, vec3(1.0), true));
+	progressBarUnits.push_back(UserInterface(vec2(0, 6), vec2(24, 24), Assets::progressBarPoint, Assets::spriteShader, vec3(1.0), true));
+	
 	playerAura = maxPlayerAura;
 
 	progress.Load();
+	
 }
 
 void Game::Clear()
 {
 	if (player) delete player;
-
 	for (Bullet* bullet : playerBullets) {
 		delete bullet;
 	}
 	playerBullets.clear();
-
 	for (Bullet* bullet : enemyBullets) {
 		delete bullet;
 	}
@@ -254,6 +255,11 @@ void Game::Clear()
 		delete enemy;
 	}
 	enemies.clear();
+
+	for (Enemy* enemy : new_enemies) {
+		delete enemy;
+	}
+	new_enemies.clear();
 
 	HUDs.clear();
 	progressBarUnits.clear();

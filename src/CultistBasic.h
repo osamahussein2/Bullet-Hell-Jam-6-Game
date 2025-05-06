@@ -28,7 +28,7 @@ private:
 
     // movement pattern
     float frequency = 1.f;
-    float amplitude = 0.4; // relative to the arena size
+    float amplitude = 0.5; // relative to the arena size
     float phase;
 
 public:

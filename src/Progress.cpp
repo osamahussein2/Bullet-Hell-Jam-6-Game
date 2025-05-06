@@ -4,6 +4,8 @@
 
 #include "CultistBasic.h"
 #include "Bomba.h"
+#include "Summoner.h"
+#include "Orb.h"
 #include "Player.h"
 
 void Stage1_1::Load()
@@ -26,8 +28,7 @@ void Stage1_2::Load()
 	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
 	game->player->position = center;
 
-    game->enemies.push_back(new Bomba(center + vec2(50, -80)));
-    game->enemies.push_back(new Bomba(center + vec2(100, -100)));
+    game->enemies.push_back(new Summoner(center+vec2(0, -100)));
 }
 
 Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new Stage1_2(), new Stage1_2(), new Stage1_2() } ) {}
