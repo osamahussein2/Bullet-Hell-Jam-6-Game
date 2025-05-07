@@ -44,7 +44,7 @@ void Game::InitializeGame()
 void Game::UpdateGame(float deltaTime_)
 {
 
-	if (enemies.size() == 0) {
+	if (canFinish) {
 		progress.GoNext();
 		LoadGame();
 	}
@@ -55,8 +55,6 @@ void Game::UpdateGame(float deltaTime_)
 	player->Update(deltaTime_);
 
 	// Clamp the player's position to not exceed the game's size
-	player->position.x = glm::clamp(player->position.x, -10.0f, Window::Instance()->GetGameSize().x - 50.0f);
-	player->position.y = glm::clamp(player->position.y, 0.0f, Window::Instance()->GetGameSize().y - 50.0f);
 
 	HandleCollisions(deltaTime_);
 
@@ -139,8 +137,7 @@ void Game::HandleInput(float deltaTime_)
 
 	if (Input::IsKeyPressed(GLFW_KEY_P))
 	{
-		progress.GoNext();
-		LoadGame();
+		canFinish = true;
 	}
 }
 
@@ -239,6 +236,7 @@ void Game::HandleCollisions(float deltaTime_)
 void Game::LoadGame()
 {
 	Clear();
+	canFinish = false;
 	player = new Player(vec2(0.0));
 
 	vec2 gSize = Window::Instance()->GetGameSize();

@@ -10,6 +10,25 @@
 #include "Beholder.h"
 #include "Player.h"
 
+
+void Stage::Update(float deltaTime) {
+    auto g = Game::Instance();
+    if (g->enemies.size() == 0) {
+        vec2 s = Window::Instance()->GetGameSize();
+        vec2 d = s*vec2(0.5, -1) - g->player->position;
+        g->player->velocity = normalize(d)*400.f;
+		if (glm::length(d) < s.y/2) {
+            g->canFinish = true;
+        }
+    }
+    else {
+        g->player->position.x = glm::clamp(g->player->position.x, -10.0f, Window::Instance()->GetGameSize().x - 50.0f);
+        g->player->position.y = glm::clamp(g->player->position.y, 0.0f, Window::Instance()->GetGameSize().y - 50.0f);
+    }
+};
+
+
+
 void Stage1_1::Load()
 {
     Stage::Load();

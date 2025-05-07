@@ -48,6 +48,8 @@ public:
 
 	Progress progress;
 
+	bool canFinish = false;
+
 private:
 	Game();
 

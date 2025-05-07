@@ -4,6 +4,7 @@
 #include <vector>
 #include "glm.hpp"
 #include "Assets.h"
+#include "Window.h"
 
 struct Stage {
     Stage(int music_enum_ = Assets::anxietyMusic) : music_enum(music_enum_) {}
@@ -11,7 +12,7 @@ struct Stage {
     virtual void Load() {
         ResourceManager::PlayMusic(music_enum);
     };
-    virtual void Update(float deltaTime) {};
+    virtual void Update(float deltaTime);
 };
 
 struct Level {
