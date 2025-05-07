@@ -21,8 +21,8 @@ Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::summonerTextur
     const int columns = 6;
     const int rows = 5;
 
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_HIT, 4, 6.f});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_SUMMON, 6, 7.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_HIT, 4, 6.f, false});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_SUMMON, 6, 7.f, false});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_RIGHT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_LEFT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_IDLE, 6, 6.f});
@@ -43,8 +43,9 @@ void Summoner::Update(float deltaTime) {
     switch (state) {
     case SM_ST_HIT:
         Move(deltaTime);
-        if (renderer->IsLastFrame()) {
+        if (renderer->GetAnimationHandler()->AnimEnded()) {
             state = SM_ST_MOVE;
+            renderer->GetAnimationHandler()->RestartAnim(SM_HIT);
         }
     
         break;
@@ -53,12 +54,13 @@ void Summoner::Update(float deltaTime) {
         break;
     case SM_ST_SUMMON:
         velocity.x = 0;
-        if (renderer->IsLastFrame()) {
+        if (renderer->GetAnimationHandler()->AnimEnded()) {
             if (since_last_shot >= shoot_cooldown){
                 Game::Instance()->new_enemies.push_back(new Orb(position+size*vec2(0.5)+vec2(0,10)));            
                 since_last_shot = 0.f;
             }
             state = SM_ST_MOVE;
+            renderer->GetAnimationHandler()->RestartAnim(SM_SUMMON);
         }
         break;
     case SM_ST_DEAD:
@@ -102,6 +104,6 @@ void Summoner::Move(float deltaTime) {
     velocity.x = w*amplitude*cos(moving_timer+phase);
     if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
         state = SM_ST_SUMMON;
-        random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
+        random_shoot_offset = -(((double)std::rand() / (RAND_MAX)))*3;
     }
 };

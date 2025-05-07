@@ -19,7 +19,7 @@ Orb::Orb(vec2 pos_) : Enemy(pos_, vec2(33, 36), Assets::orbTexture, 0.56, 0.4)
     const int columns = 6;
     const int rows = 2;
 
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, ORB_HIT, 2, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, ORB_HIT, 2, 6.f, false});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, ORB_IDLE, 6, 6.f});
     renderer->GetAnimationHandler()->SetCurrentAnim(ORB_IDLE);
 
@@ -34,8 +34,9 @@ void Orb::Update(float deltaTime)
     switch (state) {
     case ORB_ST_HIT:
         Move(deltaTime);
-        if (renderer->IsLastFrame()) {
+        if (renderer->GetAnimationHandler()->AnimEnded()) {
             state = ORB_ST_MOVE;
+            renderer->GetAnimationHandler()->RestartAnim(ORB_HIT);
         }
         break;
     case ORB_ST_MOVE:

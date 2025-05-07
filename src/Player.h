@@ -11,6 +11,7 @@ enum PlayerAnimations {
     PL_LEFT = 2,
     PL_SPIN = 3,
     PL_SHOOT = 4,
+    PL_HIT = 5
 };
 
 enum PlayerState {

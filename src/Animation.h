@@ -21,8 +21,13 @@ struct AnimationData {
 
 	// playing
 	float fps;
+
+    bool looping = true;
+    bool reached_end = false;
+
     float frame_count = 0.f;
     int current_frame = 0;
+
 
     int GetStartFrame() {
         return y_pos * columns;
@@ -43,7 +48,7 @@ private:
     
 public:
     void Update(float deltaTime);
-    
+
     // for drawing
     FrameData GetCurrentFrameData() {
         return FrameData{
@@ -59,6 +64,12 @@ public:
 
     void AddAnimation(AnimationData anim){ anims.push_back(anim); }
 
+    void RestartAnim(int anim_) {
+        anims[anim_].reached_end = false;
+        anims[anim_].frame_count = 0;
+        anims[anim_].current_frame = 0;
+    }
+
     void SetCurrentAnim(int current_anim_){
         if (current_anim != current_anim_) {
             anims[current_anim].frame_count = 0;
@@ -72,6 +83,8 @@ public:
 
     void SetFrame(int frame_) { anims[current_anim].current_frame = frame_; }
     void SetFrameCount(int frame_count_) { anims[current_anim].frame_count = frame_count_; }
+
+    bool AnimEnded() { return anims[current_anim].reached_end; }
 };
 
 #endif

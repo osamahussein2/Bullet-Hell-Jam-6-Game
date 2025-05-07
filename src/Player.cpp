@@ -20,13 +20,14 @@ void Player::OnCollide(Body *other)
 Player::Player(vec2 pos_) : ShootingObject(pos_, vec2(56, 56), Assets::playerTexture, 0.2) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
-    const int rows = 5;
+    const int rows = 6;
 
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_IDLE, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_RIGHT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_LEFT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_SPIN, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_SHOOT, 6, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, PL_HIT, 6, 6.f, false});
 
     float coll_r = 8;
     collisions.push_back(new CircleCollision(coll_r, vec2(size.x/2, size.y/3)));
@@ -42,11 +43,9 @@ void Player::Update(float deltaTime)
             Game::Instance()->playerAura -= 0.1;
         }
         state = PL_ST_HIT;
-        color = vec3(1.0, 0.0, 0.0);
     }
     else if (Input::IsKeyDown(GLFW_KEY_SPACE)) {
         state = PL_ST_SHOOT;
-        color = vec3(1.0, 1.0, 1.0);
     }
 
     switch (state) {
@@ -63,9 +62,9 @@ void Player::Update(float deltaTime)
     case PL_ST_HIT:
         direction = HandleMovementInput() * 0.5f;
         if (!hit_this_frame) {
-            if (renderer->GetAnimationHandler()->GetCurrentAnimationData().current_frame == renderer->GetAnimationHandler()->GetCurrentAnimationData().frames-1) {
+            if (renderer->GetAnimationHandler()->AnimEnded()) {
                 state = PL_ST_IDLE;
-                color = vec3(1.0, 1.0, 1.0);
+                renderer->GetAnimationHandler()->RestartAnim(PL_HIT);
             }
         }
         break;
@@ -107,7 +106,7 @@ void Player::UpdateCurrentAnim() {
         else if (velocity.x < 0) renderer->GetAnimationHandler()->SetCurrentAnim(PL_LEFT);
         break;
     case PL_ST_HIT:
-        renderer->GetAnimationHandler()->SetCurrentAnim(PL_SPIN);
+        renderer->GetAnimationHandler()->SetCurrentAnim(PL_HIT);
         break;
     case PL_ST_SHOOT:
         renderer->GetAnimationHandler()->SetCurrentAnim(PL_SHOOT);

@@ -25,8 +25,8 @@ CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultis
     const int columns = 6;
     const int rows = 5;
 
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_HIT, 4, 6.f});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_SHOOT, 6, 7.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_HIT, 4, 6.f, false});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_SHOOT, 6, 7.f, false});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_LEFT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_RIGHT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, CLB_IDLE, 6, 6.f});
@@ -42,11 +42,12 @@ void CultistBasic::Update(float deltaTime) {
 
     if (health <= 0) state = CLB_ST_DEAD;
     switch (state) {
-    case CLB_HIT:
+    case CLB_ST_HIT:
         Move(deltaTime);
         if (!hit_this_frame) {
-            if (renderer->IsLastFrame()) {
+            if (renderer->GetAnimationHandler()->AnimEnded()) {
                 state = CLB_ST_MOVE;
+                renderer->GetAnimationHandler()->RestartAnim(CLB_HIT);
             }
         }
         break;
@@ -54,16 +55,17 @@ void CultistBasic::Update(float deltaTime) {
         Move(deltaTime);
         if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
             state = CLB_ST_SHOOT;
-            random_shoot_offset = (((double)std::rand() / (RAND_MAX)) * 2 - 1)*3;
+            random_shoot_offset = -((double)std::rand() / (RAND_MAX))*3;
         }
         break;
-    case CLB_SHOOT:
+    case CLB_ST_SHOOT:
         velocity.x = 0.f;
         if (since_last_shot >= shoot_cooldown){
             Shoot();
         }
-        if (renderer->IsLastFrame()) {
+        if (renderer->GetAnimationHandler()->AnimEnded()) {
             state = CLB_ST_MOVE;
+            renderer->GetAnimationHandler()->RestartAnim(CLB_SHOOT);
         }
         break;
     case CLB_ST_DEAD:
