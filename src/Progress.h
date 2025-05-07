@@ -3,9 +3,14 @@
 
 #include <vector>
 #include "glm.hpp"
+#include "Assets.h"
 
 struct Stage {
-    virtual void Load() = 0;
+    Stage(int music_enum_ = Assets::anxietyMusic) : music_enum(music_enum_) {}
+    int music_enum;
+    virtual void Load() {
+        ResourceManager::PlayMusic(music_enum);
+    };
     virtual void Update(float deltaTime) {};
 };
 
@@ -46,6 +51,7 @@ struct Stage1_2 : Stage {
 };
 
 struct BeholderFight : Stage {
+    BeholderFight() : Stage(Assets::LTHAWFD) {}
     bool spawnedBoss = false;
     float timer = 0.f;
     virtual void Load() override;

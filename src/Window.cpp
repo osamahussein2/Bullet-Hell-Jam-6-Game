@@ -179,7 +179,6 @@ void Window::UpdateWindow()
         GameOverMenu::Instance()->RenderMenu();
         break;
   }
-
   glfwSwapBuffers(openGLwindow); // Removing this will throw an exception error or nothing will pop up
 }
 

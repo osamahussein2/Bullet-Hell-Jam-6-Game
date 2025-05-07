@@ -50,6 +50,7 @@ void PauseMenu::UpdateMenu()
 
 	if (buttons[0].GetState() == BTN_HOVERED && buttons[0].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->state = GAME;
+		ResourceManager::ResumeMusic();
 	}
 	if (buttons[1].GetState() == BTN_HOVERED && buttons[1].GetPreviousState() == BTN_PRESSED) {
 		Window::Instance()->prevState = PAUSE_MENU;
@@ -62,6 +63,7 @@ void PauseMenu::UpdateMenu()
 	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		Window::Instance()->state = GAME;
+		ResourceManager::ResumeMusic();
 	}
 }
 

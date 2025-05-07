@@ -13,6 +13,7 @@
 #include "Shader.h"
 #include "Audio.h"
 #include "MultiSound.h"
+#include "Music.h"
 
 class ResourceManager
 {
@@ -21,7 +22,7 @@ public:
     // resource storage
     static map<int, Shader> shaders;
     static map<int, unsigned int> textures;
-    static map<int, ma_sound> music;
+    static map<int, Music> music;
     static map<int, MultiSound> sounds;
 
     // Loads (and generates) a shader program from file loading vertex, fragment (and geometry) shader's source code.
@@ -37,8 +38,8 @@ public:
     // Retrieves a stored texture
     static unsigned int GetTexture(int enum_);
 
-    static ma_sound* LoadMusic(const char* file, int enum_);
-    static ma_sound* GetMusic(int enum_);
+    static Music* LoadMusic(const char* file, int enum_);
+    static Music* GetMusic(int enum_);
 
     static MultiSound* LoadSound(const char* file, int enum_);
     static MultiSound* GetSound(int enum_);
@@ -47,8 +48,10 @@ public:
     static void ApplySfxVolume(float volume);
 
     static int currentMusic;
-    static void StopMusic(int enum_);
-    static void StartMusic(int enum_);
+
+    static void PlayMusic(int enum_, bool force_new_ = false);
+    static void StopMusic();
+    static void ResumeMusic();
 
     // Properly de-allocates all loaded resources
     static void Clear();

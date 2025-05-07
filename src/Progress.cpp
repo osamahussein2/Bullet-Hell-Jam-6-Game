@@ -12,6 +12,7 @@
 
 void Stage1_1::Load()
 {
+    Stage::Load();
     Game* game = Game::Instance();
 	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
 	game->player->position = center;
@@ -26,6 +27,7 @@ void Stage1_1::Load()
 
 void Stage1_2::Load()
 {
+    Stage::Load();
     Game* game = Game::Instance();
 	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
 	game->player->position = center;
@@ -35,6 +37,10 @@ void Stage1_2::Load()
 
 void BeholderFight::Load()
 {
+    spawnedBoss = false;
+    timer = 0.f;
+
+    Stage::Load();
     Game* game = Game::Instance();
 	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
 	game->player->position = center;
@@ -44,8 +50,6 @@ void BeholderFight::Load()
 
     game->enemies.push_back(new Orb(center*2.f+vec2(-100, -100)));
     game->enemies.push_back(new Orb(center*2.f+vec2(-100, -200)));
-
-    ResourceManager::StartMusic(Assets::LTHAWFD);
 }
 
 void BeholderFight::Update(float deltaTime)

@@ -86,15 +86,11 @@ void OptionsMenu::UpdateMenu()
 	ModifyMusicSliderHandle();
 	ModifySFXSliderHandle();
 
-	//ma_sound_set_volume(ResourceManager::GetMusic(Assets::anxietyMusic), Assets::musicVolume);
 	ResourceManager::ApplyMusicVolume(Assets::musicVolume);
 	ResourceManager::ApplySfxVolume(Assets::sfxVolume);
-	//ma_sound_set_volume(ResourceManager::GetSound(Assets::buttonHoverSound), Assets::sfxVolume);
 
 	RestrictMusicSliderHandlePosition();
 	RestrictSFXSliderHandlePosition();
-
-	//text_r.UpdateAnimation(1.0/60);
 }
 
 void OptionsMenu::RenderMenu()
@@ -130,7 +126,6 @@ void OptionsMenu::RenderMenu()
 	for (Button& btn : buttons) {
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
-
 }
 
 void OptionsMenu::DeleteOptionsMenuInstance()
@@ -177,86 +172,51 @@ void OptionsMenu::InitializeSliderBars()
 void OptionsMenu::InitializeSliderHandles()
 {
 	vec2 rel_size = vec2(0.02, 0.05);
-	float vert_padd = 0.1;
-	float hori_padd = 0.1;
-	vec2 rel_pos = vec2((1 - rel_size.x) / 2.0f, 0.75);
 
-	// Slider handle 1's position and size
-	hori_padd = 0.325f;
-	rel_pos.x += rel_size.x + hori_padd;
-
-	vert_padd = 0.435;
-	rel_pos.y += rel_size.y - vert_padd;
-
-	sliderHandles.push_back(UserInterface(rel_pos, rel_size, Assets::sliderBarTexture,
+	sliderHandles.push_back(UserInterface(
+		sliderBars[0].rel_pos+vec2(sliderBars[0].rel_size.x*Assets::musicVolume, -sliderBars[0].rel_size.y/2),
+		rel_size, Assets::sliderBarTexture,
 		Assets::spriteShader, vec3(0.5f)));
+	
+	sliderHandles[0].Update(); // convert rel into abs for reference
+	lastMusicSliderHandlePosition = sliderHandles[0].position.x;
 
-	// Slider handle 2's position and size
-	rel_pos = vec2((1 - rel_size.x) / 2.0f, 0.85);
-	hori_padd = 0.325f;
-	rel_pos.x += rel_size.x + hori_padd;
-
-	vert_padd = 0.41f;
-	rel_pos.y += rel_size.y - vert_padd;
-
-	sliderHandles.push_back(UserInterface(rel_pos, rel_size, Assets::sliderBarTexture,
+	sliderHandles.push_back(UserInterface(
+		sliderBars[1].rel_pos+vec2(sliderBars[1].rel_size.x*Assets::sfxVolume, -sliderBars[1].rel_size.y/2),
+		rel_size, Assets::sliderBarTexture,
 		Assets::spriteShader, vec3(0.5f)));
+	
+	sliderHandles[1].Update(); // convert rel into abs for reference
+	lastSFXSliderHandlePosition = sliderHandles[1].position.x;
 }
 
 void OptionsMenu::RestrictMusicSliderHandlePosition()
 {
-	// Restrict the player from going past the music volume slider bar
-	if (sliderHandles[0].position.x > Window::Instance()->GetWindowWidth() / 1.19760479042f)
-	{
-		lastMusicSliderHandlePosition = Window::Instance()->GetWindowWidth() / 1.19760479042f;
-		sliderHandles[0].position.x = Window::Instance()->GetWindowWidth() / 1.19760479042f;
-	}
+	float w = Window::Instance()->GetWindowWidth();
+	float start = w * sliderBars[0].rel_pos.x;
+	float end = w * (sliderBars[0].rel_pos.x+sliderBars[0].rel_size.x);
 
-	else if (sliderHandles[0].position.x < Window::Instance()->GetWindowWidth() / 1.82857142857f)
-	{
-		lastMusicSliderHandlePosition = Window::Instance()->GetWindowWidth() / 1.82857142857f;
-		sliderHandles[0].position.x = Window::Instance()->GetWindowWidth() / 1.82857142857f;
-
-		Assets::musicVolume = 0.0f;
-	}
-
-	// If the slider handle is between the slider bar, change the volume based on the value
-	else if (sliderHandles[0].position.x > Window::Instance()->GetWindowWidth() / 1.82857142857f &&
-		sliderHandles[0].position.x <= Window::Instance()->GetWindowWidth() / 1.19760479042f)
-	{
-		// Update the music volume based on the music volume slider handle value
-		Assets::musicVolume = ((sliderHandles[0].position.x - Window::Instance()->GetWindowWidth() / 1.82857142857f)
-			/ (Window::Instance()->GetWindowWidth() / 1.19760479042f)) * maxMusicVolumeThreshold;
-	}
+	lastMusicSliderHandlePosition = glm::clamp(
+		lastMusicSliderHandlePosition,
+		start, end
+	);
+	sliderHandles[0].position.x = lastMusicSliderHandlePosition;
+	Assets::musicVolume = (sliderHandles[0].position.x-start)/(end-start);
 }
 
 void OptionsMenu::RestrictSFXSliderHandlePosition()
 {
-	// Restrict the player from going past the SFX volume slider bar
-	if (sliderHandles[1].position.x > Window::Instance()->GetWindowWidth() / 1.19760479042f)
-	{
-		Assets::sfxVolume = 1.0f;
+	float w = Window::Instance()->GetWindowWidth();
+	float start = w * sliderBars[1].rel_pos.x;
+	float end = w * (sliderBars[1].rel_pos.x+sliderBars[1].rel_size.x);
 
-		lastSFXSliderHandlePosition = Window::Instance()->GetWindowWidth() / 1.19760479042f;
-		sliderHandles[1].position.x = Window::Instance()->GetWindowWidth() / 1.19760479042f;
-	}
-
-	else if (sliderHandles[1].position.x < Window::Instance()->GetWindowWidth() / 1.82857142857f)
-	{
-		lastSFXSliderHandlePosition = Window::Instance()->GetWindowWidth() / 1.82857142857f;
-		sliderHandles[1].position.x = Window::Instance()->GetWindowWidth() / 1.82857142857f;
-
-		Assets::sfxVolume = 0.0f;
-	}
-
-	// If the slider handle is between the slider bar, change the volume based on the value
-	else if (sliderHandles[1].position.x > Window::Instance()->GetWindowWidth() / 1.82857142857f &&
-		sliderHandles[1].position.x <= Window::Instance()->GetWindowWidth() / 1.19760479042f)
-	{
-		// Update the music volume based on the music volume slider handle value
-		Assets::sfxVolume = ((sliderHandles[1].position.x - Window::Instance()->GetWindowWidth() / 1.82857142857f) / 
-			Window::Instance()->GetWindowWidth() / 1.19760479042f) * maxSFXVolumeThreshold;
-	}
+	
+	lastSFXSliderHandlePosition = glm::clamp(
+		lastSFXSliderHandlePosition,
+		start, end
+	);
+	sliderHandles[1].position.x = lastSFXSliderHandlePosition;
+	Assets::sfxVolume = (sliderHandles[1].position.x-start)/(end-start);
 }
 
 void OptionsMenu::ModifyMusicSliderHandle()

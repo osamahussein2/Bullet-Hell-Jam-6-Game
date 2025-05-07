@@ -37,7 +37,8 @@ Game* Game::Instance()
 
 void Game::InitializeGame()
 {
-	LoadGame();
+	// nothing here lol, cuz the game loaded only when play pressed
+	// so that the music is started correctly
 }
 
 void Game::UpdateGame(float deltaTime_)
@@ -114,6 +115,8 @@ void Game::UpdateGame(float deltaTime_)
 	if (playerAura <= 0.0f) {
 		playerAura = 0.0f;
 		Window::Instance()->state = GAME_OVER;
+		LoadGame();
+		ResourceManager::StopMusic();
 	}
 	else {
 		//playerAura -= 0.1 * deltaTime_;
@@ -131,6 +134,7 @@ void Game::HandleInput(float deltaTime_)
 	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		Window::Instance()->state = PAUSE_MENU;
+		ResourceManager::StopMusic();
 	}
 
 	if (Input::IsKeyPressed(GLFW_KEY_P))

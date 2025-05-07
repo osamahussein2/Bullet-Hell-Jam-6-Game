@@ -7,7 +7,7 @@
 // Instantiate static variables
 map<int, Shader> ResourceManager::shaders;
 map<int, unsigned int> ResourceManager::textures;
-map<int, ma_sound> ResourceManager::music;
+map<int, Music> ResourceManager::music;
 map<int, MultiSound> ResourceManager::sounds;
 int ResourceManager::currentMusic = 0;
 
@@ -115,25 +115,14 @@ unsigned int ResourceManager::LoadTexture(const char* file, int enum_)
     return textures[enum_];
 }
 
-ma_sound* ResourceManager::LoadMusic(const char* file, int enum_)
+Music* ResourceManager::LoadMusic(const char* file, int enum_)
 {
-    ma_result result = ma_sound_init_from_file(
-        Audio::Instance()->GetAudioEngine(),
-        file,
-        MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_LOOPING,
-        NULL,
-        NULL,
-        &music[enum_]
-    );
-
-    if (result != MA_SUCCESS) {
-        std::cerr << "Failed to load music file: " << file << endl;
-    }
-
+    music[enum_] = Music();
+    music[enum_].Load(file);
     return &music[enum_];
 }
 
-ma_sound* ResourceManager::GetMusic(int enum_)
+Music* ResourceManager::GetMusic(int enum_)
 {
     if (music.find(enum_) == music.end())
     {
@@ -164,7 +153,7 @@ MultiSound* ResourceManager::GetSound(int enum_)
 void ResourceManager::ApplyMusicVolume(float volume)
 {
     for (auto& iter : music) {
-        ma_sound_set_volume(&iter.second, volume);
+        iter.second.SetVolume(volume);
     }
 }
 
@@ -175,16 +164,20 @@ void ResourceManager::ApplySfxVolume(float volume)
     }
 }
 
-void ResourceManager::StopMusic(int enum_)
-{
-    ma_sound_stop(&music[enum_]);
+void ResourceManager::PlayMusic(int enum_, bool force_new_) {
+    if (currentMusic != enum_ || force_new_ || !ma_sound_is_playing(music[currentMusic].GetSound())) {
+        music[currentMusic].FullStop();
+        currentMusic = enum_;
+        music[currentMusic].PlayFromStart();
+    }
 }
 
-void ResourceManager::StartMusic(int enum_)
-{
-    StopMusic(currentMusic);
-    currentMusic = enum_;
-    ma_sound_start(&music[currentMusic]);
+void ResourceManager::StopMusic() {
+    music[currentMusic].Stop();
+}
+
+void ResourceManager::ResumeMusic() {
+    music[currentMusic].Play();
 }
 
 void ResourceManager::Clear()
@@ -202,9 +195,9 @@ void ResourceManager::Clear()
     }
 
     // Delete all music properly
-    for (pair<int, ma_sound> iter : music)
+    for (auto& iter : music)
     {
-        ma_sound_uninit(&(iter.second));
+        iter.second.Unload();
     }
 
     // Delete all sounds properly

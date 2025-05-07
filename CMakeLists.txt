@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 project(BulletHellGame LANGUAGES C CXX)
 
 if (NOT DEFINED BUILD_TARGET)
-  message(FATAL_ERROR
-    "You must set -DBUILD_TARGET={desktop,web}")
+  set(BUILD_TARGET "desktop"
+  CACHE STRING "Choose build target: desktop or web")
 endif()
 
 if (NOT BUILD_TARGET STREQUAL "desktop" AND

@@ -4,8 +4,8 @@
 
 //const char* Assets::bip_sound = "assets/Sounds/sound.wav";
 
-float Assets::musicVolume = 0.15f;
-float Assets::sfxVolume = 1.0f;
+float Assets::musicVolume = 0.5f;
+float Assets::sfxVolume = 0.5f;
 
 void Assets::LoadAssets()
 {
@@ -50,13 +50,18 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Debug/rectangle.png", rectangleTexture);
 
 	// Load music
-	ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic);
-	ResourceManager::LoadMusic("assets/Music/LTHAWFD.wav", LTHAWFD);
-	ResourceManager::StartMusic(anxietyMusic);
+	ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic)->SetIndividualVolumeCoeff(0.1);
+	ResourceManager::LoadMusic("assets/Music/LTHAWFD.wav", LTHAWFD)->SetIndividualVolumeCoeff(1.0);
+	ResourceManager::LoadMusic("assets/Music/MainMenu.wav", MainMenu)->SetIndividualVolumeCoeff(1.0);
+
+	ResourceManager::PlayMusic(MainMenu);
 	//Audio::Instance()->PlayMusic(default_music);
 	//ma_sound_set_volume(default_music, musicVolume);
 
 	// Load sounds
 	ResourceManager::LoadSound("assets/Sounds/sound.wav", buttonHoverSound);
-	ResourceManager::GetSound(buttonHoverSound)->SetVolume(sfxVolume);
+	ResourceManager::GetSound(buttonHoverSound)->SetIndividualVolumeCoeff(0.4);
+
+	ResourceManager::ApplyMusicVolume(Assets::musicVolume);
+	ResourceManager::ApplySfxVolume(Assets::sfxVolume);
 }

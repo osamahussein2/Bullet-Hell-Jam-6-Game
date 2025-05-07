@@ -37,14 +37,18 @@ public:
         }
     }
 
+    void SetIndividualVolumeCoeff(float coeff) {
+        individualVolume = coeff;
+    }
+
     void SetVolume(float volume) {
         for (ma_sound& alias : aliases) {
-            ma_sound_set_volume(&alias, volume);
+            ma_sound_set_volume(&alias, volume*individualVolume);
         }
     }
 
 private:
-
+    float individualVolume = 1.0f;
     bool LoadSound(const char* file, int index) {
         ma_result result = ma_sound_init_from_file(
             Audio::Instance()->GetAudioEngine(),

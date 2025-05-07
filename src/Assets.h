@@ -58,6 +58,7 @@ public:
     {
         anxietyMusic = 0,
         LTHAWFD = 1,
+        MainMenu = 2
     };
     
     enum SoundMapNumbers
