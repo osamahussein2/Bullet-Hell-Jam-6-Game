@@ -13,8 +13,10 @@ void Assets::LoadAssets()
 	#ifdef __EMSCRIPTEN__
 	// Load shaders
 	ResourceManager::LoadShader("assets/Shaders23/SpriteRendererVS.glsl", "assets/Shaders23/SpriteRendererFS.glsl", spriteShader);
+	ResourceManager::LoadShader("assets/Shaders23/BackgroundShaderVS.glsl", "assets/Shaders23/BackgroundShaderFS.glsl", backgroundShader);
 	#else
 	ResourceManager::LoadShader("assets/Shaders46/SpriteRendererVS.glsl", "assets/Shaders46/SpriteRendererFS.glsl", spriteShader);
+	ResourceManager::LoadShader("assets/Shaders46/BackgroundShaderVS.glsl", "assets/Shaders46/BackgroundShaderFS.glsl", backgroundShader);
 	#endif
 
 	// Load textures

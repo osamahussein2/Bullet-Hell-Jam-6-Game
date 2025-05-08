@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Assets.h"
 #include "TextRenderer.h"
+#include "BackgroundRenderer.h"
 
 #include "Bullet.h"
 #include "Enemy.h"
@@ -181,12 +182,22 @@ void Game::RenderGame(float deltaTime_)
 		gameH, 0.0f,
 		-1.0f, 1.0f);
 
+	// set uniforms for sprite rendering shader
+	glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "spriteImage"), 0);
-
 	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
 		1, GL_FALSE, value_ptr(projection));
 
+	//set uniforms for background rendering shader
+	glUseProgram(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram);
+	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "spriteImage"), 0);
+	glUniform1f(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "time"), glfwGetTime());
+	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "projectionMatrix"),
+		1, GL_FALSE, value_ptr(projection));
+
 	timer += deltaTime_;
+
+	BackgroundRenderer::Instance()->DrawBackground(vec2(gameW, gameH));
 
 	player->Draw();
 

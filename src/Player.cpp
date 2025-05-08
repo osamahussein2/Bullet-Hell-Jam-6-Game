@@ -99,7 +99,7 @@ void Player::Update(float deltaTime)
     else {
         color = vec3(1, 0.5f*vec2(1.f+sinf(glfwGetTime()*12) ));
         low_on_aura = true;
-        game->playerAura += 0.1*deltaTime;
+        game->playerAura += 0.03*deltaTime;
     } 
 
     UpdateCurrentAnim();
@@ -151,7 +151,7 @@ vec2 Player::HandleMovementInput()
 bool Player::CanShoot() {
     auto game = Game::Instance();
     float treshold = 0.2;
-    if (low_on_aura) treshold = 0.4;
+    if (low_on_aura) treshold = 0.3;
     return game->playerAura/game->maxPlayerAura > treshold;
 }
 

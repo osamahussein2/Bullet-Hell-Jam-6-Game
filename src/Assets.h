@@ -16,7 +16,8 @@ public:
 
     enum ShaderMapNumbers
     {
-        spriteShader = 0
+        spriteShader = 0,
+        backgroundShader = 1
     };
 
     enum TextureMapNumbers

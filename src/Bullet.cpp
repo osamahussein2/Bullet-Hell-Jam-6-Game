@@ -6,7 +6,7 @@ void PlayerBullet::OnCollide(Body *other)
 {
     StraightBullet::OnCollide(other);
     if (dynamic_cast<Enemy*>(other)) {
-        Game::Instance()->playerAura += 0.015;    
+        Game::Instance()->playerAura += 0.03;    
     }
 }
 
