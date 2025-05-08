@@ -93,7 +93,16 @@ void Game::UpdateGame(float deltaTime_)
 			++it;
 		}
 	}
+	
+	playerAura = glm::clamp(playerAura, 0.f, maxPlayerAura);
+	if (playerAura == 0.0f) {
+		Window::Instance()->state = GAME_OVER;
+		LoadGame();
+		ResourceManager::StopMusic();
+	}
 
+	// Change the current aura bar size in x coordinate depending on player's current aura value
+	HUDs[1].rel_pos.x = HUDs[1].rel_size.x * playerAura / maxPlayerAura - HUDs[1].rel_size.x;
 
 	// UI updating
 
@@ -105,19 +114,6 @@ void Game::UpdateGame(float deltaTime_)
 	for (UserInterface& bar : progressBarUnits)
 	{
 		bar.Update(true);
-	}
-
-	// Change the current aura bar size in x coordinate depending on player's current aura value
-	HUDs[1].rel_pos.x = HUDs[1].rel_size.x * playerAura / maxPlayerAura - HUDs[1].rel_size.x;
-	
-	if (playerAura <= 0.0f) {
-		playerAura = 0.0f;
-		Window::Instance()->state = GAME_OVER;
-		LoadGame();
-		ResourceManager::StopMusic();
-	}
-	else {
-		//playerAura -= 0.1 * deltaTime_;
 	}
 
 	Debug::Instance()->Update();

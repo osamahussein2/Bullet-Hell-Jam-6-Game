@@ -17,7 +17,7 @@ protected:
 
     float timer = 0.f;
 
-    float damage = 0.1; // full health of a regular unit is 1.0
+    float damage = 0.23; // full health of a regular unit is 1.0
 
 public:
     Bullet(vec2 pos_, vec2 direction_, float speed_, float radius_, vec2 size_, unsigned int sprite_) : 
@@ -60,15 +60,8 @@ public:
 
 class PlayerBullet : public StraightBullet {
 public:
-    PlayerBullet(vec2 pos_, vec2 direction_) : StraightBullet(pos_, direction_, Assets::playerBulletTexture) {
-        renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
-        const int columns = 6;
-        const int rows = 1;
-
-        renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, 0, 6, 6.f});
-
-        collisions.push_back(new CircleCollision(radius, size*0.5f));
-    }
+    virtual void OnCollide(Body* other) override;
+    PlayerBullet(vec2 pos_, vec2 direction_);
 };
 
 class StraightEnemyBullet : public StraightBullet {

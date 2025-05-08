@@ -27,6 +27,7 @@ private:
     bool hit_this_frame = false;
     float acceleration = 2000.f;
     float drag = 8;
+    bool low_on_aura = false;
 
 public:
     virtual void OnCollide(Body* other);
@@ -37,6 +38,7 @@ public:
     virtual void UpdateCurrentAnim() override;
 
     vec2 HandleMovementInput();
+    bool CanShoot();
     void Shoot();
 };
 

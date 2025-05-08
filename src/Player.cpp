@@ -10,8 +10,10 @@
 void Player::OnCollide(Body *other)
 {
     if (state != PL_ST_HIT) {
-        if (GameObjectPro* oth = dynamic_cast<GameObjectPro*>(other)){
-            velocity = oth->velocity;
+        state = PL_ST_HIT;
+        if (Bullet* bullet = dynamic_cast<Bullet*>(other)){
+            velocity = bullet->velocity;
+            Game::Instance()->playerAura -= bullet->GetDamage();
         }
     }
     hit_this_frame = true;
@@ -38,13 +40,9 @@ void Player::Update(float deltaTime)
 {
     vec2 direction = vec2(0.0);
 
-    if (hit_this_frame){
-        if (state != PL_ST_HIT) {
-            Game::Instance()->playerAura -= 0.1;
-        }
-        state = PL_ST_HIT;
-    }
-    else if (Input::IsKeyDown(GLFW_KEY_SPACE)) {
+    auto game = Game::Instance();
+
+    if (state != PL_ST_HIT && Input::IsKeyDown(GLFW_KEY_SPACE) && CanShoot()) {
         state = PL_ST_SHOOT;
     }
 
@@ -71,6 +69,11 @@ void Player::Update(float deltaTime)
 
     case PL_ST_SHOOT:
         direction = HandleMovementInput();
+        if (!CanShoot()) {
+            state = PL_ST_MOVE;
+            break;
+        }
+        
         if (Input::IsKeyDown(GLFW_KEY_SPACE)) {
             if (since_last_shot >= shoot_cooldown){
                 Shoot();
@@ -88,6 +91,16 @@ void Player::Update(float deltaTime)
     position += velocity * deltaTime;
 
     since_last_shot += deltaTime;
+
+    if (CanShoot()) {
+        color = vec3(1.0);
+        low_on_aura = false;
+    }
+    else {
+        color = vec3(1, 0.5f*vec2(1.f+sinf(glfwGetTime()*12) ));
+        low_on_aura = true;
+        game->playerAura += 0.1*deltaTime;
+    } 
 
     UpdateCurrentAnim();
 
@@ -133,6 +146,13 @@ vec2 Player::HandleMovementInput()
     }
 	if (direction != vec2(0.f)) direction = normalize(direction);
     return direction;
+}
+
+bool Player::CanShoot() {
+    auto game = Game::Instance();
+    float treshold = 0.2;
+    if (low_on_aura) treshold = 0.5;
+    return game->playerAura/game->maxPlayerAura > treshold;
 }
 
 void Player::Shoot()
