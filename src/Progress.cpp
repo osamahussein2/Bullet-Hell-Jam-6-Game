@@ -33,14 +33,14 @@ void Stage1_1::Load()
 {
     Stage::Load();
     Game* game = Game::Instance();
-	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
+	vec2 center = Window::Instance()->GetGameSize()*0.5f;
 	game->player->position = center;
 
     //game->enemies.push_back(new Bomba(center + vec2(150, -80)));
 
 	// must be careful, enemies must be initially in their movement range
 	//game->enemies.push_back(new CultistBasic(vec2(center.x, 80)));
-	game->enemies.push_back(new CultistBasic(vec2(80, 120)));
+	game->enemies.push_back(new CultistBasic(vec2(center.x, center.y-50)));
 	//game->enemies.push_back(new CultistBasic(vec2(center.x*2-80, 120)));
 }
 
@@ -48,10 +48,10 @@ void Stage1_2::Load()
 {
     Stage::Load();
     Game* game = Game::Instance();
-	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
+	vec2 center = Window::Instance()->GetGameSize()*0.5f;
 	game->player->position = center;
 
-    game->enemies.push_back(new Summoner(center+vec2(0, -100)));
+    game->enemies.push_back(new Summoner(vec2(169, center.y-40)));
 }
 
 void BeholderFight::Load()

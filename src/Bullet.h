@@ -17,7 +17,7 @@ protected:
 
     float timer = 0.f;
 
-    float damage = 0.23; // full health of a regular unit is 1.0
+    float damage = 0.13; // full health of a regular unit is 1.0
 
 public:
     Bullet(vec2 pos_, vec2 direction_, float speed_, float radius_, vec2 size_, unsigned int sprite_) : 

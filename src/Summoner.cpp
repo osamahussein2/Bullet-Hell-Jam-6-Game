@@ -16,7 +16,7 @@ void Summoner::OnCollide(Body *other) {
         }
     }
 }
-Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::summonerTexture, 1.0, 1.0) {
+Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::summonerTexture, 1.5, 1.0) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 5;

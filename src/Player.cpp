@@ -151,7 +151,7 @@ vec2 Player::HandleMovementInput()
 bool Player::CanShoot() {
     auto game = Game::Instance();
     float treshold = 0.2;
-    if (low_on_aura) treshold = 0.5;
+    if (low_on_aura) treshold = 0.4;
     return game->playerAura/game->maxPlayerAura > treshold;
 }
 

@@ -13,13 +13,13 @@ void Orb::OnCollide(Body *other)
     }
 }
 
-Orb::Orb(vec2 pos_) : Enemy(pos_, vec2(33, 36), Assets::orbTexture, 0.56, 0.4)
+Orb::Orb(vec2 pos_) : Enemy(pos_, vec2(33, 36), Assets::orbTexture, 0.56, 0.21)
 {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 2;
 
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, ORB_HIT, 2, 6.f, false});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, ORB_HIT, 2, 12.f, false});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, ORB_IDLE, 6, 6.f});
     renderer->GetAnimationHandler()->SetCurrentAnim(ORB_IDLE);
 
