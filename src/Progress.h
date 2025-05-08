@@ -7,7 +7,7 @@
 #include "Window.h"
 
 struct Stage {
-    Stage(int music_enum_ = Assets::anxietyMusic) : music_enum(music_enum_) {}
+    Stage(int music_enum_ = Assets::HellHole) : music_enum(music_enum_) {}
     int music_enum;
     virtual void Load() {
         ResourceManager::PlayMusic(music_enum);

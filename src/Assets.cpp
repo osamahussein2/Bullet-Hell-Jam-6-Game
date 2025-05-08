@@ -55,6 +55,7 @@ void Assets::LoadAssets()
 	ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic)->SetIndividualVolumeCoeff(0.1);
 	ResourceManager::LoadMusic("assets/Music/LTHAWFD.wav", LTHAWFD)->SetIndividualVolumeCoeff(1.0);
 	ResourceManager::LoadMusic("assets/Music/MainMenu.wav", MainMenu)->SetIndividualVolumeCoeff(1.0);
+	ResourceManager::LoadMusic("assets/Music/HellHole.wav", HellHole)->SetIndividualVolumeCoeff(0.7);
 
 	ResourceManager::PlayMusic(MainMenu);
 	//Audio::Instance()->PlayMusic(default_music);

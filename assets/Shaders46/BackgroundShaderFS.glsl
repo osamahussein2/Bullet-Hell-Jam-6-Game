@@ -13,6 +13,7 @@ float starRadius = 0.005;
 float starDensity = 0.001;
 
 uniform float time;
+uniform float speed = 1.0;
 
 float hash(vec2 p) {
     return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
@@ -21,7 +22,7 @@ float hash(vec2 p) {
 void main()
 {
     vec2 texCoord = fs_variables.texCoords/vec2(0.16, 0.9);
-	texCoord = texCoord+vec2(0, -0.8*time);
+	texCoord = texCoord+vec2(0, -0.8*time*speed);
     vec2 baseCell = floor(texCoord * gridSize);
     
     // Check 3x3 neighborhood around current cell
