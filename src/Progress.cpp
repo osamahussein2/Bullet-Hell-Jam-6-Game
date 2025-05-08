@@ -73,6 +73,7 @@ void BeholderFight::Load()
 
 void BeholderFight::Update(float deltaTime)
 {
+    Stage::Update(deltaTime);
     timer += deltaTime;
     if (timer >= 27.7 && !spawnedBoss) {
         spawnedBoss = true;

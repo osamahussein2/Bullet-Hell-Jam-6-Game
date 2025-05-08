@@ -20,7 +20,7 @@
       border-top: 5px solid #fff;
       border-radius: 50%; animation: spin 1s linear infinite;
     }
-    @keyframes spin {to{transform:rotate(360deg)}}
+    @keyframes spin { to { transform: rotate(360deg); } }
     /*Game canvas (hidden until ready)*/
     canvas.emscripten {
       position: fixed; inset: 0;
@@ -42,14 +42,15 @@
   </div>
   <!--Emscripten canvas-->
   <canvas id="canvas" class="emscripten" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+
   <script>
     var Module = {
       /*bind canvas*/
-      canvas: () => document.getElementById('canvas'),
+      canvas: document.getElementById('canvas'),
       /*hide loader, show canvas*/
       onRuntimeInitialized() {
         document.getElementById('loader').remove();
-        this.canvas().style.display = 'block';
+        this.canvas.style.display = 'block';
       }
     };
   </script>
