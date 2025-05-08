@@ -39,6 +39,7 @@
   <!--Loading screen-->
   <div id="loader">
     <div class="spinner"></div>
+    <div id="loading-text">Loading...</div>
   </div>
   <!--Emscripten canvas-->
   <canvas id="canvas" class="emscripten" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
@@ -47,6 +48,19 @@
     var Module = {
       /*bind canvas*/
       canvas: document.getElementById('canvas'),
+
+      /*override status to show percentage*/
+      setStatus(text) {
+        var m = text.match(/(\d+)\/(\d+)/);
+        if (m) {
+          var done = parseInt(m[1]), total = parseInt(m[2]);
+          var pct = Math.floor(done / total * 100);
+          document.getElementById('loading-text').textContent = `Loading ${pct}%`;
+        } else {
+          document.getElementById('loading-text').textContent = text;
+        }
+      },
+
       /*hide loader, show canvas*/
       onRuntimeInitialized() {
         document.getElementById('loader').remove();
