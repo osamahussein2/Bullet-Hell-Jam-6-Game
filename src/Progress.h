@@ -64,6 +64,14 @@ struct BeholderFight : Stage {
     virtual void Update(float deltaTime) override;
 };
 
+struct BigBoyFight : Stage {
+    BigBoyFight() : Stage(Assets::LTHAWFD) {}
+    bool spawnedBoss = false;
+    float timer = 0.f;
+    virtual void Load() override;
+    virtual void Update(float deltaTime) override;
+};
+
 struct Level1 : Level {
     Level1();
     virtual Level* GetNextLevel() override;

@@ -8,6 +8,7 @@
 #include "Summoner.h"
 #include "Orb.h"
 #include "Beholder.h"
+#include "BigBoy.h"
 #include "Player.h"
 #include "Effect.h"
 
@@ -91,7 +92,40 @@ void BeholderFight::Update(float deltaTime)
     }
 }
 
-Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new BeholderFight() } ) {}
+
+void BigBoyFight::Load()
+{
+    spawnedBoss = false;
+    timer = 0.f;
+
+    Stage::Load();
+    Game* game = Game::Instance();
+	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
+	game->player->position = center+vec2(0, center.y);
+
+    game->enemies.push_back(new Summoner(center+center*vec2(-0.2, -0.2)));
+}
+
+void BigBoyFight::Update(float deltaTime)
+{
+    Stage::Update(deltaTime);
+    timer += deltaTime;
+    if (timer >= 0 && !spawnedBoss) {
+    //if (timer >= 0.1 && !spawnedBoss) {
+        spawnedBoss = true;
+
+        Game* game = Game::Instance();
+        for (auto enemy : game->enemies) {
+            delete enemy;
+        }
+        game->enemies.clear();
+
+        vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
+        game->enemies.push_back(new BigBoy(center));
+    }
+}
+
+Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new BigBoyFight() } ) {}
 
 Level *Level1::GetNextLevel()
 {

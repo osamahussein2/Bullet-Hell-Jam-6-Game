@@ -53,6 +53,7 @@ public:
         sliderHandleTexture = 20,
         eyeTexture = 21,
         explosionTexture = 22,
+        bigBoyTexture = 23,
 
         //Debug textures
         circleTexture = 999,

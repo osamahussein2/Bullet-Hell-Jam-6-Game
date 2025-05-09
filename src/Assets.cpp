@@ -49,7 +49,8 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Textures/beholder.png", beholderTexture);
 	ResourceManager::LoadTexture("assets/Textures/eye.png", eyeTexture);
 	ResourceManager::LoadTexture("assets/Textures/explosion.png", explosionTexture);
-
+	ResourceManager::LoadTexture("assets/Textures/big_boy.png", bigBoyTexture);
+	
 	// Debug textures
 	ResourceManager::LoadTexture("assets/Debug/circle.png", circleTexture);
 	ResourceManager::LoadTexture("assets/Debug/rectangle.png", rectangleTexture);
