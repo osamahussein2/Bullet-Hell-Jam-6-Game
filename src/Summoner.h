@@ -36,7 +36,7 @@ private:
 public:
     virtual void OnCollide(Body* other);
 
-    Summoner(vec2 pos_);
+    Summoner(vec2 pos_, bool in_spawn_ = false);
 
     virtual void Update(float deltaTime) override;
 

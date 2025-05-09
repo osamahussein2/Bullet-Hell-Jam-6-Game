@@ -26,7 +26,7 @@ private:
 public:
     virtual void OnCollide(Body* other) override;
 
-    Orb(vec2 pos_);
+    Orb(vec2 pos_, bool in_spawn_ = false);
 
     virtual void Update(float deltaTime) override;
     virtual void UpdateCurrentAnim() override;

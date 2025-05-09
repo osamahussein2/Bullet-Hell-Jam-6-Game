@@ -20,7 +20,7 @@ void CultistBasic::OnCollide(Body *other) {
         }
     }
 }
-CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 0.2, 1.0) {
+CultistBasic::CultistBasic(vec2 pos_, bool in_spawn_) : Enemy(pos_, vec2(64, 80), Assets::cultistBasicTexture, 0.2, 1.0, in_spawn_) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 5;
@@ -40,42 +40,45 @@ CultistBasic::CultistBasic(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::cultis
 void CultistBasic::Update(float deltaTime) {
     since_last_shot += deltaTime;
 
-    if (health <= 0) state = CLB_ST_DEAD;
-    switch (state) {
-    case CLB_ST_HIT:
-        Move(deltaTime);
-        if (!hit_this_frame) {
+    if (ReachedSpawn()) {
+        if (health <= 0) state = CLB_ST_DEAD;
+        switch (state) {
+        case CLB_ST_HIT:
+            Move(deltaTime);
+            if (!hit_this_frame) {
+                if (renderer->GetAnimationHandler()->AnimEnded()) {
+                    state = CLB_ST_MOVE;
+                    renderer->GetAnimationHandler()->RestartAnim(CLB_HIT);
+                }
+            }
+            break;
+        case CLB_ST_MOVE:
+            Move(deltaTime);
+            if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
+                state = CLB_ST_SHOOT;
+                random_shoot_offset = -((double)std::rand() / (RAND_MAX))*3;
+            }
+            break;
+        case CLB_ST_SHOOT:
+            velocity.x = 0.f;
+            if (since_last_shot >= shoot_cooldown){
+                Shoot();
+            }
             if (renderer->GetAnimationHandler()->AnimEnded()) {
                 state = CLB_ST_MOVE;
-                renderer->GetAnimationHandler()->RestartAnim(CLB_HIT);
+                renderer->GetAnimationHandler()->RestartAnim(CLB_SHOOT);
             }
+            break;
+        case CLB_ST_DEAD:
+            velocity = vec2(0.0);
+            time_dead += deltaTime;
+            if (time_dead > 0.f) {
+                Die();
+            }
+            break;
         }
-        break;
-    case CLB_ST_MOVE:
-        Move(deltaTime);
-        if (since_last_shot + random_shoot_offset >= shoot_cooldown) {
-            state = CLB_ST_SHOOT;
-            random_shoot_offset = -((double)std::rand() / (RAND_MAX))*3;
-        }
-        break;
-    case CLB_ST_SHOOT:
-        velocity.x = 0.f;
-        if (since_last_shot >= shoot_cooldown){
-            Shoot();
-        }
-        if (renderer->GetAnimationHandler()->AnimEnded()) {
-            state = CLB_ST_MOVE;
-            renderer->GetAnimationHandler()->RestartAnim(CLB_SHOOT);
-        }
-        break;
-    case CLB_ST_DEAD:
-        velocity = vec2(0.0);
-        time_dead += deltaTime;
-        if (time_dead > 0.f) {
-            Die();
-        }
-        break;
     }
+
     position += velocity*deltaTime;
     UpdateCurrentAnim();
     GameObjectPro::Update(deltaTime);

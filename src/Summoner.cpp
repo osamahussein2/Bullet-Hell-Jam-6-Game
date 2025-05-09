@@ -16,7 +16,7 @@ void Summoner::OnCollide(Body *other) {
         }
     }
 }
-Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::summonerTexture, 1.5, 4.0) {
+Summoner::Summoner(vec2 pos_, bool in_spawn_) : Enemy(pos_, vec2(64, 80), Assets::summonerTexture, 1.5, 4.0, in_spawn_) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 5;
@@ -39,37 +39,39 @@ void Summoner::Update(float deltaTime) {
 
     since_last_shot += deltaTime;
 
-    if (health <= 0) state = SM_ST_DEAD;
-    switch (state) {
-    case SM_ST_HIT:
-        Move(deltaTime);
-        if (renderer->GetAnimationHandler()->AnimEnded()) {
-            state = SM_ST_MOVE;
-            renderer->GetAnimationHandler()->RestartAnim(SM_HIT);
-        }
-    
-        break;
-    case SM_ST_MOVE:
-        Move(deltaTime);
-        break;
-    case SM_ST_SUMMON:
-        velocity.x = 0;
-        if (renderer->GetAnimationHandler()->AnimEnded()) {
-            if (since_last_shot >= shoot_cooldown){
-                Game::Instance()->new_enemies.push_back(new Orb(position+size*vec2(0.5)+vec2(0,10)));            
-                since_last_shot = 0.f;
+    if (ReachedSpawn()) {
+        if (health <= 0) state = SM_ST_DEAD;
+        switch (state) {
+        case SM_ST_HIT:
+            Move(deltaTime);
+            if (renderer->GetAnimationHandler()->AnimEnded()) {
+                state = SM_ST_MOVE;
+                renderer->GetAnimationHandler()->RestartAnim(SM_HIT);
             }
-            state = SM_ST_MOVE;
-            renderer->GetAnimationHandler()->RestartAnim(SM_SUMMON);
+        
+            break;
+        case SM_ST_MOVE:
+            Move(deltaTime);
+            break;
+        case SM_ST_SUMMON:
+            velocity.x = 0;
+            if (renderer->GetAnimationHandler()->AnimEnded()) {
+                if (since_last_shot >= shoot_cooldown){
+                    Game::Instance()->new_enemies.push_back(new Orb(position+size*vec2(0.5)+vec2(0,10), true));            
+                    since_last_shot = 0.f;
+                }
+                state = SM_ST_MOVE;
+                renderer->GetAnimationHandler()->RestartAnim(SM_SUMMON);
+            }
+            break;
+        case SM_ST_DEAD:
+            velocity = vec2(0.0);
+            time_dead += deltaTime;
+            if (time_dead > 0.f) {
+                Die();
+            }
+            break;
         }
-        break;
-    case SM_ST_DEAD:
-        velocity = vec2(0.0);
-        time_dead += deltaTime;
-        if (time_dead > 0.f) {
-            Die();
-        }
-        break;
     }
     position += velocity*deltaTime;
     UpdateCurrentAnim();

@@ -13,7 +13,7 @@ void Beholder::OnCollide(Body *other)
     }
 }
 
-Beholder::Beholder(vec2 pos_) : Enemy(pos_, vec2(224, 136), Assets::beholderTexture, 0.04, 30.f) {
+Beholder::Beholder(vec2 pos_) : Enemy(pos_, vec2(224, 136), Assets::beholderTexture, 0.04, 30.f, true) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 1;
     const int rows = 1;

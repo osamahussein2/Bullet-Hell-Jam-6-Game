@@ -13,7 +13,7 @@ void Orb::OnCollide(Body *other)
     }
 }
 
-Orb::Orb(vec2 pos_) : Enemy(pos_, vec2(33, 36), Assets::orbTexture, 0.56, 0.21)
+Orb::Orb(vec2 pos_, bool in_spawn_) : Enemy(pos_, vec2(33, 36), Assets::orbTexture, 0.56, 0.21, in_spawn_)
 {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;

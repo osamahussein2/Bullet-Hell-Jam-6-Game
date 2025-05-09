@@ -36,7 +36,7 @@ private:
 public:
     virtual void OnCollide(Body* other);
 
-    CultistBasic(vec2 pos_);
+    CultistBasic(vec2 pos_, bool in_spawn_ = false);
 
     virtual void Update(float deltaTime) override;
 
