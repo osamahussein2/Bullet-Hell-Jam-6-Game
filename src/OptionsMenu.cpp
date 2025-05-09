@@ -116,11 +116,14 @@ void OptionsMenu::RenderMenu()
 	TextRenderer::Instance()->DrawTextRelCent("sfx volume", vec2(0.4, 0.52), 0.0015);
 
 	for (UserInterface& sliderbar : sliderBars) {
-		sliderbar.Draw(*UserInterface::UiRendererInstance());
+		sliderbar.Draw(*UserInterface::UiRendererInstance()
+	);
 	}
 
 	for (UserInterface& sliderhandle : sliderHandles) {
-		sliderhandle.Draw(*UserInterface::UiRendererInstance());
+		sliderhandle.Draw(*UserInterface::UiRendererInstance(),
+		vec2(-sliderHandles[0].rel_size.x/2, 0.0)
+		);
 	}
 
 	for (Button& btn : buttons) {
@@ -141,7 +144,7 @@ void OptionsMenu::DeleteOptionsMenuInstance()
 
 void OptionsMenu::InitializeSliderBars()
 {
-	vec2 rel_size = vec2(0.3, 0.15);
+	vec2 rel_size = vec2(0.25, 0.1);
 	float vert_padd = 0.1;
 	float hori_padd = 0.1;
 	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.75);
@@ -175,16 +178,16 @@ void OptionsMenu::InitializeSliderHandles()
 
 	sliderHandles.push_back(UserInterface(
 		sliderBars[0].rel_pos+vec2(sliderBars[0].rel_size.x*Assets::musicVolume, -sliderBars[0].rel_size.y/2),
-		rel_size, Assets::sliderBarTexture,
-		Assets::spriteShader, vec3(0.5f)));
+		rel_size, Assets::sliderHandleTexture,
+		Assets::spriteShader, vec3(1.0)));
 	
 	sliderHandles[0].Update(); // convert rel into abs for reference
 	lastMusicSliderHandlePosition = sliderHandles[0].position.x;
 
 	sliderHandles.push_back(UserInterface(
 		sliderBars[1].rel_pos+vec2(sliderBars[1].rel_size.x*Assets::sfxVolume, -sliderBars[1].rel_size.y/2),
-		rel_size, Assets::sliderBarTexture,
-		Assets::spriteShader, vec3(0.5f)));
+		rel_size, Assets::sliderHandleTexture,
+		Assets::spriteShader, vec3(1.0)));
 	
 	sliderHandles[1].Update(); // convert rel into abs for reference
 	lastSFXSliderHandlePosition = sliderHandles[1].position.x;
@@ -209,7 +212,6 @@ void OptionsMenu::RestrictSFXSliderHandlePosition()
 	float w = Window::Instance()->GetWindowWidth();
 	float start = w * sliderBars[1].rel_pos.x;
 	float end = w * (sliderBars[1].rel_pos.x+sliderBars[1].rel_size.x);
-
 	
 	lastSFXSliderHandlePosition = glm::clamp(
 		lastSFXSliderHandlePosition,

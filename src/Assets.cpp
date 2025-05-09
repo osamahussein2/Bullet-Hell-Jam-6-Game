@@ -23,6 +23,7 @@ void Assets::LoadAssets()
 	ResourceManager::LoadTexture("assets/Text Images/text_atlas.png", textAtlas);
 	ResourceManager::LoadTexture("assets/Buttons/button.png", buttonTexture);
 	ResourceManager::LoadTexture("assets/Textures/Slider bar.png", sliderBarTexture);
+	ResourceManager::LoadTexture("assets/Textures/Slider handle.png", sliderHandleTexture);
 
 	ResourceManager::LoadTexture("assets/Textures/Player.png", playerTexture);
 	ResourceManager::LoadTexture("assets/Textures/Health bar.png", healthBarTexture);

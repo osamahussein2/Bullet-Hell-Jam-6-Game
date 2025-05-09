@@ -34,23 +34,25 @@ void Button::Update()
 void Button::Draw(SpriteRenderer& renderer_, vec2 rel_offset_, bool relative_to_game)
 {
     color = vec3(1.0);
+    vec3 btn_color = vec3(0.7);
     float scale = 1.0;
     switch (state) {
         case BTN_DEFAULT:
-            color = vec3(1.0);
             break;
         case BTN_HOVERED:
             color = vec3(0.7);
+            btn_color = vec3(1.0);
             scale = 1.3;
             break;
         case BTN_PRESSED:
             color = vec3(0.3);
+            btn_color = vec3(0.3);
             break;
     }
 
     //renderer_.DrawSprite(sprite, position, size, 0.f, color);
     UserInterface::Draw(renderer_, rel_offset_, relative_to_game);
-    TextRenderer::Instance()->DrawText(text, position+vec2(size.x/2, size.y/2), scale*size.x/100, true, true);
+    TextRenderer::Instance()->DrawText(text, position+vec2(size.x/2, size.y/2), scale*size.x/100, true, true, btn_color);
 }
 
 bool Button::CheckRectangle()

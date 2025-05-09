@@ -50,6 +50,8 @@ public:
         enemyHealthTexture = 18,
         beholderTexture = 19,
 
+        sliderHandleTexture = 20,
+
         //Debug textures
         circleTexture = 999,
         rectangleTexture = 1000
