@@ -114,6 +114,10 @@ bool Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   CreditsMenu::Instance()->InitializeMenu();
   GameOverMenu::Instance()->InitializeMenu();
 
+  #ifndef __EMSCRIPTEN__
+  ToggleFullscreen();
+  #endif
+
   return true;
 }
 

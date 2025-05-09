@@ -51,6 +51,7 @@ public:
         beholderTexture = 19,
 
         sliderHandleTexture = 20,
+        eyeTexture = 21,
 
         //Debug textures
         circleTexture = 999,

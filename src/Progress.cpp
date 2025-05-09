@@ -34,7 +34,7 @@ void Stage1_1::Load()
     Stage::Load();
     Game* game = Game::Instance();
 	vec2 center = Window::Instance()->GetGameSize()*0.5f;
-	game->player->position = center;
+	game->player->position = center+vec2(0, center.y);
 
     //game->enemies.push_back(new Bomba(center + vec2(150, -80)));
 
@@ -49,7 +49,7 @@ void Stage1_2::Load()
     Stage::Load();
     Game* game = Game::Instance();
 	vec2 center = Window::Instance()->GetGameSize()*0.5f;
-	game->player->position = center;
+	game->player->position = center+vec2(0, center.y);
 
     game->enemies.push_back(new Summoner(vec2(169, center.y-40)));
 }
@@ -62,12 +62,13 @@ void BeholderFight::Load()
     Stage::Load();
     Game* game = Game::Instance();
 	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
-	game->player->position = center;
+	game->player->position = center+vec2(0, center.y);
 
     game->enemies.push_back(new Orb(vec2(100, 100)));
-    game->enemies.push_back(new Orb(vec2(100, 200)));
 
-    game->enemies.push_back(new Orb(center*2.f+vec2(-100, -100)));
+    game->enemies.push_back(new Summoner(center+center*vec2(-0.2, -0.2)));
+    game->enemies.push_back(new CultistBasic(center+center*vec2(0.2, -0.2)));
+
     game->enemies.push_back(new Orb(center*2.f+vec2(-100, -200)));
 }
 
@@ -76,6 +77,7 @@ void BeholderFight::Update(float deltaTime)
     Stage::Update(deltaTime);
     timer += deltaTime;
     if (timer >= 27.7 && !spawnedBoss) {
+    //if (timer >= 0.1 && !spawnedBoss) {
         spawnedBoss = true;
 
         Game* game = Game::Instance();
@@ -89,7 +91,7 @@ void BeholderFight::Update(float deltaTime)
     }
 }
 
-Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new Stage1_2(), new Stage1_2(), new BeholderFight() } ) {}
+Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new BeholderFight() } ) {}
 
 Level *Level1::GetNextLevel()
 {

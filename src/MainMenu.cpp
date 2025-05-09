@@ -84,7 +84,8 @@ void MainMenu::RenderMenu()
 	for (Button& btn : buttons){
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
-	
+
+	TextRenderer::Instance()->DrawTextRelCent("game name", vec2(0.5, 0.1), 0.004, vec3(1.0, 0.7, 0.1));
 }
 
 void MainMenu::DeleteMainMenuInstance()

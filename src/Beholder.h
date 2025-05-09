@@ -37,9 +37,9 @@ public:
     void Move(float deltaTime);
     void Shoot();
 
-    virtual void Draw() {
-        ShootingObject::Draw();
-    }
+    
+    virtual void Draw();
+    
 };
 
 #endif
