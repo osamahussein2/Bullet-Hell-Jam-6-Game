@@ -181,68 +181,65 @@ void OptionsMenu::InitializeSliderHandles()
 		rel_size, Assets::sliderHandleTexture,
 		Assets::spriteShader, vec3(1.0)));
 	
-	sliderHandles[0].Update(); // convert rel into abs for reference
-	lastMusicSliderHandlePosition = sliderHandles[0].position.x;
+	lastMusicSliderHandlePosition = sliderHandles[0].rel_pos.x;
 
 	sliderHandles.push_back(UserInterface(
 		sliderBars[1].rel_pos+vec2(sliderBars[1].rel_size.x*Assets::sfxVolume, -sliderBars[1].rel_size.y/2),
 		rel_size, Assets::sliderHandleTexture,
 		Assets::spriteShader, vec3(1.0)));
 	
-	sliderHandles[1].Update(); // convert rel into abs for reference
-	lastSFXSliderHandlePosition = sliderHandles[1].position.x;
+	lastSFXSliderHandlePosition = sliderHandles[1].rel_pos.x;
 }
 
 void OptionsMenu::RestrictMusicSliderHandlePosition()
 {
-	float w = Window::Instance()->GetWindowWidth();
-	float start = w * sliderBars[0].rel_pos.x;
-	float end = w * (sliderBars[0].rel_pos.x+sliderBars[0].rel_size.x);
+	//float w = Window::Instance()->GetWindowWidth();
+	float start = sliderBars[0].rel_pos.x;
+	float end = sliderBars[0].rel_pos.x+sliderBars[0].rel_size.x;
 
 	lastMusicSliderHandlePosition = glm::clamp(
 		lastMusicSliderHandlePosition,
 		start, end
 	);
-	sliderHandles[0].position.x = lastMusicSliderHandlePosition;
-	Assets::musicVolume = (sliderHandles[0].position.x-start)/(end-start);
+	sliderHandles[0].rel_pos.x = lastMusicSliderHandlePosition;
+	Assets::musicVolume = (sliderHandles[0].rel_pos.x-start)/(end-start);
 }
 
 void OptionsMenu::RestrictSFXSliderHandlePosition()
 {
-	float w = Window::Instance()->GetWindowWidth();
-	float start = w * sliderBars[1].rel_pos.x;
-	float end = w * (sliderBars[1].rel_pos.x+sliderBars[1].rel_size.x);
+	float start = sliderBars[1].rel_pos.x;
+	float end = sliderBars[1].rel_pos.x+sliderBars[1].rel_size.x;
 	
 	lastSFXSliderHandlePosition = glm::clamp(
 		lastSFXSliderHandlePosition,
 		start, end
 	);
-	sliderHandles[1].position.x = lastSFXSliderHandlePosition;
-	Assets::sfxVolume = (sliderHandles[1].position.x-start)/(end-start);
+	sliderHandles[1].rel_pos.x = lastSFXSliderHandlePosition;
+	Assets::sfxVolume = (sliderHandles[1].rel_pos.x-start)/(end-start);
 }
 
 void OptionsMenu::ModifyMusicSliderHandle()
 {
 	if (mousePressedOnMusicSlider == true)
 	{
-		lastMusicSliderHandlePosition = Window::Instance()->GetMousePositionX();
-		sliderHandles[0].position.x = lastMusicSliderHandlePosition;
+		lastMusicSliderHandlePosition = Window::Instance()->GetMousePositionX()/Window::Instance()->GetWindowWidth();
+		sliderHandles[0].rel_pos.x = lastMusicSliderHandlePosition;
 	}
-
 	else
 	{
 		if (lastMusicSliderHandlePosition != NULL)
 		{
-			sliderHandles[0].position.x = lastMusicSliderHandlePosition;
+			sliderHandles[0].rel_pos.x = lastMusicSliderHandlePosition;
 		}
 	}
 
+	auto siz = Window::Instance()->GetWindowSize();
 	// Update the slider handle based on position
 	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= sliderHandles[0].position.x &&
-		Window::Instance()->GetMousePositionX() <= sliderHandles[0].position.x + sliderHandles[0].size.x &&
-		Window::Instance()->GetMousePositionY() >= sliderHandles[0].position.y &&
-		Window::Instance()->GetMousePositionY() <= sliderHandles[0].position.y + sliderHandles[0].size.y)
+		Window::Instance()->GetMousePositionX()/siz.x >= sliderHandles[0].rel_pos.x-sliderHandles[0].rel_size.x*0.5f &&
+		Window::Instance()->GetMousePositionX()/siz.x <= sliderHandles[0].rel_pos.x+sliderHandles[0].rel_size.x*0.5f &&
+		Window::Instance()->GetMousePositionY()/siz.y >= sliderHandles[0].rel_pos.y &&
+		Window::Instance()->GetMousePositionY()/siz.y <= sliderHandles[0].rel_pos.y + sliderHandles[0].rel_size.y)
 	{
 		mousePressedOnMusicSlider = true;
 	}
@@ -257,24 +254,25 @@ void OptionsMenu::ModifySFXSliderHandle()
 {
 	if (mousePressedOnSFXSlider == true)
 	{
-		lastSFXSliderHandlePosition = Window::Instance()->GetMousePositionX();
-		sliderHandles[1].position.x = lastSFXSliderHandlePosition;
+		lastSFXSliderHandlePosition = Window::Instance()->GetMousePositionX()/Window::Instance()->GetWindowWidth();
+		sliderHandles[1].rel_pos.x = lastSFXSliderHandlePosition;
 	}
 
 	else
 	{
 		if (lastSFXSliderHandlePosition != NULL)
 		{
-			sliderHandles[1].position.x = lastSFXSliderHandlePosition;
+			sliderHandles[1].rel_pos.x = lastSFXSliderHandlePosition;
 		}
 	}
 
+	auto siz = Window::Instance()->GetWindowSize();
 	// Update the slider handle based on position
 	if (glfwGetMouseButton(glfwGetCurrentContext(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS &&
-		Window::Instance()->GetMousePositionX() >= sliderHandles[1].position.x &&
-		Window::Instance()->GetMousePositionX() <= sliderHandles[1].position.x + sliderHandles[1].size.x &&
-		Window::Instance()->GetMousePositionY() >= sliderHandles[1].position.y &&
-		Window::Instance()->GetMousePositionY() <= sliderHandles[1].position.y + sliderHandles[1].size.y)
+		Window::Instance()->GetMousePositionX()/siz.x >= sliderHandles[1].rel_pos.x-sliderHandles[1].rel_size.x*0.5f &&
+		Window::Instance()->GetMousePositionX()/siz.x <= sliderHandles[1].rel_pos.x+sliderHandles[1].rel_size.x*0.5f &&
+		Window::Instance()->GetMousePositionY()/siz.y >= sliderHandles[1].rel_pos.y &&
+		Window::Instance()->GetMousePositionY()/siz.y <= sliderHandles[1].rel_pos.y + sliderHandles[1].rel_size.y)
 	{
 		mousePressedOnSFXSlider = true;
 	}

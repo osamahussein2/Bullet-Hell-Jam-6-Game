@@ -16,12 +16,12 @@ void Summoner::OnCollide(Body *other) {
         }
     }
 }
-Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::summonerTexture, 1.5, 1.0) {
+Summoner::Summoner(vec2 pos_) : Enemy(pos_, vec2(64, 80), Assets::summonerTexture, 1.5, 4.0) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 5;
 
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_HIT, 4, 6.f, false});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_HIT, 2, 6.f, false});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_SUMMON, 6, 7.f, false});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_RIGHT, 6, 6.f});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, SM_LEFT, 6, 6.f});
