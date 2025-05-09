@@ -115,7 +115,7 @@ void Game::UpdateGame(float deltaTime_)
 	}
 
 	// Change the current aura bar size in x coordinate depending on player's current aura value
-	HUDs[1].rel_pos.x = HUDs[1].rel_size.x * playerAura / maxPlayerAura - HUDs[1].rel_size.x;
+	HUDs[1].position.x = HUDs[1].size.x * playerAura / maxPlayerAura - HUDs[1].size.x;
 
 	// UI updating
 
@@ -241,7 +241,6 @@ void Game::RenderGame(float deltaTime_)
 
 	vec2 gSize = Window::Instance()->GetGameSize();
 	TextRenderer::Instance()->DrawTextFromRight(std::to_string(score).c_str(), vec2(gSize.x-10, gSize.y-8), 0.8, true, vec3(0.0));
-	//HUDs[2].Draw(*UserInterface::UiRendererInstance());
 }
 
 void Game::HandleCollisions(float deltaTime_)
