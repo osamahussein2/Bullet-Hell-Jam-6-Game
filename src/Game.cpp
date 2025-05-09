@@ -156,9 +156,9 @@ void Game::RenderGame(float deltaTime_)
 	float winW = Window::Instance()->GetWindowWidth();
 	float winH = Window::Instance()->GetWindowHeight();
 
-	
-	float gameW = Window::Instance()->GetGameSize().x;
-	float gameH = Window::Instance()->GetGameSize().y;
+	vec2 arena = progress.currentLevel->GetCurrentStage()->arenaSize;
+	float gameW = arena.x;
+	float gameH = arena.y;
 
 	float game_aspect = gameW/gameH;
 	
@@ -263,7 +263,10 @@ void Game::LoadGame()
 	canFinish = false;
 	player = new Player(vec2(0.0));
 
+	progress.Load();
+
 	vec2 gSize = Window::Instance()->GetGameSize();
+
 	// Aura UI
 	HUDs.push_back(UserInterface(vec2(0.0, gSize.y-32), vec2(96, 32), Assets::auraUITexture, Assets::spriteShader, vec3(1.0), true));
 	// Current aura bar
@@ -276,9 +279,6 @@ void Game::LoadGame()
 	progressBarUnits.push_back(UserInterface(vec2(0, 6), vec2(24, 24), Assets::progressBarPoint, Assets::spriteShader, vec3(1.0), true));
 	
 	playerAura = maxPlayerAura;
-
-	progress.Load();
-	
 }
 
 void Game::Clear()
@@ -326,7 +326,7 @@ void Game::DeleteGameInstance()
 void Game::DrawProgressBar()
 {
 	int siz = progress.currentLevel->stages.size();
-	vec2 gSize = Window::Instance()->GetGameSize();
+	vec2 gSize = ArenaSize();
 	float rel_off_x = progressBarUnits[0].size.x/gSize.x;
 	
 	float rel_center = 0.5;

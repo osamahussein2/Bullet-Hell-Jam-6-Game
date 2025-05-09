@@ -7,7 +7,8 @@
 #include "Window.h"
 
 struct Stage {
-    Stage(int music_enum_ = Assets::HellHole) : music_enum(music_enum_) {}
+    Stage(int music_enum_ = Assets::HellHole, vec2 arenaSize_ = vec2(640, 360)) : music_enum(music_enum_), arenaSize(arenaSize_) {}
+    vec2 arenaSize;
     int music_enum;
     virtual void Load() {
         ResourceManager::PlayMusic(music_enum);
@@ -27,6 +28,10 @@ struct Level {
     std::vector<Stage*> stages;
     int currentStage = 0;
     
+    Stage* GetCurrentStage() {
+        return stages[currentStage];
+    }
+
     void Load() { stages[currentStage]->Load(); }
 
     bool GoNext() {

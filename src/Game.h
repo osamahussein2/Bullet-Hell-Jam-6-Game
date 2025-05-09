@@ -41,6 +41,8 @@ public:
 	std::vector<Bullet*> enemyBullets = {};
 	std::vector<Effect*> effects = {};
 
+	vec2 ArenaSize() {return progress.currentLevel->GetCurrentStage()->arenaSize; }
+
 	int score = 1;
 	
 	float playerAura;

@@ -22,8 +22,8 @@ void Stage::Update(float deltaTime) {
         }
     }
     else {
-        g->player->position.x = glm::clamp(g->player->position.x, -10.0f, Window::Instance()->GetGameSize().x - 50.0f);
-        g->player->position.y = glm::clamp(g->player->position.y, 0.0f, Window::Instance()->GetGameSize().y - 50.0f);
+        g->player->position.x = glm::clamp(g->player->position.x, 0.0f, arenaSize.x-g->player->size.x);
+        g->player->position.y = glm::clamp(g->player->position.y, 0.0f, arenaSize.y-g->player->size.y);
     }
 };
 
