@@ -33,7 +33,7 @@ void Beholder::Update(float deltaTime)
 
     since_last_shot += deltaTime;
 
-    if (health <= 0) destroyed = true;
+    if (health <= 0) Die();
 
     if (position.y < win->GetGameSize().y/5*1.5) {
         velocity.y = 90;

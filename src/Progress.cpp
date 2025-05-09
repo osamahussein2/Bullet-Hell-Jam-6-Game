@@ -9,7 +9,7 @@
 #include "Orb.h"
 #include "Beholder.h"
 #include "Player.h"
-
+#include "Effect.h"
 
 void Stage::Update(float deltaTime) {
     auto g = Game::Instance();

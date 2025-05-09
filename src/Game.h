@@ -8,6 +8,7 @@
 // forward declarations
 class Bullet;
 class Enemy;
+class Effect;
 
 class Game
 {
@@ -38,6 +39,7 @@ public:
 
 	std::vector<Bullet*> playerBullets = {};
 	std::vector<Bullet*> enemyBullets = {};
+	std::vector<Effect*> effects = {};
 
 	int score = 1;
 	

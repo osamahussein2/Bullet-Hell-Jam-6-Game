@@ -61,7 +61,7 @@ void Orb::Update(float deltaTime)
     case ORB_ST_DEAD:
         time_dead += deltaTime;
         if (time_dead > 0.f) {
-            destroyed = true;
+            Die();
         }
         break;
     }

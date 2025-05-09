@@ -29,7 +29,7 @@ public:
 	bool GetVertFlip() { return bool(vert_flip); }
 
     bool IsLastFrame() {
-		AnimationData anim = animation.GetCurrentAnimationData();
+		AnimationData anim = *animation.GetCurrentAnimationData();
         return (anim.current_frame == anim.frames-1);
     }
 

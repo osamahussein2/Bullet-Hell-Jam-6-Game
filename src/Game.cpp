@@ -10,6 +10,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "Summoner.h"
+#include "Effect.h"
 
 Game* Game::gameInstance = nullptr;
 
@@ -94,7 +95,18 @@ void Game::UpdateGame(float deltaTime_)
 			++it;
 		}
 	}
-	
+
+	for (auto it = effects.begin(); it != effects.end(); ) {
+		auto effect = *it;
+		effect->Update(deltaTime_);
+		if (effect->destroyed) {
+			delete effect;
+			it = effects.erase(it);
+		} else {
+			++it;
+		}
+	}
+
 	playerAura = glm::clamp(playerAura, 0.f, maxPlayerAura);
 	if (playerAura == 0.0f) {
 		Window::Instance()->state = GAME_OVER;
@@ -213,7 +225,11 @@ void Game::RenderGame(float deltaTime_)
 	for (Bullet* bullet : enemyBullets) {
 		bullet->Draw();
 	}
-		
+
+	for (Effect* effect : effects) {
+		effect->Draw();
+	}
+
 	
 	for (UserInterface& aura : HUDs)
 	{
@@ -286,6 +302,11 @@ void Game::Clear()
 		delete enemy;
 	}
 	new_enemies.clear();
+
+	for (Effect* effect : effects) {
+		delete effect;
+	}
+	effects.clear();
 
 	HUDs.clear();
 	progressBarUnits.clear();

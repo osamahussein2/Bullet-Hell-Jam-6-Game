@@ -67,7 +67,7 @@ void Summoner::Update(float deltaTime) {
         velocity = vec2(0.0);
         time_dead += deltaTime;
         if (time_dead > 0.f) {
-            destroyed = true;
+            Die();
         }
         break;
     }

@@ -23,6 +23,7 @@ struct AnimationData {
 	float fps;
 
     bool looping = true;
+    bool playing = true;
     bool reached_end = false;
 
     float frame_count = 0.f;
@@ -58,8 +59,8 @@ public:
         };
     }
 
-    AnimationData GetCurrentAnimationData() {
-        return anims[current_anim];
+    AnimationData* GetCurrentAnimationData() {
+        return &anims[current_anim];
     }
 
     void AddAnimation(AnimationData anim){ anims.push_back(anim); }

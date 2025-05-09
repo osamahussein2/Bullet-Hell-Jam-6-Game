@@ -32,6 +32,10 @@ public:
         position += velocity * deltaTime;
 
         GameObjectPro::Update(deltaTime);
+
+        if (timer > 4) {
+            destroyed = true;
+        }
     }
 
     virtual void OnCollide(Body* other) override {
@@ -51,10 +55,6 @@ public:
         velocity = direction * speed;
         // custom logic before parent update
         Bullet::Update(deltaTime);
-
-        if (timer > 10) {
-            destroyed = true;
-        }
     }
 };
 
@@ -106,10 +106,6 @@ public:
 
         // Update position using velocity
         Bullet::Update(deltaTime);
-
-        if (timer > 10) {
-            destroyed = true;
-        }
     }
 };
 
