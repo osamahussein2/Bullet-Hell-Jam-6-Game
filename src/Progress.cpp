@@ -125,7 +125,7 @@ void BigBoyFight::Update(float deltaTime)
     }
 }
 
-Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new BigBoyFight() } ) {}
+Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new BeholderFight() } ) {}
 
 Level *Level1::GetNextLevel()
 {
@@ -135,7 +135,7 @@ Level *Level1::GetNextLevel()
 Level2::Level2() : Level(
 
     {
-        new Stage1_1()
+        new Stage1_1(), new BigBoyFight()
     }
 
 ) {}
