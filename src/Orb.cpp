@@ -53,6 +53,7 @@ void Orb::Update(float deltaTime)
                 vec2 dir = Game::Instance()->player->position - position;
                 if (dir != vec2(0.0)) dir = normalize(dir);
                 Game::Instance()->enemyBullets.push_back(new StraightEnemyBullet(position+size*0.5f, dir));
+                ResourceManager::GetSound(Assets::LaserShootSound)->Play();
                 since_last_shot = 0.f;
             }
             if (renderer->IsLastFrame()) {

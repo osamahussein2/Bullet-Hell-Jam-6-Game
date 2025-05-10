@@ -15,7 +15,7 @@ protected:
 
 public:
 
-    Enemy(vec2 pos_, vec2 size_, unsigned sprite, float cooldown_, float health_, bool in_spawn_ = false) : spawn_pos(pos_), health(health_), max_health(health_), ShootingObject(vec2(pos_.x, -10), size_, sprite, cooldown_) {
+    Enemy(vec2 pos_, vec2 size_, unsigned sprite_, float cooldown_, float health_, bool in_spawn_ = false) : spawn_pos(pos_), health(health_), max_health(health_), ShootingObject(vec2(pos_.x, -10), size_, sprite_, cooldown_) {
         if (in_spawn_) {
             position = pos_-size*0.5f;
             reached_spawn = true;

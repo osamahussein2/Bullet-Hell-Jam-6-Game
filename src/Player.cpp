@@ -161,4 +161,5 @@ void Player::Shoot()
     Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2+M_PI/9), -sin(M_PI/2+M_PI/9))));
     Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2-M_PI/9), -sin(M_PI/2-M_PI/9))));
     since_last_shot = 0.f;
+    ResourceManager::GetSound(Assets::LaserShootSound)->Play();
 }

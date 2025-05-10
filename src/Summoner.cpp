@@ -57,6 +57,7 @@ void Summoner::Update(float deltaTime) {
             velocity.x = 0;
             if (renderer->GetAnimationHandler()->AnimEnded()) {
                 if (since_last_shot >= shoot_cooldown){
+                    ResourceManager::GetSound(Assets::SummonSound)->Play();
                     Game::Instance()->new_enemies.push_back(new Orb(position+size*vec2(0.5)+vec2(0,10), true));            
                     since_last_shot = 0.f;
                 }

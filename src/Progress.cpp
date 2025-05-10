@@ -15,6 +15,8 @@
 void Stage::Update(float deltaTime) {
     auto g = Game::Instance();
     if (g->enemies.size() == 0) {
+        if (!cleared) ResourceManager::GetSound(Assets::ProgressSound)->Play();
+        cleared = true;
         vec2 s = Window::Instance()->GetGameSize();
         vec2 d = s*vec2(0.5, -1) - g->player->position;
         g->player->velocity = normalize(d)*400.f;
@@ -78,14 +80,10 @@ void BeholderFight::Update(float deltaTime)
     Stage::Update(deltaTime);
     timer += deltaTime;
     if (timer >= 27.7 && !spawnedBoss) {
-    //if (timer >= 0.1 && !spawnedBoss) {
         spawnedBoss = true;
 
         Game* game = Game::Instance();
-        for (auto enemy : game->enemies) {
-            delete enemy;
-        }
-        game->enemies.clear();
+        game->KillAllEnemies();
 
         vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
         game->enemies.push_back(new Beholder(vec2(center.x, 0)));
@@ -110,18 +108,14 @@ void BigBoyFight::Update(float deltaTime)
 {
     Stage::Update(deltaTime);
     timer += deltaTime;
-    if (timer >= 0 && !spawnedBoss) {
-    //if (timer >= 0.1 && !spawnedBoss) {
+    if (timer >= 27.7 && !spawnedBoss) {
         spawnedBoss = true;
 
         Game* game = Game::Instance();
-        for (auto enemy : game->enemies) {
-            delete enemy;
-        }
-        game->enemies.clear();
+        game->KillAllEnemies();
 
         vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
-        game->enemies.push_back(new BigBoy(center));
+        game->enemies.push_back(new BigBoy(vec2(center.x, 0)));
     }
 }
 

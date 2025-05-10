@@ -57,7 +57,7 @@ void Assets::LoadAssets()
 
 	// Load music
 	ResourceManager::LoadMusic("assets/Music/Anxiety.wav", anxietyMusic)->SetIndividualVolumeCoeff(0.1);
-	ResourceManager::LoadMusic("assets/Music/LTHAWFD.wav", LTHAWFD)->SetIndividualVolumeCoeff(1.0);
+	ResourceManager::LoadMusic("assets/Music/LTHAWFD.wav", LTHAWFD)->SetIndividualVolumeCoeff(1.2);
 	ResourceManager::LoadMusic("assets/Music/MainMenu.wav", MainMenu)->SetIndividualVolumeCoeff(1.0);
 	ResourceManager::LoadMusic("assets/Music/HellHole.wav", HellHole)->SetIndividualVolumeCoeff(0.7);
 
@@ -66,8 +66,13 @@ void Assets::LoadAssets()
 	//ma_sound_set_volume(default_music, musicVolume);
 
 	// Load sounds
-	ResourceManager::LoadSound("assets/Sounds/sound.wav", buttonHoverSound);
-	ResourceManager::GetSound(buttonHoverSound)->SetIndividualVolumeCoeff(0.4);
+	ResourceManager::LoadSound("assets/Sounds/sound.wav", buttonHoverSound)->SetIndividualVolumeCoeff(1.0);
+	ResourceManager::LoadSound("assets/Sounds/Hit-Hurt.wav", hitSound)->SetIndividualVolumeCoeff(0.2);
+	ResourceManager::LoadSound("assets/Sounds/Enemy-Death.wav", explosionSound)->SetIndividualVolumeCoeff(0.7);
+	ResourceManager::LoadSound("assets/Sounds/Summon.wav", SummonSound)->SetIndividualVolumeCoeff(0.6);
+	ResourceManager::LoadSound("assets/Sounds/LaserShoot.wav", LaserShootSound)->SetIndividualVolumeCoeff(0.11);
+	ResourceManager::LoadSound("assets/Sounds/BigShoot.wav", BigShootSound)->SetIndividualVolumeCoeff(0.15);
+	ResourceManager::LoadSound("assets/Sounds/Progress.wav", ProgressSound)->SetIndividualVolumeCoeff(1.0);
 
 	ResourceManager::ApplyMusicVolume(Assets::musicVolume);
 	ResourceManager::ApplySfxVolume(Assets::sfxVolume);

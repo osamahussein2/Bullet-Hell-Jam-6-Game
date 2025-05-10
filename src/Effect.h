@@ -16,7 +16,6 @@ public:
     
     virtual void Draw() override {
         if (timer >= delay) {
-            renderer->GetAnimationHandler()->GetCurrentAnimationData()->playing = true;
             GameObjectPro::Draw();
         }
     }
@@ -24,6 +23,14 @@ public:
     virtual void Update(float deltaTime) override {
         timer += deltaTime;
         GameObjectPro::Update(deltaTime);
+
+        if (timer >= delay) {
+            if (!renderer->GetAnimationHandler()->GetCurrentAnimationData()->playing) {
+                ResourceManager::GetSound(Assets::explosionSound)->Play();
+                renderer->GetAnimationHandler()->GetCurrentAnimationData()->playing = true;
+            }
+        }
+
         if (renderer->GetAnimationHandler()->AnimEnded()) {
             destroyed = true;
         }   

@@ -54,7 +54,10 @@ public:
 
 	bool canFinish = false;
 
-private:
+	void ClearEnemies();
+	void KillAllEnemies();
+
+	private:
 	Game();
 
 	void DrawProgressBar();

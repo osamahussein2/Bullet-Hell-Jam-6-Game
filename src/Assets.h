@@ -71,6 +71,12 @@ public:
     enum SoundMapNumbers
     {
         buttonHoverSound = 0,
+        hitSound = 1,
+        explosionSound = 2,
+        SummonSound = 3,
+        LaserShootSound = 4,
+        BigShootSound = 5,
+        ProgressSound = 6
     };
 
 };

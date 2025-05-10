@@ -146,7 +146,7 @@ void Game::HandleInput(float deltaTime_)
 
 	if (Input::IsKeyPressed(GLFW_KEY_P))
 	{
-		canFinish = true;
+		KillAllEnemies();
 	}
 }
 
@@ -292,15 +292,7 @@ void Game::Clear()
 	}
 	enemyBullets.clear();
 
-	for (Enemy* enemy : enemies) {
-		delete enemy;
-	}
-	enemies.clear();
-
-	for (Enemy* enemy : new_enemies) {
-		delete enemy;
-	}
-	new_enemies.clear();
+	ClearEnemies();
 
 	for (Effect* effect : effects) {
 		delete effect;
@@ -359,4 +351,22 @@ void Game::DrawProgressBar()
 	);
 	
 
+}
+
+void Game::ClearEnemies() {
+	for (Enemy* enemy : enemies) {
+		delete enemy;
+	}
+	enemies.clear();
+
+	for (Enemy* enemy : new_enemies) {
+		delete enemy;
+	}
+	new_enemies.clear();
+}
+
+void Game::KillAllEnemies() {
+	for (auto enemy : enemies) {
+		enemy->Die();
+	}
 }

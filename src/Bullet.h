@@ -39,6 +39,7 @@ public:
     }
 
     virtual void OnCollide(Body* other) override {
+        ResourceManager::GetSound(Assets::hitSound)->Play();
         destroyed = true;
     };
     virtual void UpdateCurrentAnim() override {};

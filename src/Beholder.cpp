@@ -77,8 +77,6 @@ void Beholder::Shoot()
         float ang_off = M_PI*2.f/n*i;
 
         if (int(time)%10 == 1) {
-
-
             int m = 10;
             float a = 2*M_PI / m;
             float patt_rad = 15;
@@ -95,7 +93,6 @@ void Beholder::Shoot()
                     patt_rad
                 ));
             }
-
         }
         else {
             game->enemyBullets.push_back(new StraightEnemyBullet(position+size*0.5f+vec2(0, -size.y/3), vec2(cosf(time+ang_off), sinf(time+ang_off))));

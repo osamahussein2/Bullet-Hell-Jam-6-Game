@@ -10,6 +10,7 @@ struct Stage {
     Stage(int music_enum_ = Assets::HellHole, vec2 arenaSize_ = vec2(640, 360)) : music_enum(music_enum_), arenaSize(arenaSize_) {}
     vec2 arenaSize;
     int music_enum;
+    bool cleared = false;
     virtual void Load() {
         ResourceManager::PlayMusic(music_enum);
     };

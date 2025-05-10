@@ -47,6 +47,8 @@ public:
     void Move(float deltaTime);
     void ShootStep();
     void Shoot();
+
+    virtual void Draw();
 };
 
 #endif

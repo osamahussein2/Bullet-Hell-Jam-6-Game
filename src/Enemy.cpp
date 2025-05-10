@@ -4,8 +4,8 @@
 
 void Enemy::Die() {
     destroyed = true;
-    float dx = 16.f;
-    float dy = 16.f;
+    float dx = 25.f;
+    float dy = 25.f;
 
     for (float x = 0; x < size.x; x+=dx ) {
         for (float y = 0; y < size.y; y+=dy) {

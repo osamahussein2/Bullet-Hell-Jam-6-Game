@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Bullet.h"
 #include "Effect.h"
+#include "TextRenderer.h"
 
 void BigBoy::OnCollide(Body *other)
 {
@@ -36,40 +37,72 @@ void BigBoy::Update(float deltaTime)
 {
     since_last_shot += deltaTime;
     since_step_shot += deltaTime;
+    
+    Window* win = Window::Instance();
+    Game* game = Game::Instance();
 
-    if (since_last_shot >= shoot_cooldown) Shoot();
-    switch (state) {
-        case BB_ST_MOVE:
-            Move(deltaTime);
-            if (renderer->GetAnimationHandler()->GetFrame() == 3 && since_step_shot >= step_shoot_cooldown) {
-                ShootStep();
-                since_step_shot = 0.f;
-            }
-            if (renderer->GetAnimationHandler()->AnimEnded()) {
-                if (right_step)  {
-                    renderer->GetAnimationHandler()->RestartAnim(BB_RLEG);
-                    renderer->GetAnimationHandler()->SetCurrentAnim(BB_LLEG);
-                    right_step = false;
-                }
-                else {
-                    renderer->GetAnimationHandler()->RestartAnim(BB_LLEG);
-                    renderer->GetAnimationHandler()->SetCurrentAnim(BB_RLEG);
-                    right_step = true;
-                }
-            }
-            break;
-        case BB_ST_HIT:
-            Move(deltaTime);
-            if (!hit_this_frame) {
-                if (renderer->GetAnimationHandler()->AnimEnded()) {
-                    state = BB_ST_MOVE;
-                    renderer->GetAnimationHandler()->RestartAnim(BB_HIT);
-                }
+    if (position.y < win->GetGameSize().y/5*1.5) {
+        
+        int frame = renderer->GetAnimationHandler()->GetFrame();
+        if (frame <= 3) velocity.y = 40;
+        else velocity.y = 0;
+        if (frame == 3 && since_step_shot >= step_shoot_cooldown) {
+            ShootStep();
+            since_step_shot = 0.f;
+        }
+        if (renderer->GetAnimationHandler()->AnimEnded()) {
+            if (right_step)  {
+                renderer->GetAnimationHandler()->RestartAnim(BB_RLEG);
+                renderer->GetAnimationHandler()->SetCurrentAnim(BB_LLEG);
+                right_step = false;
             }
             else {
-                renderer->GetAnimationHandler()->SetCurrentAnim(BB_HIT);
+                renderer->GetAnimationHandler()->RestartAnim(BB_LLEG);
+                renderer->GetAnimationHandler()->SetCurrentAnim(BB_RLEG);
+                right_step = true;
             }
-            break;
+        }
+    }
+    else {
+        velocity.y = 0.f;
+        if (since_last_shot >= shoot_cooldown) Shoot();
+        if (health <= 0) state = BB_ST_DEAD;
+        switch (state) {
+            case BB_ST_MOVE:
+                Move(deltaTime);
+                if (renderer->GetAnimationHandler()->GetFrame() == 3 && since_step_shot >= step_shoot_cooldown) {
+                    ShootStep();
+                    since_step_shot = 0.f;
+                }
+                if (renderer->GetAnimationHandler()->AnimEnded()) {
+                    if (right_step)  {
+                        renderer->GetAnimationHandler()->RestartAnim(BB_RLEG);
+                        renderer->GetAnimationHandler()->SetCurrentAnim(BB_LLEG);
+                        right_step = false;
+                    }
+                    else {
+                        renderer->GetAnimationHandler()->RestartAnim(BB_LLEG);
+                        renderer->GetAnimationHandler()->SetCurrentAnim(BB_RLEG);
+                        right_step = true;
+                    }
+                }
+                break;
+            case BB_ST_HIT:
+                Move(deltaTime);
+                if (!hit_this_frame) {
+                    if (renderer->GetAnimationHandler()->AnimEnded()) {
+                        state = BB_ST_MOVE;
+                        renderer->GetAnimationHandler()->RestartAnim(BB_HIT);
+                    }
+                }
+                else {
+                    renderer->GetAnimationHandler()->SetCurrentAnim(BB_HIT);
+                }
+                break;
+            case BB_ST_DEAD:
+                Die();
+                break;
+        }
     }
 
     position += velocity*deltaTime;
@@ -118,8 +151,18 @@ void BigBoy::Shoot()
             vec2 spawn_pos = position+size*0.5f+vec2(0, -size.y/3);
             vec2 dir = game->player->position+game->player->size*0.5f - spawn_pos;
             if (dir != vec2(0.0)) dir = normalize(dir);
+            ResourceManager::GetSound(Assets::LaserShootSound)->Play();
             game->enemyBullets.push_back(new StraightEnemyBullet(spawn_pos, dir)); 
         }
     }
     since_last_shot = 0.f;
+}
+
+
+void BigBoy::Draw() {
+
+    Enemy::Draw();
+    TextRenderer::Instance()->DrawText(
+        "titan", position+size*vec2(0.5, -0.05), 0.5, true, true, vec3(1.0)
+    );
 }

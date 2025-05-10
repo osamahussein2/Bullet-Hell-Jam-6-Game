@@ -13,7 +13,7 @@ float starRadius = 0.005;
 float starDensity = 0.001;
 
 uniform float time;
-uniform float speed = 1.0;
+uniform float speed;
 
 float hash(vec2 p) {
     return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);

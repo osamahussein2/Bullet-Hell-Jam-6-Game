@@ -118,6 +118,6 @@ void CultistBasic::Shoot() {
         if (dir != vec2(0.0)) dir = normalize(dir);
         Game::Instance()->enemyBullets.push_back(new CirlcePatternBullet(position+size*vec2(0.5)+offset, dir, Assets::enemyBulletTexture, ang, patt_rad));
     }
-
+    ResourceManager::GetSound(Assets::BigShootSound)->Play();
     since_last_shot = 0.f;
 };

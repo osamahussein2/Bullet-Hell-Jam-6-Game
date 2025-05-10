@@ -5,7 +5,7 @@
 #include "miniaudio.h"
 #include "Audio.h"
 
-constexpr int MAX_ALIASES = 5;
+constexpr int MAX_ALIASES = 32;
 
 /*
 There is a better way to do all that with decoding audio data and using for every alias
