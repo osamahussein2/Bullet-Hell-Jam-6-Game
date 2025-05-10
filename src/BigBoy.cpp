@@ -20,8 +20,8 @@ BigBoy::BigBoy(vec2 pos_) : Enemy(pos_, vec2(112, 176), Assets::bigBoyTexture,  
     const int rows = 4;
 
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BB_HIT, 2, 6.f, false});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BB_RLEG, 4, 7.f, false});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BB_LLEG, 4, 7.f, false});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BB_RLEG, 6, 7.f, false});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BB_LLEG, 6, 7.f, false});
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BB_IDLE, 6, 6.f});
 
     renderer->GetAnimationHandler()->SetCurrentAnim(BB_RLEG);
@@ -35,13 +35,17 @@ BigBoy::BigBoy(vec2 pos_) : Enemy(pos_, vec2(112, 176), Assets::bigBoyTexture,  
 void BigBoy::Update(float deltaTime)
 {
     since_last_shot += deltaTime;
+    since_step_shot += deltaTime;
 
     if (since_last_shot >= shoot_cooldown) Shoot();
     switch (state) {
         case BB_ST_MOVE:
             Move(deltaTime);
-            if (renderer->GetAnimationHandler()->AnimEnded()) {
+            if (renderer->GetAnimationHandler()->GetFrame() == 3 && since_step_shot >= step_shoot_cooldown) {
                 ShootStep();
+                since_step_shot = 0.f;
+            }
+            if (renderer->GetAnimationHandler()->AnimEnded()) {
                 if (right_step)  {
                     renderer->GetAnimationHandler()->RestartAnim(BB_RLEG);
                     renderer->GetAnimationHandler()->SetCurrentAnim(BB_LLEG);
@@ -105,9 +109,9 @@ void BigBoy::ShootStep()
 void BigBoy::Shoot()
 {
     Game* game = Game::Instance();
-    float time = glfwGetTime()*0.6;
+    float time = glfwGetTime();
     int n = 1;
-    if (int(time)%5 < 3) {
+    if (int(time*3)%4 == 3) {
         for (int i = 0; i < n; i++) {
             //float ang_off = M_PI*2.f/n*i;
             //game->enemyBullets.push_back(new StraightEnemyBullet(position+size*0.5f+vec2(0, -size.y/3), vec2(cosf(time+ang_off), sinf(time+ang_off))));

@@ -86,6 +86,7 @@ public:
     void SetFrameCount(int frame_count_) { anims[current_anim].frame_count = frame_count_; }
 
     bool AnimEnded() { return anims[current_anim].reached_end; }
+    int GetFrame() { return anims[current_anim].current_frame; }
 };
 
 #endif

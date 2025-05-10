@@ -25,6 +25,9 @@ private:
     float random_shoot_offset = 0.f; // randomizes shoot cooldown a little
     float time_dead = 0.f;
 
+    float since_step_shot = 0.f;
+    float step_shoot_cooldown = 0.2f;
+
     // movement pattern
     float frequency = 1.f;
     float amplitude = 0.3; // relative to the arena size
