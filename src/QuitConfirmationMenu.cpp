@@ -53,7 +53,7 @@ void QuitConfirmationMenu::InitializeMenu()
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
-void QuitConfirmationMenu::UpdateMenu()
+void QuitConfirmationMenu::UpdateMenu(float deltaTime)
 {
 	
 	// update buttons
@@ -148,7 +148,7 @@ void QuitToMainMenuConfirmationMenu::InitializeMenu()
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "stay"));
 }
 
-void QuitToMainMenuConfirmationMenu::UpdateMenu()
+void QuitToMainMenuConfirmationMenu::UpdateMenu(float deltaTime)
 {
 	// update buttons
 	for (Button& btn : buttons) {

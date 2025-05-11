@@ -15,7 +15,7 @@ public:
 	static void DeleteQuitConfirmationMenuInstance();
 
 	virtual void InitializeMenu();
-	virtual void UpdateMenu();
+	virtual void UpdateMenu(float deltaTime);
 	virtual void RenderMenu();
 
 private:
@@ -33,7 +33,7 @@ public:
 	static void DeleteQuitToMainMenuConfirmationMenuInstance();
 
 	virtual void InitializeMenu();
-	virtual void UpdateMenu();
+	virtual void UpdateMenu(float deltaTime);
 	virtual void RenderMenu();
 
 private:

@@ -147,12 +147,12 @@ void Window::UpdateWindow()
   switch (state){
     case MAIN_MENU:
         //std::cout<<"MAIN_MENU\n";
-        MainMenu::Instance()->UpdateMenu();
+        MainMenu::Instance()->UpdateMenu(deltaTime);
         MainMenu::Instance()->RenderMenu();
         break;
     case QUIT_CONF:
         //std::cout<<"QUIT_CONF\n";
-        QuitConfirmationMenu::Instance()->UpdateMenu();
+        QuitConfirmationMenu::Instance()->UpdateMenu(deltaTime);
         QuitConfirmationMenu::Instance()->RenderMenu();
         break;
     case GAME:
@@ -163,32 +163,32 @@ void Window::UpdateWindow()
         break;
     case PAUSE_MENU:
         //std::cout<<"PAUSE MENU\n";
-        PauseMenu::Instance()->UpdateMenu();
+        PauseMenu::Instance()->UpdateMenu(deltaTime);
         PauseMenu::Instance()->RenderMenu();
         break;
     case QUIT_TO_MAIN_MENU_CONF:
         //std::cout<<"QUIT TO MAIN MENU CONF\n";
-        QuitToMainMenuConfirmationMenu::Instance()->UpdateMenu();
+        QuitToMainMenuConfirmationMenu::Instance()->UpdateMenu(deltaTime);
         QuitToMainMenuConfirmationMenu::Instance()->RenderMenu();
         break;
     case OPTIONS_MENU:
         //std::cout<<"OPTIONS MENU\n";
-        OptionsMenu::Instance()->UpdateMenu();
+        OptionsMenu::Instance()->UpdateMenu(deltaTime);
         OptionsMenu::Instance()->RenderMenu();
         break;
     case CREDITS_MENU:
         //std::cout<<"CREDITS MENU\n";
-        CreditsMenu::Instance()->UpdateMenu();
+        CreditsMenu::Instance()->UpdateMenu(deltaTime);
         CreditsMenu::Instance()->RenderMenu();
         break;
     case GAME_OVER:
         //std::cout<<"GAME OVER MENU\n";
-        GameOverMenu::Instance()->UpdateMenu();
+        GameOverMenu::Instance()->UpdateMenu(deltaTime);
         GameOverMenu::Instance()->RenderMenu();
         break;
     case INTRO:
         //std::cout<<"INTRO MENU\n";
-        IntroMenu::Instance()->UpdateMenu();
+        IntroMenu::Instance()->UpdateMenu(deltaTime);
         IntroMenu::Instance()->RenderMenu();
         break;
   }

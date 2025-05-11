@@ -45,7 +45,7 @@ void MainMenu::InitializeMenu()
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
-void MainMenu::UpdateMenu()
+void MainMenu::UpdateMenu(float deltaTime)
 {
 	// update buttons
 	for (Button& btn : buttons){

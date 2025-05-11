@@ -40,8 +40,7 @@ Game* Game::Instance()
 void Game::UpdateGame(float deltaTime_)
 {
 	if (canFinish) {
-		progress.GoNext();
-		LoadGame();
+		if (progress.GoNext()) LoadGame();
 	}
 
 	progress.Update(deltaTime_);

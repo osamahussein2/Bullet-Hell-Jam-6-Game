@@ -45,7 +45,7 @@ void Player::Update(float deltaTime)
 
     game->playerAura = glm::clamp(game->playerAura, 0.f, game->maxPlayerAura);
 
-    if (state != PL_ST_HIT && Input::IsKeyDown(GLFW_KEY_SPACE) && CanShoot()) {
+    if (state != PL_ST_HIT && (Input::IsKeyDown(GLFW_KEY_SPACE) || Input::IsKeyDown(GLFW_KEY_L)) && CanShoot()) {
         state = PL_ST_SHOOT;
     }
 
@@ -82,7 +82,7 @@ void Player::Update(float deltaTime)
             break;
         }
         
-        if (Input::IsKeyDown(GLFW_KEY_SPACE)) {
+        if (Input::IsKeyDown(GLFW_KEY_SPACE) || Input::IsKeyDown(GLFW_KEY_L)) {
             if (since_last_shot >= shoot_cooldown){
                 Shoot();
             }

@@ -109,7 +109,7 @@ struct Progress {
         currentLevel->stages[currentLevel->currentStage]->Update(deltaTime);
     }
 
-    void GoNext();
+    bool GoNext();
 };
 
 

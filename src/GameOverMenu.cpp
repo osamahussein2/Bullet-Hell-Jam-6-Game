@@ -47,7 +47,7 @@ void GameOverMenu::InitializeMenu()
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
-void GameOverMenu::UpdateMenu()
+void GameOverMenu::UpdateMenu(float deltaTime)
 {
 
 	// update buttons

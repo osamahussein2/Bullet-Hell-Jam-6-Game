@@ -10,16 +10,16 @@ class GameOverMenu : public Menu
 {
 public:
 	virtual ~GameOverMenu();
-
+	GameOverMenu();
+	
 	static GameOverMenu* Instance();
 	static void DeleteGameOverMenuInstance();
 
 	virtual void InitializeMenu();
-	virtual void UpdateMenu();
+	virtual void UpdateMenu(float deltaTime);
 	virtual void RenderMenu();
 
 private:
-	GameOverMenu();
 
 	static GameOverMenu* gameOverMenuInstance;
 };

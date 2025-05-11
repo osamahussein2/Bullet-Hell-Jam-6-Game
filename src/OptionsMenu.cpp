@@ -49,7 +49,7 @@ void OptionsMenu::InitializeMenu()
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
-void OptionsMenu::UpdateMenu()
+void OptionsMenu::UpdateMenu(float deltaTime)
 {
 	// update buttons
 	for (Button& btn : buttons) {

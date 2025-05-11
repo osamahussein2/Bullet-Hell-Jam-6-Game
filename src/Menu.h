@@ -11,7 +11,7 @@ protected:
 	virtual ~Menu() {}
 
 	virtual void InitializeMenu() = 0;
-	virtual void UpdateMenu() = 0;
+	virtual void UpdateMenu(float deltaTime) = 0;
 	virtual void RenderMenu() = 0;
 
 	std::vector<Button> buttons = {};

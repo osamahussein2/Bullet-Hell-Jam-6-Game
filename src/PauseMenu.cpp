@@ -40,7 +40,7 @@ void PauseMenu::InitializeMenu()
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
-void PauseMenu::UpdateMenu()
+void PauseMenu::UpdateMenu(float deltaTime)
 {
 
 	// update buttons

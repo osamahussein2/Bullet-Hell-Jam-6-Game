@@ -17,7 +17,7 @@ public:
 	static void DeleteMainMenuInstance();
 
 	virtual void InitializeMenu();
-	virtual void UpdateMenu();
+	virtual void UpdateMenu(float deltaTime);
 	virtual void RenderMenu();
 
 private:

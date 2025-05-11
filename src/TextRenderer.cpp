@@ -1,6 +1,20 @@
 #include "TextRenderer.h"
 #include "Window.h"
 
+
+
+
+std::vector<std::string> split_fixed_width(std::string text, int W) {
+    std::vector<std::string> lines;
+    for (size_t pos = 0; pos < text.size(); pos += W) {
+        // substr(pos, W) will take up to W characters;
+        // if fewer than W remain, it just takes the rest.
+        lines.push_back(text.substr(pos, W));
+    }
+    return lines;
+}
+
+
 TextRenderer *TextRenderer::TextRendererInstance = nullptr;
 
 TextRenderer *TextRenderer::Instance()
@@ -79,6 +93,21 @@ void TextRenderer::DrawTextFromRight(const char *text, vec2 pos, float scale, bo
     }
 }
 
+void TextRenderer::DrawTextWrap(const char *text, vec2 pos, vec2 size, float scale, vec3 color)
+{
+    float w = letW*scale;
+    float h = letH*scale;
+
+    int chars_per_line = size.x / w;
+
+    float v_pos = pos.y;
+
+    for (std::string line : split_fixed_width(text, chars_per_line)) {
+        DrawText(line.c_str(), vec2(pos.x, v_pos), scale, false, false, color);
+        v_pos += h;
+    }
+}
+
 void TextRenderer::DrawTextRelCent(const char *text, vec2 rel_pos, float rel_scale, vec3 color)
 {
     DrawText(text, rel_pos*Window::Instance()->GetWindowSize(), rel_scale*Window::Instance()->GetWindowSize().x, true, true, color);
@@ -87,4 +116,9 @@ void TextRenderer::DrawTextRelCent(const char *text, vec2 rel_pos, float rel_sca
 void TextRenderer::DrawTextRelFromRight(const char *text, vec2 rel_pos, float rel_scale, vec3 color)
 {
     DrawTextFromRight(text, rel_pos*Window::Instance()->GetWindowSize(), rel_scale*Window::Instance()->GetWindowSize().x, true, color);
+}
+
+void TextRenderer::DrawTextRelWrap(const char *text, vec2 rel_pos, vec2 rel_size, float rel_scale, vec3 color)
+{
+    DrawTextWrap(text, rel_pos*Window::Instance()->GetWindowSize(), rel_size*Window::Instance()->GetWindowSize(), rel_scale*Window::Instance()->GetWindowSize().x, color);
 }

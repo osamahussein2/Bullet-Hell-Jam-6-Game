@@ -40,10 +40,14 @@ void IntroMenu::InitializeMenu()
 	vec2 rel_size = vec2(0.2, 0.1);
 	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.8);
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "next"));
+
+    an_text.text = "the evil cult tries todestabilize world's   aura you have to stop them";
+
 }
 
-void IntroMenu::UpdateMenu()
+void IntroMenu::UpdateMenu(float deltaTime)
 {
+    an_text.Update(deltaTime);
 	for (Button& btn : buttons) {
 		btn.Update();
 	}
@@ -71,4 +75,8 @@ void IntroMenu::RenderMenu()
     for (Button& btn : buttons) {
         btn.Draw(*UserInterface::UiRendererInstance());
     }
+
+    TextRenderer::Instance()->DrawTextRelWrap(
+        an_text.GetCurrentText().c_str(), vec2(0.1, 0.05), vec2(0.8, 0.8), 0.0045, vec3(0.8941176470588236, 0, 0.34509803921568627)
+    );
 }

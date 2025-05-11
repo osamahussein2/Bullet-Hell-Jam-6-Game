@@ -32,7 +32,6 @@ void Stage::Update(float deltaTime, bool canProceed) {
 };
 
 
-
 void Stage1_1::Load()
 {
     Window::Instance()->state = INTRO;
@@ -106,14 +105,14 @@ void BigBoyFight::Load()
 
     Game::Instance()->enemies.push_back(new Bomba(center));
 
-    Game::Instance()->enemies.push_back(new CultistBasic(center + vec2(-60, -60)));
+    Game::Instance()->enemies.push_back(new CultistBasic(center + vec2(-60, -40)));
     Game::Instance()->enemies.push_back(new CultistBasic(center + vec2(60, -80)));
 
     Game::Instance()->enemies.push_back(new Orb(center + vec2(200, -80)));
     Game::Instance()->enemies.push_back(new Orb(center + vec2(-200, -80)));
 
-    Game::Instance()->enemies.push_back(new Orb(center + vec2(100, 80)));
-    Game::Instance()->enemies.push_back(new Orb(center + vec2(-100, 80)));
+    Game::Instance()->enemies.push_back(new Orb(center + vec2(100, 10)));
+    Game::Instance()->enemies.push_back(new Orb(center + vec2(-100, 10)));
 
 }
 
@@ -189,11 +188,12 @@ void Stage2_2::Load()
     game->enemies.push_back(new BigBoy(vec2(center.x-center.x*0.3/2, 0), 2.0));
 }
 
-void Progress::GoNext() {
+bool Progress::GoNext() {
     if (currentLevel->GoNext()) {
         if (Level* next = currentLevel->GetNextLevel()) {
             delete currentLevel;
             currentLevel = next;
+            return true;
         }
         else {
             // GAME WON HERE
@@ -201,6 +201,8 @@ void Progress::GoNext() {
             currentLevel = new Level1();
             Game::Instance()->ingameTimer = 0;
             Window::Instance()->state = CREDITS_MENU;
+            return false;
         }
     }
+    return true;
 }

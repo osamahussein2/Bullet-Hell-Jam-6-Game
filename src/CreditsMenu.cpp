@@ -39,7 +39,7 @@ void CreditsMenu::InitializeMenu()
 	//glUseProgram(ResourceManager::GetShader(Assets::spriteShader).shaderProgram);
 }
 
-void CreditsMenu::UpdateMenu()
+void CreditsMenu::UpdateMenu(float deltaTime)
 {
 	// update buttons
 	for (Button& btn : buttons) {
