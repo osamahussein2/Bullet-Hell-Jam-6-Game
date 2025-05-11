@@ -28,7 +28,7 @@ Bomba::Bomba(vec2 pos_) : Enemy(pos_, vec2(64, 64), Assets::bombaTexture, 0.2, 1
     const int rows = 2;
 
     renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BM_IDLE, 1, 1.f});
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BM_ACTIVE, 1, 1.f, false});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BM_ACTIVE, 1, 4.f, false});
 
     collisions.push_back(new CircleCollision(19, size*0.5f));
 }

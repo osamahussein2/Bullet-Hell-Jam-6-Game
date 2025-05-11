@@ -84,7 +84,7 @@ void GameOverMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 
-	TextRenderer::Instance()->DrawTextRelCent("game over", vec2(0.5, 0.1), 0.004);
+	TextRenderer::Instance()->DrawTextRelCent("game over", vec2(0.5, 0.1), 0.004, vec3(0.8941176470588236, 0, 0.34509803921568627));
 }
 
 void GameOverMenu::DeleteGameOverMenuInstance()

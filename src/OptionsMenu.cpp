@@ -108,7 +108,7 @@ void OptionsMenu::RenderMenu()
 	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::spriteShader).shaderProgram, "projectionMatrix"),
 		1, GL_FALSE, value_ptr(projection));
 
-	TextRenderer::Instance()->DrawTextRelCent("options menu", vec2(0.5, 0.1), 0.004);
+	TextRenderer::Instance()->DrawTextRelCent("options menu", vec2(0.5, 0.1), 0.004, vec3(0.8941176470588236, 0, 0.34509803921568627));
 
 	TextRenderer::Instance()->DrawTextRelCent("music volume", vec2(0.4, 0.38), 0.0015);
 	TextRenderer::Instance()->DrawTextRelCent("sfx volume", vec2(0.4, 0.52), 0.0015);

@@ -30,12 +30,15 @@ void MainMenu::InitializeMenu()
 {
 	vec2 rel_size = vec2(0.25, 0.15);
 	float vert_padd = 0.05;
-	vec2 rel_pos = vec2((1-rel_size.x)/2.f, 0.2);
+	vec2 rel_pos = vec2((1-rel_size.x)/4.f, 0.5);
 
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "play"));
 	rel_pos.y += rel_size.y + vert_padd;
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "options"));
-	rel_pos.y += rel_size.y + vert_padd;
+	
+	rel_pos.x += (1-rel_size.x)/2;
+	rel_pos.y = 0.1;
+	
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "credits"));
 	rel_pos.y += rel_size.y + vert_padd;
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "quit"));
@@ -85,7 +88,9 @@ void MainMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 
-	TextRenderer::Instance()->DrawTextRelCent("game name", vec2(0.5, 0.1), 0.004, vec3(1.0, 0.7, 0.1));
+	vec3 col = vec3(0.8941176470588236, 0, 0.34509803921568627);
+	TextRenderer::Instance()->DrawTextRelCent("aura", vec2(0.3, 0.3), 0.012, col);
+	TextRenderer::Instance()->DrawTextRelCent("hell", vec2(0.7, 0.7), 0.012, col);
 }
 
 void MainMenu::DeleteMainMenuInstance()

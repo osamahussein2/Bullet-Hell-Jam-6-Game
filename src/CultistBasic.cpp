@@ -33,7 +33,7 @@ CultistBasic::CultistBasic(vec2 pos_, bool in_spawn_) : Enemy(pos_, vec2(64, 80)
 
     collisions.push_back(new CircleCollision(16, size*0.5f));
 
-    float w = Window::Instance()->GetGameSize().x;
+    float w = Game::Instance()->ArenaSize().x;
     phase = std::asin( (position.x+size.x/2 - w/2)/amplitude/w );
 }
 
@@ -104,7 +104,7 @@ void CultistBasic::UpdateCurrentAnim() {
 }
 void CultistBasic::Move(float deltaTime) {
     moving_timer += deltaTime;
-    float w = Window::Instance()->GetGameSize().x;
+    float w = Game::Instance()->ArenaSize().x;
     velocity.x = w*amplitude*cos(moving_timer+phase);
 }
 void CultistBasic::Shoot() {

@@ -38,7 +38,7 @@ private:
 public:
     virtual void OnCollide(Body* other);
 
-    BigBoy(vec2 pos_);
+    BigBoy(vec2 pos_, float health_ = 7.f);
 
     virtual void Update(float deltaTime) override;
 

@@ -81,7 +81,7 @@ void CreditsMenu::RenderMenu()
 	vec3 artColor = vec3(1, s, c);
 	vec3 audColor = vec3(c, 1, s);
 
-	TextRenderer::Instance()->DrawTextRelCent("credits", vec2(0.5, 0.05), 0.002);
+	TextRenderer::Instance()->DrawTextRelCent("credits", vec2(0.5, 0.05), 0.002, vec3(0.8941176470588236, 0, 0.34509803921568627));
 
 	TextRenderer::Instance()->DrawTextRelCent("programmers", vec2(0.4, 0.2), 0.0015, progColor);
 

@@ -235,7 +235,8 @@ void Game::RenderGame(float deltaTime_)
 
 	char buf[32];
 	std::snprintf(buf, sizeof(buf), "%.2f", ingameTimer);
-	TextRenderer::Instance()->DrawTextFromRight(buf, vec2(gSize.x-10, gSize.y-8), 0.8, true, vec3(0.0));
+	float sc = 0.8 * ArenaSize().x / gSize.x;
+	TextRenderer::Instance()->DrawTextFromRight(buf, vec2(ArenaSize().x-10*sc, ArenaSize().y-10*sc), sc, true, vec3(0.0));
 }
 
 void Game::HandleCollisions(float deltaTime_)

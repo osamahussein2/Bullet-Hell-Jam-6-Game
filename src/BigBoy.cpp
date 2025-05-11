@@ -19,7 +19,7 @@ void BigBoy::OnCollide(Body *other)
     }
 }
 
-BigBoy::BigBoy(vec2 pos_) : Enemy(pos_, vec2(112, 176), Assets::bigBoyTexture,  0.06, 7.f, true) {
+BigBoy::BigBoy(vec2 pos_, float health_) : Enemy(pos_, vec2(112, 176), Assets::bigBoyTexture,  0.06, health_, true) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 4;
@@ -42,11 +42,9 @@ void BigBoy::Update(float deltaTime)
     since_last_shot += deltaTime;
     since_step_shot += deltaTime;
     
-    Window* win = Window::Instance();
     Game* game = Game::Instance();
 
-    if (position.y < win->GetGameSize().y/5*1.5) {
-        
+    if (position.y < game->ArenaSize().y/5*1.5) {
         int frame = renderer->GetAnimationHandler()->GetFrame();
         if (frame <= 3) velocity.y = 40;
         else velocity.y = 0;

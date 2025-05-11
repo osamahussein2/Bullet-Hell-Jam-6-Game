@@ -89,7 +89,7 @@ void QuitConfirmationMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 
-	TextRenderer::Instance()->DrawTextRelCent("quit?", vec2(0.5, 0.1), 0.004);
+	TextRenderer::Instance()->DrawTextRelCent("quit?", vec2(0.5, 0.1), 0.004, vec3(0.8941176470588236, 0, 0.34509803921568627));
 }
 
 void QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance()
@@ -185,8 +185,7 @@ void QuitToMainMenuConfirmationMenu::RenderMenu()
 		btn.Draw(*UserInterface::UiRendererInstance());
 	}
 
-	TextRenderer::Instance()->DrawTextRelCent("make sure", vec2(0.5, 0.1), 0.004);
-	TextRenderer::Instance()->DrawTextRelCent("you want to quit!", vec2(0.5, 0.24), 0.004);
+	TextRenderer::Instance()->DrawTextRelCent("sure?", vec2(0.5, 0.1), 0.004, vec3(0.8941176470588236, 0, 0.34509803921568627));
 }
 
 void QuitToMainMenuConfirmationMenu::DeleteQuitToMainMenuConfirmationMenuInstance()

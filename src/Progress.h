@@ -84,9 +84,11 @@ struct Level2 : Level {
 };
 
 struct Stage2_1 : Stage {
+    Stage2_1() : Stage(Assets::HellHole, 2.f*vec2(640, 360)) {}
     virtual void Load() override;
 };
 struct Stage2_2 : Stage {
+    Stage2_2() : Stage(Assets::HellHole, 2.f*vec2(640, 360)) {}
     virtual void Load() override;
 };
 

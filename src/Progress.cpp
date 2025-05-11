@@ -16,13 +16,12 @@ void Stage::Update(float deltaTime, bool canProceed) {
     auto g = Game::Instance();
     timer += deltaTime;
     if (g->enemies.size() == 0 && canProceed) {
-        timer += deltaTime; // faster background
+        timer += deltaTime*1.2; // faster background
         if (!cleared) ResourceManager::GetSound(Assets::ProgressSound)->Play();
         cleared = true;
-        vec2 s = Window::Instance()->GetGameSize();
-        vec2 d = s*vec2(0.5, -1) - g->player->position;
-        g->player->velocity = normalize(d)*400.f;
-		if (glm::length(d) < s.y/2) {
+        vec2 d = arenaSize*vec2(0.5, -1) - g->player->position;
+        g->player->velocity = normalize(d)*arenaSize.y;
+		if (glm::length(d) < arenaSize.y/2) {
             g->canFinish = true;
         }
     }
@@ -38,7 +37,7 @@ void Stage1_1::Load()
 {
     Stage::Load();
     Game* game = Game::Instance();
-	vec2 center = Window::Instance()->GetGameSize()*0.5f;
+	vec2 center = arenaSize * 0.5f;
 	game->player->position = center+vec2(0, center.y);
 
     //game->enemies.push_back(new Bomba(center + vec2(150, -80)));
@@ -53,7 +52,7 @@ void Stage1_2::Load()
 {
     Stage::Load();
     Game* game = Game::Instance();
-	vec2 center = Window::Instance()->GetGameSize()*0.5f;
+	vec2 center = arenaSize * 0.5f;
 	game->player->position = center+vec2(0, center.y);
 
     game->enemies.push_back(new Summoner(vec2(169, center.y-40)));
@@ -67,7 +66,7 @@ void BeholderFight::Load()
 
     Stage::Load();
     Game* game = Game::Instance();
-	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
+	vec2 center = arenaSize * 0.5f;
 	game->player->position = center+vec2(0, center.y);
 
     game->enemies.push_back(new Orb(vec2(100, 100)));
@@ -88,7 +87,7 @@ void BeholderFight::Update(float deltaTime, bool canProceed)
         Game* game = Game::Instance();
         game->KillAllEnemies();
 
-        vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
+        vec2 center = arenaSize * 0.5f;
         game->enemies.push_back(new Beholder(vec2(center.x, 0)));
     }
 }
@@ -100,7 +99,7 @@ void BigBoyFight::Load()
 
     Stage::Load();
     Game* game = Game::Instance();
-	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
+	vec2 center = arenaSize * 0.5f;
 	game->player->position = center+vec2(0, center.y);
 
     Game::Instance()->enemies.push_back(new Bomba(center));
@@ -153,29 +152,38 @@ void Stage2_1::Load()
 {
     Stage::Load();
     Game* game = Game::Instance();
-    vec2 center = Window::Instance()->GetGameSize() * 0.5f;
+    vec2 center = arenaSize * 0.5f;
     game->player->position = center + vec2(0, center.y);
 
-    //game->enemies.push_back(new Bomba(center + vec2(150, -80)));
+    int n = 10;
+    float ang = 2*M_PI/n;
+    float r = 300.f;
+    for (int i = 0; i < n; i++) {
+        game->enemies.push_back(new Orb(center+r*vec2(cos(ang*i), sin(ang*i)/2)));    
+    }
 
     // must be careful, enemies must be initially in their movement range
-    //game->enemies.push_back(new CultistBasic(vec2(center.x, 80)));
-    game->enemies.push_back(new Summoner(vec2(200, center.y - 40)));
-    game->enemies.push_back(new CultistBasic(vec2(300, center.y - 40)));
-    game->enemies.push_back(new CultistBasic(vec2(500, center.y - 40)));
-    //game->enemies.push_back(new CultistBasic(vec2(center.x*2-80, 120)));
+
+    game->enemies.push_back(new CultistBasic(vec2(center)));
 }
 
 void Stage2_2::Load()
 {
     Stage::Load();
     Game* game = Game::Instance();
-    vec2 center = Window::Instance()->GetGameSize() * 0.5f;
+    vec2 center = arenaSize* 0.5f;
     game->player->position = center + vec2(0, center.y);
 
-    game->enemies.push_back(new Summoner(vec2(200, center.y - 40)));
-    game->enemies.push_back(new CultistBasic(vec2(300, center.y - 40)));
+    game->enemies.push_back(new Orb(center + vec2(center.x/3, 100)));
+    game->enemies.push_back(new Orb(center + vec2(-center.x/3, 100)));
+    game->enemies.push_back(new Orb(center + vec2(center.x/5, -200)));
+    game->enemies.push_back(new Orb(center + vec2(-center.x/5, -200)));
+
+
     game->enemies.push_back(new Bomba(center));
+
+    game->enemies.push_back(new BigBoy(vec2(center.x+center.x*0.3/2, 0), 2.0));
+    game->enemies.push_back(new BigBoy(vec2(center.x-center.x*0.3/2, 0), 2.0));
 }
 
 void Progress::GoNext() {

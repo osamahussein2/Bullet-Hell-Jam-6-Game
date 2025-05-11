@@ -40,8 +40,8 @@ void Button::Draw(SpriteRenderer& renderer_, vec2 rel_offset_, bool relative_to_
         case BTN_DEFAULT:
             break;
         case BTN_HOVERED:
-            color = vec3(0.7);
-            btn_color = vec3(1.0);
+            color = vec3(0.8941176470588236, 0, 0.34509803921568627);
+            btn_color = color;
             scale = 1.3;
             break;
         case BTN_PRESSED:
