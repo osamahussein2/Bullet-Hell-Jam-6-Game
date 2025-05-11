@@ -2,8 +2,6 @@
 #include "OptionsMenu.h"
 #include <string>
 
-//const char* Assets::bip_sound = "assets/Sounds/sound.wav";
-
 float Assets::musicVolume = 0.5f;
 float Assets::sfxVolume = 0.5f;
 
@@ -69,11 +67,14 @@ void Assets::LoadAssets()
 	ResourceManager::LoadSound("assets/Sounds/sound.wav", buttonHoverSound)->SetIndividualVolumeCoeff(1.0);
 	ResourceManager::LoadSound("assets/Sounds/Hit-Hurt.wav", hitSound)->SetIndividualVolumeCoeff(0.2);
 	ResourceManager::LoadSound("assets/Sounds/Enemy-Death.wav", explosionSound)->SetIndividualVolumeCoeff(0.7);
-	ResourceManager::LoadSound("assets/Sounds/Summon.wav", SummonSound)->SetIndividualVolumeCoeff(0.6);
+	ResourceManager::LoadSound("assets/Sounds/Summon.wav", SummonSound)->SetIndividualVolumeCoeff(1.0);
 	ResourceManager::LoadSound("assets/Sounds/LaserShoot.wav", LaserShootSound)->SetIndividualVolumeCoeff(0.11);
 	ResourceManager::LoadSound("assets/Sounds/BigShoot.wav", BigShootSound)->SetIndividualVolumeCoeff(0.15);
 	ResourceManager::LoadSound("assets/Sounds/Progress.wav", ProgressSound)->SetIndividualVolumeCoeff(1.0);
-
+	ResourceManager::LoadSound("assets/Sounds/LowAura.wav", lowAuraSound)->SetIndividualVolumeCoeff(2.5);
+	ResourceManager::LoadSound("assets/Sounds/BeholderWings.wav", beholderWingsSound)->SetIndividualVolumeCoeff(1.0);
+	ResourceManager::LoadSound("assets/Sounds/PlayerDies.wav", playerDiesSound)->SetIndividualVolumeCoeff(7.0);
+	
 	ResourceManager::ApplyMusicVolume(Assets::musicVolume);
 	ResourceManager::ApplySfxVolume(Assets::sfxVolume);
 }

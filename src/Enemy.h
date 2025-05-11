@@ -51,8 +51,6 @@ public:
             0, vec3(1.0)
         );
     }
-
-    void Die();
 };
 
 #endif

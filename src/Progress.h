@@ -97,7 +97,7 @@ struct Stage2_2 : Stage {
 struct Progress {
     Level* currentLevel;
 
-    Progress() : currentLevel(new Level1()){}
+    Progress() : currentLevel(new Level2()){}
     ~Progress() {
         delete currentLevel;
     }

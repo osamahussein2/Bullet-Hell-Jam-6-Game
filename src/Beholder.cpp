@@ -45,9 +45,11 @@ void Beholder::Update(float deltaTime)
     else {
         float time = glfwGetTime();
         velocity.x = cos(time)*30;
-        velocity.y = sin(time)*30;
         int frame = renderer->GetAnimationHandler()->GetFrame();
-        if (frame == 3) velocity.y = -200.f;
+        if (frame == 3) {
+            if (velocity.y != -200.f) ResourceManager::GetSound(Assets::beholderWingsSound)->Play();
+            velocity.y = -200.f;
+        }
         else velocity.y = 200.f/5;
         if (since_last_shot >= shoot_cooldown && int(time)%5 != 2){
             Shoot();

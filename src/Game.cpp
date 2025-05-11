@@ -100,8 +100,7 @@ void Game::UpdateGame(float deltaTime_)
 		}
 	}
 
-	playerAura = glm::clamp(playerAura, 0.f, maxPlayerAura);
-	if (playerAura == 0.0f) {
+	if (player->GetTimeDead() >= 1.0) {
 		Window::Instance()->state = GAME_OVER;
 		LoadGame();
 		ResourceManager::StopMusic();
@@ -127,10 +126,6 @@ void Game::UpdateGame(float deltaTime_)
 
 void Game::HandleInput(float deltaTime_)
 {
-	if (Input::IsKeyPressed(GLFW_KEY_SPACE)){
-		Audio::Instance()->PlaySound(Assets::buttonHoverSound);
-	}
-
 	if (Input::IsKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		Window::Instance()->state = PAUSE_MENU;

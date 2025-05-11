@@ -14,6 +14,8 @@ public:
             since_last_shot = shoot_cooldown + 1;
         }
     }
+
+    virtual void Die();
 };
 
 #endif

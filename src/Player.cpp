@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Game.h"
 #include "Bullet.h"
+#include "Effect.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -42,8 +43,15 @@ void Player::Update(float deltaTime)
 
     auto game = Game::Instance();
 
+    game->playerAura = glm::clamp(game->playerAura, 0.f, game->maxPlayerAura);
+
     if (state != PL_ST_HIT && Input::IsKeyDown(GLFW_KEY_SPACE) && CanShoot()) {
         state = PL_ST_SHOOT;
+    }
+
+    if (game->playerAura <= 0 && state != PL_ST_DEAD) {
+        state = PL_ST_DEAD;
+        Die();
     }
 
     switch (state) {
@@ -83,6 +91,9 @@ void Player::Update(float deltaTime)
             state = PL_ST_IDLE;
         }
         break;
+    case PL_ST_DEAD:
+        time_dead += deltaTime;
+        break;
     }
 
     velocity += direction * acceleration * deltaTime;
@@ -98,6 +109,7 @@ void Player::Update(float deltaTime)
     }
     else {
         color = vec3(1, 0.5f*vec2(1.f+sinf(glfwGetTime()*12) ));
+        if (!low_on_aura) ResourceManager::GetSound(Assets::lowAuraSound)->Play();
         low_on_aura = true;
         game->playerAura += 0.03*deltaTime;
     } 
@@ -162,4 +174,25 @@ void Player::Shoot()
     Game::Instance()->playerBullets.push_back(new PlayerBullet(position+vec2(size.x/2, 0.0), vec2(cos(M_PI/2-M_PI/9), -sin(M_PI/2-M_PI/9))));
     since_last_shot = 0.f;
     ResourceManager::GetSound(Assets::LaserShootSound)->Play();
+}
+
+void Player::Die() {
+    float dx = 25.f;
+    float dy = 25.f;
+
+    ResourceManager::GetSound(Assets::playerDiesSound)->Play();
+
+    for (float x = 0; x < size.x; x+=dx ) {
+        for (float y = 0; y < size.y; y+=dy) {
+            float rn1 = (double)std::rand() / (RAND_MAX);
+            float rn2 = (double)std::rand() / (RAND_MAX);
+            rn1 /= rn2;
+            if ( rn1 > 0.5f) {
+                Game::Instance()->effects.push_back(new Explosion(
+                    rn2 * 0.7f,
+                    vec2(position.x+x, position.y+y)
+                ));
+            }
+        }
+    }
 }

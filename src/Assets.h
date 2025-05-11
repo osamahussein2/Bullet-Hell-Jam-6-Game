@@ -76,7 +76,10 @@ public:
         SummonSound = 3,
         LaserShootSound = 4,
         BigShootSound = 5,
-        ProgressSound = 6
+        ProgressSound = 6,
+        lowAuraSound = 7,
+        beholderWingsSound = 8,
+        playerDiesSound = 9
     };
 
 };

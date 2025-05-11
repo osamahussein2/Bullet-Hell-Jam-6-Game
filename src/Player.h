@@ -18,7 +18,8 @@ enum PlayerState {
     PL_ST_IDLE = 0, 
     PL_ST_MOVE = 1,
     PL_ST_HIT = 2,
-    PL_ST_SHOOT = 3
+    PL_ST_SHOOT = 3,
+    PL_ST_DEAD = 4
 };
 
 class Player : public ShootingObject {
@@ -28,6 +29,7 @@ private:
     float acceleration = 2000.f;
     float drag = 8;
     bool low_on_aura = false;
+    float time_dead = 0.f;
 
 public:
     virtual void OnCollide(Body* other);
@@ -40,6 +42,10 @@ public:
     vec2 HandleMovementInput();
     bool CanShoot();
     void Shoot();
+
+    virtual void Die() override;
+
+    float GetTimeDead() { return time_dead; }
 };
 
 #endif
