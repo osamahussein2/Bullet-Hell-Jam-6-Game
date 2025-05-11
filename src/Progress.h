@@ -83,6 +83,13 @@ struct Level2 : Level {
     virtual Level* GetNextLevel() override;
 };
 
+struct Stage2_1 : Stage {
+    virtual void Load() override;
+};
+struct Stage2_2 : Stage {
+    virtual void Load() override;
+};
+
 /************************************************************** */
 
 struct Progress {

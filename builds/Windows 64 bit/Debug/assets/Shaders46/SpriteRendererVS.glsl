@@ -6,7 +6,6 @@ layout (location = 1) in vec2 textureCoords;
 out SHADER_VARIABLES
 {
 	vec2 texCoords;
-
 } vs_variables;
 
 uniform mat4 modelMatrix;

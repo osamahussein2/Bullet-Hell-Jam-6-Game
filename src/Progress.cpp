@@ -139,7 +139,7 @@ Level *Level1::GetNextLevel()
 Level2::Level2() : Level(
 
     {
-        new Stage1_1(), new BeholderFight()
+        new Stage2_1(), new Stage2_2(), new BeholderFight()
     }
 
 ) {}
@@ -147,6 +147,35 @@ Level2::Level2() : Level(
 Level *Level2::GetNextLevel()
 {
     return nullptr;
+}
+
+void Stage2_1::Load()
+{
+    Stage::Load();
+    Game* game = Game::Instance();
+    vec2 center = Window::Instance()->GetGameSize() * 0.5f;
+    game->player->position = center + vec2(0, center.y);
+
+    //game->enemies.push_back(new Bomba(center + vec2(150, -80)));
+
+    // must be careful, enemies must be initially in their movement range
+    //game->enemies.push_back(new CultistBasic(vec2(center.x, 80)));
+    game->enemies.push_back(new Summoner(vec2(200, center.y - 40)));
+    game->enemies.push_back(new CultistBasic(vec2(300, center.y - 40)));
+    game->enemies.push_back(new CultistBasic(vec2(500, center.y - 40)));
+    //game->enemies.push_back(new CultistBasic(vec2(center.x*2-80, 120)));
+}
+
+void Stage2_2::Load()
+{
+    Stage::Load();
+    Game* game = Game::Instance();
+    vec2 center = Window::Instance()->GetGameSize() * 0.5f;
+    game->player->position = center + vec2(0, center.y);
+
+    game->enemies.push_back(new Summoner(vec2(200, center.y - 40)));
+    game->enemies.push_back(new CultistBasic(vec2(300, center.y - 40)));
+    game->enemies.push_back(new Bomba(center));
 }
 
 void Progress::GoNext() {
