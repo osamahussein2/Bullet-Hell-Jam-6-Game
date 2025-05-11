@@ -16,7 +16,7 @@ struct Stage {
         timer = 0.f;
         ResourceManager::PlayMusic(music_enum);
     };
-    virtual void Update(float deltaTime);
+    virtual void Update(float deltaTime, bool canProceed = true);
 };
 
 struct Level {
@@ -63,14 +63,14 @@ struct BeholderFight : Stage {
     BeholderFight() : Stage(Assets::LTHAWFD) {}
     bool spawnedBoss = false;
     virtual void Load() override;
-    virtual void Update(float deltaTime) override;
+    virtual void Update(float deltaTime, bool canProceed) override;
 };
 
 struct BigBoyFight : Stage {
     BigBoyFight() : Stage(Assets::LTHAWFD) {}
     bool spawnedBoss = false;
     virtual void Load() override;
-    virtual void Update(float deltaTime) override;
+    virtual void Update(float deltaTime, bool canProceed) override;
 };
 
 struct Level1 : Level {

@@ -45,7 +45,6 @@ void Game::InitializeGame()
 
 void Game::UpdateGame(float deltaTime_)
 {
-
 	if (canFinish) {
 		progress.GoNext();
 		LoadGame();
@@ -146,7 +145,8 @@ void Game::HandleInput(float deltaTime_)
 
 	if (Input::IsKeyPressed(GLFW_KEY_P))
 	{
-		KillAllEnemies();
+		if (enemies.size()>0) KillAllEnemies();
+		else progress.currentLevel->GetCurrentStage()->timer = 27.7;
 	}
 }
 
@@ -204,7 +204,6 @@ void Game::RenderGame(float deltaTime_)
 	glUseProgram(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram);
 	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "spriteImage"), 0);
 	glUniform1f(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "time"), progress.currentLevel->GetCurrentStage()->timer);
-	glUniform1f(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "speed"), (enemies.size() > 0) ? 1.0 : 2.0);
 	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "projectionMatrix"),
 		1, GL_FALSE, value_ptr(projection));
 
@@ -245,10 +244,11 @@ void Game::RenderGame(float deltaTime_)
 
 void Game::HandleCollisions(float deltaTime_)
 {
-	for (Bullet* bullet : playerBullets) {
-		for (Enemy* enemy : enemies) {
+	for (Enemy* enemy : enemies) {
+		for (Bullet* bullet : playerBullets) {
 			enemy->CollideWith(bullet);
-		}	
+		}
+		enemy->CollideWith(player);
 	}
 
 	for (Bullet* bullet : enemyBullets) {

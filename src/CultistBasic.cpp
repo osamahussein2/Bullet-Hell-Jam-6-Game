@@ -13,10 +13,10 @@
 
 void CultistBasic::OnCollide(Body *other) {
     if (state != CLB_ST_HIT && state != CLB_SHOOT) {
-        state = CLB_ST_HIT;
-        hit_this_frame = true;
         if (Bullet* bullet = dynamic_cast<Bullet*>(other)) {
             health -= bullet->GetDamage();
+            state = CLB_ST_HIT;
+            hit_this_frame = true;
         }
     }
 }
@@ -111,10 +111,11 @@ void CultistBasic::Shoot() {
     int n = 10;
     float a = 2*M_PI / n;
     float patt_rad = 15;
+    Game* game = Game::Instance();
     for (int i = 0; i < n; i++) {
         float ang = i*a;
         vec2 offset = vec2(cos(ang), sin(ang))*patt_rad;
-        vec2 dir = Game::Instance()->player->position - position;
+        vec2 dir = game->player->position+game->player->size*0.5f - position - size*0.5f;
         if (dir != vec2(0.0)) dir = normalize(dir);
         Game::Instance()->enemyBullets.push_back(new CirlcePatternBullet(position+size*vec2(0.5)+offset, dir, Assets::enemyBulletTexture, ang, patt_rad));
     }

@@ -12,10 +12,11 @@
 #include "Player.h"
 #include "Effect.h"
 
-void Stage::Update(float deltaTime) {
+void Stage::Update(float deltaTime, bool canProceed) {
     auto g = Game::Instance();
     timer += deltaTime;
-    if (g->enemies.size() == 0) {
+    if (g->enemies.size() == 0 && canProceed) {
+        timer += deltaTime; // faster background
         if (!cleared) ResourceManager::GetSound(Assets::ProgressSound)->Play();
         cleared = true;
         vec2 s = Window::Instance()->GetGameSize();
@@ -56,6 +57,8 @@ void Stage1_2::Load()
 	game->player->position = center+vec2(0, center.y);
 
     game->enemies.push_back(new Summoner(vec2(169, center.y-40)));
+
+    game->enemies.push_back(new Bomba(center));
 }
 
 void BeholderFight::Load()
@@ -75,9 +78,9 @@ void BeholderFight::Load()
     game->enemies.push_back(new Orb(center*2.f+vec2(-100, -200)));
 }
 
-void BeholderFight::Update(float deltaTime)
+void BeholderFight::Update(float deltaTime, bool canProceed)
 {
-    Stage::Update(deltaTime);
+    Stage::Update(deltaTime, spawnedBoss);
     if (timer >= 27.7 && !spawnedBoss) {
         //timer += 10000;
         spawnedBoss = true;
@@ -100,12 +103,21 @@ void BigBoyFight::Load()
 	vec2 center = vec2(Window::Instance()->GetGameSize().x/2, Window::Instance()->GetGameSize().y/2);
 	game->player->position = center+vec2(0, center.y);
 
-    game->enemies.push_back(new Summoner(center+center*vec2(-0.2, -0.2)));
+    Game::Instance()->enemies.push_back(new Bomba(center));
+
+    Game::Instance()->enemies.push_back(new CultistBasic(center + vec2(0, -60)));
+
+    Game::Instance()->enemies.push_back(new Orb(center + vec2(200, -80)));
+    Game::Instance()->enemies.push_back(new Orb(center + vec2(-200, -80)));
+
+    Game::Instance()->enemies.push_back(new Orb(center + vec2(100, 80)));
+    Game::Instance()->enemies.push_back(new Orb(center + vec2(-100, 80)));
+
 }
 
-void BigBoyFight::Update(float deltaTime)
+void BigBoyFight::Update(float deltaTime, bool canProceed)
 {
-    Stage::Update(deltaTime);
+    Stage::Update(deltaTime, spawnedBoss);
     if (timer >= 27.7 && !spawnedBoss) {
         spawnedBoss = true;
 

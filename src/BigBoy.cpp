@@ -7,10 +7,10 @@
 void BigBoy::OnCollide(Body *other)
 {
     if (state != BB_ST_HIT) {
-        state = BB_ST_HIT;
-        hit_this_frame = true;
         if (Bullet* bullet = dynamic_cast<Bullet*>(other)) {
             health -= bullet->GetDamage();
+            state = BB_ST_HIT;
+            hit_this_frame = true;
         }
     }
 }

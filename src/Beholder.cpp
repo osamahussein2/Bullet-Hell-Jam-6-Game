@@ -7,9 +7,9 @@
 
 void Beholder::OnCollide(Body *other)
 {    
-    hit_this_frame = true;
     if (Bullet* bullet = dynamic_cast<Bullet*>(other)) {
         health -= bullet->GetDamage();
+        hit_this_frame = true;
     }
 }
 

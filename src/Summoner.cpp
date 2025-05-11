@@ -9,10 +9,10 @@
 
 void Summoner::OnCollide(Body *other) {
     if (state != SM_ST_HIT && state != SM_ST_SUMMON) {
-        state = SM_ST_HIT;
-        hit_this_frame = true;
         if (Bullet* bullet = dynamic_cast<Bullet*>(other)) {
             health -= bullet->GetDamage();
+            state = SM_ST_HIT;
+            hit_this_frame = true;
         }
     }
 }
