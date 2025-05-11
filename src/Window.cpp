@@ -8,6 +8,7 @@
 #include "OptionsMenu.h"
 #include "CreditsMenu.h"
 #include "GameOverMenu.h"
+#include "StoryScreens.h"
 
 Window* Window::windowInstance = nullptr;
 float lastFrame = 0.f;
@@ -28,6 +29,7 @@ Window::Window() : lastPositionX(0.0f), lastPositionY(0.0f), openGLwindow(NULL)
 Window::~Window()
 {
   MainMenu::DeleteMainMenuInstance();
+  
   QuitConfirmationMenu::DeleteQuitConfirmationMenuInstance();
   Game::DeleteGameInstance();
   PauseMenu::DeletePauseMenuInstance();
@@ -105,7 +107,9 @@ bool Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
 
   // Initialize game here
   Assets::LoadAssets();
+
   MainMenu::Instance()->InitializeMenu();
+  IntroMenu::Instance()->InitializeMenu();
   QuitConfirmationMenu::Instance()->InitializeMenu();
   //Game::Instance()->InitializeGame(); no longer exists
   PauseMenu::Instance()->InitializeMenu();
@@ -181,6 +185,11 @@ void Window::UpdateWindow()
         //std::cout<<"GAME OVER MENU\n";
         GameOverMenu::Instance()->UpdateMenu();
         GameOverMenu::Instance()->RenderMenu();
+        break;
+    case INTRO:
+        //std::cout<<"INTRO MENU\n";
+        IntroMenu::Instance()->UpdateMenu();
+        IntroMenu::Instance()->RenderMenu();
         break;
   }
   glfwSwapBuffers(openGLwindow); // Removing this will throw an exception error or nothing will pop up

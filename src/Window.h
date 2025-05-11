@@ -15,7 +15,8 @@ enum AppState {
 	QUIT_TO_MAIN_MENU_CONF,
 	OPTIONS_MENU,
 	CREDITS_MENU,
-	GAME_OVER
+	GAME_OVER,
+	INTRO
 };
 
 class Window

@@ -35,6 +35,8 @@ void Stage::Update(float deltaTime, bool canProceed) {
 
 void Stage1_1::Load()
 {
+    Window::Instance()->state = INTRO;
+    
     Stage::Load();
     Game* game = Game::Instance();
 	vec2 center = arenaSize * 0.5f;

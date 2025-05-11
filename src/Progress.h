@@ -55,6 +55,7 @@ struct Level {
 struct Stage1_1 : Stage {
     virtual void Load() override;
 };
+
 struct Stage1_2 : Stage {
     virtual void Load() override;
 };
@@ -97,7 +98,7 @@ struct Stage2_2 : Stage {
 struct Progress {
     Level* currentLevel;
 
-    Progress() : currentLevel(new Level2()){}
+    Progress() : currentLevel(new Level1()){}
     ~Progress() {
         delete currentLevel;
     }
