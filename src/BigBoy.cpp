@@ -15,7 +15,7 @@ void BigBoy::OnCollide(Body *other)
     }
 }
 
-BigBoy::BigBoy(vec2 pos_) : Enemy(pos_, vec2(112, 176), Assets::bigBoyTexture,  0.06, 20.f, true) {
+BigBoy::BigBoy(vec2 pos_) : Enemy(pos_, vec2(112, 176), Assets::bigBoyTexture,  0.06, 7.f, true) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
     const int columns = 6;
     const int rows = 4;

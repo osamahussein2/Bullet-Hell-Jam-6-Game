@@ -99,19 +99,7 @@ struct Progress {
         currentLevel->stages[currentLevel->currentStage]->Update(deltaTime);
     }
 
-    void GoNext() {
-        if (currentLevel->GoNext()) {
-            if (Level* next = currentLevel->GetNextLevel()) {
-                delete currentLevel;
-                currentLevel = next;
-            }
-            else {
-                // GAME WON HERE
-                delete currentLevel;
-                currentLevel = new Level1();
-            }
-        }
-    };
+    void GoNext();
 };
 
 

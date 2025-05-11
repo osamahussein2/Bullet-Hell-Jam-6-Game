@@ -148,3 +148,19 @@ Level *Level2::GetNextLevel()
 {
     return nullptr;
 }
+
+void Progress::GoNext() {
+    if (currentLevel->GoNext()) {
+        if (Level* next = currentLevel->GetNextLevel()) {
+            delete currentLevel;
+            currentLevel = next;
+        }
+        else {
+            // GAME WON HERE
+            delete currentLevel;
+            currentLevel = new Level1();
+            Game::Instance()->ingameTimer = 0;
+            Window::Instance()->state = CREDITS_MENU;
+        }
+    }
+}

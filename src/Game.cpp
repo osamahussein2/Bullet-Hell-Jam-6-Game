@@ -12,6 +12,8 @@
 #include "Summoner.h"
 #include "Effect.h"
 
+#include <cstdio>
+
 Game* Game::gameInstance = nullptr;
 
 
@@ -21,8 +23,6 @@ Game::Game() : playerAura(1.0f), maxPlayerAura(1.0f), timer(0.0f), progress()
 
 Game::~Game()
 {
-	gameInstance = nullptr;
-
 	Clear();
 }
 
@@ -37,12 +37,6 @@ Game* Game::Instance()
 	return gameInstance;
 }
 
-void Game::InitializeGame()
-{
-	// nothing here lol, cuz the game loaded only when play pressed
-	// so that the music is started correctly
-}
-
 void Game::UpdateGame(float deltaTime_)
 {
 	if (canFinish) {
@@ -52,7 +46,7 @@ void Game::UpdateGame(float deltaTime_)
 
 	progress.Update(deltaTime_);
 	
-	score++;
+	ingameTimer += deltaTime_;
 	player->Update(deltaTime_);
 
 	// Clamp the player's position to not exceed the game's size
@@ -235,11 +229,13 @@ void Game::RenderGame(float deltaTime_)
 		aura.Draw(*UserInterface::UiRendererInstance());
 	}
 	
-	
 	DrawProgressBar();
 
 	vec2 gSize = Window::Instance()->GetGameSize();
-	TextRenderer::Instance()->DrawTextFromRight(std::to_string(score).c_str(), vec2(gSize.x-10, gSize.y-8), 0.8, true, vec3(0.0));
+
+	char buf[32];
+	std::snprintf(buf, sizeof(buf), "%.2f", ingameTimer);
+	TextRenderer::Instance()->DrawTextFromRight(buf, vec2(gSize.x-10, gSize.y-8), 0.8, true, vec3(0.0));
 }
 
 void Game::HandleCollisions(float deltaTime_)
@@ -282,7 +278,10 @@ void Game::LoadGame()
 
 void Game::Clear()
 {
-	if (player) delete player;
+	if (player) {
+		delete player;
+		player = nullptr;
+	}
 	for (Bullet* bullet : playerBullets) {
 		delete bullet;
 	}
@@ -291,9 +290,7 @@ void Game::Clear()
 		delete bullet;
 	}
 	enemyBullets.clear();
-
 	ClearEnemies();
-
 	for (Effect* effect : effects) {
 		delete effect;
 	}

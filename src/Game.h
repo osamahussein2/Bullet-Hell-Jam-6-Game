@@ -18,7 +18,6 @@ public:
 	static Game* Instance();
 	static void DeleteGameInstance();
 
-	void InitializeGame();
 	void UpdateGame(float deltaTime_);
 	void HandleInput(float deltaTime_);
 	void RenderGame(float deltaTime_);
@@ -43,7 +42,7 @@ public:
 
 	vec2 ArenaSize() {return progress.currentLevel->GetCurrentStage()->arenaSize; }
 
-	int score = 1;
+	float ingameTimer = 0;
 	
 	float playerAura;
 	const float maxPlayerAura;
