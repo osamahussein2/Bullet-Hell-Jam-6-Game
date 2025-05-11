@@ -141,10 +141,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="external\glad\src\glad.c" />
+    <ClCompile Include="src\BackgroundRenderer.cpp" />
     <ClCompile Include="src\Beholder.cpp" />
+    <ClCompile Include="src\BigBoy.cpp" />
     <ClCompile Include="src\Bomba.cpp" />
+    <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\CultistBasic.cpp" />
     <ClCompile Include="src\DebugDraw.cpp" />
+    <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\GameObjectPro.cpp" />
     <ClCompile Include="src\GameOverMenu.cpp" />
     <ClCompile Include="src\CreditsMenu.cpp" />
@@ -173,7 +177,9 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BackgroundRenderer.h" />
     <ClInclude Include="src\Beholder.h" />
+    <ClInclude Include="src\BigBoy.h" />
     <ClInclude Include="src\Bomba.h" />
     <ClInclude Include="src\Bullet.h" />
     <ClInclude Include="src\Collisions.h" />

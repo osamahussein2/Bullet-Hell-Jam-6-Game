@@ -3,6 +3,10 @@
 #include "Bullet.h"
 #include "Game.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 void Bomba::OnCollide(Body *other) {
     if (state != BM_ST_ACTIVE) {
         if (Player* player = dynamic_cast<Player*>(other)) {

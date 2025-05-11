@@ -5,6 +5,10 @@
 #include "DebugDraw.h"
 #include "TextRenderer.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 void Beholder::OnCollide(Body *other)
 {    
     if (Bullet* bullet = dynamic_cast<Bullet*>(other)) {
