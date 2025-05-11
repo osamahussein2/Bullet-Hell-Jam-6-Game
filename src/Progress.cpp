@@ -57,7 +57,7 @@ void Stage1_2::Load()
 
     game->enemies.push_back(new Summoner(vec2(169, center.y-40)));
 
-    game->enemies.push_back(new Bomba(center));
+    game->enemies.push_back(new Bomba(center+vec2(0, -center.y/2)));
 }
 
 void BeholderFight::Load()
@@ -104,7 +104,8 @@ void BigBoyFight::Load()
 
     Game::Instance()->enemies.push_back(new Bomba(center));
 
-    Game::Instance()->enemies.push_back(new CultistBasic(center + vec2(0, -60)));
+    Game::Instance()->enemies.push_back(new CultistBasic(center + vec2(-60, -60)));
+    Game::Instance()->enemies.push_back(new CultistBasic(center + vec2(60, -80)));
 
     Game::Instance()->enemies.push_back(new Orb(center + vec2(200, -80)));
     Game::Instance()->enemies.push_back(new Orb(center + vec2(-200, -80)));
