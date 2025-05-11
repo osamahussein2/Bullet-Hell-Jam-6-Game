@@ -203,7 +203,7 @@ void Game::RenderGame(float deltaTime_)
 	//set uniforms for background rendering shader
 	glUseProgram(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram);
 	glUniform1i(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "spriteImage"), 0);
-	glUniform1f(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "time"), glfwGetTime());
+	glUniform1f(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "time"), progress.currentLevel->GetCurrentStage()->timer);
 	glUniform1f(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "speed"), (enemies.size() > 0) ? 1.0 : 2.0);
 	glUniformMatrix4fv(glGetUniformLocation(ResourceManager::GetShader(Assets::backgroundShader).shaderProgram, "projectionMatrix"),
 		1, GL_FALSE, value_ptr(projection));

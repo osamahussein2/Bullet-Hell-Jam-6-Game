@@ -13,12 +13,12 @@ void Beholder::OnCollide(Body *other)
     }
 }
 
-Beholder::Beholder(vec2 pos_) : Enemy(pos_, vec2(224, 136), Assets::beholderTexture, 0.04, 30.f, true) {
+Beholder::Beholder(vec2 pos_) : Enemy(pos_, vec2(232, 168), Assets::beholderTexture, 0.04, 30.f, true) {
     renderer = new SpriteRenderer(ResourceManager::GetShader(Assets::spriteShader), false, false, true);
-    const int columns = 1;
+    const int columns = 6;
     const int rows = 1;
 
-    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BH_IDLE, 4, 6.f});
+    renderer->GetAnimationHandler()->AddAnimation(AnimationData{ columns, rows, BH_IDLE, 6, 6.f});
 
     collisions.push_back(new CircleCollision(16, size*0.5f));
 
@@ -42,11 +42,13 @@ void Beholder::Update(float deltaTime)
         float time = glfwGetTime();
         velocity.x = cos(time)*30;
         velocity.y = sin(time)*30;
+        int frame = renderer->GetAnimationHandler()->GetFrame();
+        if (frame == 3) velocity.y = -200.f;
+        else velocity.y = 200.f/5;
         if (since_last_shot >= shoot_cooldown && int(time)%5 != 2){
             Shoot();
         }
     }
-
 
     position += velocity*deltaTime;
     
@@ -105,14 +107,14 @@ void Beholder::Draw() {
 
     Enemy::Draw();
     TextRenderer::Instance()->DrawText(
-        "beholder", position+size*vec2(0.5, -0.06), 0.5, true, true, vec3(1.0)
+        "beholder", position+size*vec2(0.5, 0)+vec2(0, -13), 0.5, true, true, vec3(1.0)
     );
     Game* game = Game::Instance();
 
     vec2 dir = game->player->position+game->player->size*0.5f - position-size*0.5f;
     if (dir != vec2(0.0)) dir = normalize(dir);
 
-    vec2 eyeBallPos = position+size*vec2(0.5, 0.66);
+    vec2 eyeBallPos = position+size*vec2(0.5, 0.54);
     vec2 eyeSize = vec2(10);
 
     UserInterface::UiRendererInstance()->DrawSprite(

@@ -14,6 +14,7 @@
 
 void Stage::Update(float deltaTime) {
     auto g = Game::Instance();
+    timer += deltaTime;
     if (g->enemies.size() == 0) {
         if (!cleared) ResourceManager::GetSound(Assets::ProgressSound)->Play();
         cleared = true;
@@ -60,7 +61,6 @@ void Stage1_2::Load()
 void BeholderFight::Load()
 {
     spawnedBoss = false;
-    timer = 0.f;
 
     Stage::Load();
     Game* game = Game::Instance();
@@ -78,8 +78,8 @@ void BeholderFight::Load()
 void BeholderFight::Update(float deltaTime)
 {
     Stage::Update(deltaTime);
-    timer += deltaTime;
     if (timer >= 27.7 && !spawnedBoss) {
+        //timer += 10000;
         spawnedBoss = true;
 
         Game* game = Game::Instance();
@@ -94,7 +94,6 @@ void BeholderFight::Update(float deltaTime)
 void BigBoyFight::Load()
 {
     spawnedBoss = false;
-    timer = 0.f;
 
     Stage::Load();
     Game* game = Game::Instance();
@@ -107,7 +106,6 @@ void BigBoyFight::Load()
 void BigBoyFight::Update(float deltaTime)
 {
     Stage::Update(deltaTime);
-    timer += deltaTime;
     if (timer >= 27.7 && !spawnedBoss) {
         spawnedBoss = true;
 
@@ -119,7 +117,7 @@ void BigBoyFight::Update(float deltaTime)
     }
 }
 
-Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new BeholderFight() } ) {}
+Level1::Level1() : Level( { new Stage1_1(), new Stage1_2(), new BigBoyFight() } ) {}
 
 Level *Level1::GetNextLevel()
 {
@@ -129,7 +127,7 @@ Level *Level1::GetNextLevel()
 Level2::Level2() : Level(
 
     {
-        new Stage1_1(), new BigBoyFight()
+        new Stage1_1(), new BeholderFight()
     }
 
 ) {}

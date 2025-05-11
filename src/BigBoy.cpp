@@ -163,6 +163,6 @@ void BigBoy::Draw() {
 
     Enemy::Draw();
     TextRenderer::Instance()->DrawText(
-        "titan", position+size*vec2(0.5, -0.05), 0.5, true, true, vec3(1.0)
+        "titan", position+size*vec2(0.5, 0)+vec2(0, -13), 0.5, true, true, vec3(1.0)
     );
 }
