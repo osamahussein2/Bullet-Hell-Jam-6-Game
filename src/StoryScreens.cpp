@@ -38,10 +38,10 @@ void IntroMenu::DeleteMainMenuInstance()
 void IntroMenu::InitializeMenu()
 {
 	vec2 rel_size = vec2(0.2, 0.1);
-	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.8);
+	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.85);
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "next"));
 
-    an_text.text = "the evil cult tries todestabilize world's   aura.you have to stop them.";
+    an_text.text = "an evil cult arose    from the shadows,with a horde of demons,    seeking to take over  the universe.you have to stop them!";
 
 }
 
@@ -122,7 +122,7 @@ void OutroMenu::DeleteMainMenuInstance()
 void OutroMenu::InitializeMenu()
 {
 	vec2 rel_size = vec2(0.2, 0.1);
-	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.8);
+	vec2 rel_pos = vec2((1 - rel_size.x) / 2.f, 0.85);
 	buttons.push_back(Button(rel_pos, rel_size, Assets::buttonTexture, Assets::spriteShader, "next"));
 
     an_text.text = "the cult is no longer.thanks for playing thegame.";
