@@ -170,7 +170,9 @@
     <ClCompile Include="src\QuitConfirmationMenu.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\ShootingObject.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
+    <ClCompile Include="src\StoryScreens.cpp" />
     <ClCompile Include="src\Summoner.cpp" />
     <ClCompile Include="src\TextRenderer.cpp" />
     <ClCompile Include="src\UserInterface.cpp" />
@@ -185,11 +187,13 @@
     <ClInclude Include="src\Collisions.h" />
     <ClInclude Include="src\CultistBasic.h" />
     <ClInclude Include="src\DebugDraw.h" />
+    <ClInclude Include="src\Effect.h" />
     <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\GameObjectPro.h" />
     <ClInclude Include="src\GameOverMenu.h" />
     <ClInclude Include="src\CreditsMenu.h" />
     <ClInclude Include="src\MultiSound.h" />
+    <ClInclude Include="src\Music.h" />
     <ClInclude Include="src\OptionsMenu.h" />
     <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Assets.h" />
@@ -211,6 +215,7 @@
     <ClInclude Include="src\ShootingObject.h" />
     <ClInclude Include="src\SpriteRenderer.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\StoryScreens.h" />
     <ClInclude Include="src\Summoner.h" />
     <ClInclude Include="src\TextRenderer.h" />
     <ClInclude Include="src\UserInterface.h" />

@@ -12,6 +12,10 @@
 #include "Player.h"
 #include "Effect.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 void Stage::Update(float deltaTime, bool canProceed) {
     auto g = Game::Instance();
     timer += deltaTime;
