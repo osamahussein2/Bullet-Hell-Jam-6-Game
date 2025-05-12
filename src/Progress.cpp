@@ -200,7 +200,7 @@ bool Progress::GoNext() {
             delete currentLevel;
             currentLevel = new Level1();
             Game::Instance()->ingameTimer = 0;
-            Window::Instance()->state = CREDITS_MENU;
+            Window::Instance()->state = OUTRO;
             return false;
         }
     }

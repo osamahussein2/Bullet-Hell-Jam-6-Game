@@ -30,4 +30,24 @@ private:
 	static IntroMenu* introMenuInstance;
 };
 
+class OutroMenu : public Menu
+{
+public:
+	virtual ~OutroMenu();
+
+	static OutroMenu* Instance();
+	static void DeleteMainMenuInstance();
+
+	virtual void InitializeMenu();
+	virtual void UpdateMenu(float deltaTime);
+	virtual void RenderMenu();
+
+private:
+    OutroMenu();
+
+    AnimatedText an_text;
+
+	static OutroMenu* outroMenuInstance;
+};
+
 #endif

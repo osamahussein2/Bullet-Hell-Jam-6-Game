@@ -16,7 +16,8 @@ enum AppState {
 	OPTIONS_MENU,
 	CREDITS_MENU,
 	GAME_OVER,
-	INTRO
+	INTRO,
+	OUTRO
 };
 
 class Window

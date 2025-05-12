@@ -8,7 +8,7 @@ void GameObjectPro::Update(float deltaTime) {
 
 void GameObjectPro::Draw() {
     DrawSprite(*renderer);
-    DebugDraw();
+    //DebugDraw();
 }
 
 void GameObjectPro::DebugDraw() {

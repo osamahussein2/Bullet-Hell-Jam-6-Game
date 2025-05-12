@@ -131,11 +131,13 @@ void Game::HandleInput(float deltaTime_)
 		ResourceManager::StopMusic();
 	}
 
+	
 	if (Input::IsKeyPressed(GLFW_KEY_P))
 	{
 		if (enemies.size()>0) KillAllEnemies();
 		else progress.currentLevel->GetCurrentStage()->timer = 27.7;
 	}
+	
 }
 
 void Game::RenderGame(float deltaTime_)

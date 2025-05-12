@@ -110,6 +110,7 @@ bool Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
 
   MainMenu::Instance()->InitializeMenu();
   IntroMenu::Instance()->InitializeMenu();
+  OutroMenu::Instance()->InitializeMenu();
   QuitConfirmationMenu::Instance()->InitializeMenu();
   //Game::Instance()->InitializeGame(); no longer exists
   PauseMenu::Instance()->InitializeMenu();
@@ -190,6 +191,11 @@ void Window::UpdateWindow()
         //std::cout<<"INTRO MENU\n";
         IntroMenu::Instance()->UpdateMenu(deltaTime);
         IntroMenu::Instance()->RenderMenu();
+        break;
+    case OUTRO:
+        //std::cout<<"OUTRO MENU\n";
+        OutroMenu::Instance()->UpdateMenu(deltaTime);
+        OutroMenu::Instance()->RenderMenu();
         break;
   }
   glfwSwapBuffers(openGLwindow); // Removing this will throw an exception error or nothing will pop up
