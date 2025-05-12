@@ -1,2 +1,2 @@
 ./rebuild.sh
-./BulletHellGame
+./AuraHell

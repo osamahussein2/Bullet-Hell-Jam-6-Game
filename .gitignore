@@ -47,3 +47,5 @@
 #linux builds
 build/
 BulletHellGame
+AuraHell
+AuraHellLinux*

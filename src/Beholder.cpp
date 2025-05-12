@@ -81,6 +81,8 @@ void Beholder::Shoot()
     if (int(time)%5 == 3) time *= -1;
     int n = 7;
 
+    vec2 attack_pos = position+size*vec2(0.5f, 0.075f);
+
     for (int i = 0; i < n; i++) {
         float ang_off = M_PI*2.f/n*i;
 
@@ -94,7 +96,7 @@ void Beholder::Shoot()
                 vec2 dir = Game::Instance()->player->position - position;
                 if (dir != vec2(0.0)) dir = normalize(dir);
                 Game::Instance()->enemyBullets.push_back(new CirlcePatternBullet(
-                    position+size*0.5f+vec2(0, -size.y/3)+offset,
+                    attack_pos+offset,
                     dir,
                     Assets::enemyBulletTexture,
                     ang,
@@ -103,7 +105,7 @@ void Beholder::Shoot()
             }
         }
         else {
-            game->enemyBullets.push_back(new StraightEnemyBullet(position+size*0.5f+vec2(0, -size.y/3), vec2(cosf(time+ang_off), sinf(time+ang_off))));
+            game->enemyBullets.push_back(new StraightEnemyBullet(attack_pos, vec2(cosf(time+ang_off), sinf(time+ang_off))));
         }
     }
     since_last_shot = 0.f;

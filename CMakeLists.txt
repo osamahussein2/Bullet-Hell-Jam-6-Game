@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(BulletHellGame LANGUAGES C CXX)
+project(AuraHell LANGUAGES C CXX)
 
 if (NOT DEFINED BUILD_TARGET)
   set(BUILD_TARGET "desktop"

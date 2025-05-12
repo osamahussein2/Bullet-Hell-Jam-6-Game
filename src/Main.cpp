@@ -30,7 +30,7 @@ int main()
 		if (!WindowInfo::Instance()->InitializeWindow(
 				1600,
 				1600/aspect,
-			 	"Bullet Hell Application", monitor, NULL
+			 	"Aura hell", monitor, NULL
 			)){
 			std::cerr << "Failed to initialize window\n";
 			return 1;

@@ -112,7 +112,7 @@ bool Window::InitializeWindow(int width, int height, const char* title, GLFWmoni
   IntroMenu::Instance()->InitializeMenu();
   OutroMenu::Instance()->InitializeMenu();
   QuitConfirmationMenu::Instance()->InitializeMenu();
-  //Game::Instance()->InitializeGame(); no longer exists
+  Game::Instance();
   PauseMenu::Instance()->InitializeMenu();
   QuitToMainMenuConfirmationMenu::Instance()->InitializeMenu();
   OptionsMenu::Instance()->InitializeMenu();
